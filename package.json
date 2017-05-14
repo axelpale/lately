@@ -12,12 +12,12 @@
   },
   "scripts": {
     "test": "mocha test/*.test.js",
-    "lint": "eslint . && echo 'Lint successful.'",
+    "lint": "eslint . && echo 'Lint successful.'"
   },
   "keywords": [
     "sequence learning",
     "bayesian",
-    "machine learning",
+    "machine learning"
   ],
   "author": "Akseli Palén <akseli.palen@gmail.com>",
   "license": "MIT",

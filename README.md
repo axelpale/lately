@@ -23,7 +23,8 @@ First, install with [npm](https://www.npmjs.com/package/lately):
 
 ## Quick start
 
-    > var l = new Lately();
+    > var lately = require('lately');
+    > var l = new lately.Lately();
     > l.feed(['hello', 'world', 'hello']);
     > l.predict()
     {
