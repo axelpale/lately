@@ -167,6 +167,26 @@ Cat.prototype.prob = function (ev) {
 };
 
 
+Cat.prototype.sample = function () {
+
+  var r = Math.random();
+  var sum = 0;
+
+  var ev, p;
+  for (ev in this.w) {
+    if (this.w.hasOwnProperty(ev)) {
+      p = this.w[ev] / this.sum;
+      sum += p;
+      if (r < sum) {
+        return ev;
+      }
+    }
+  }
+
+  return 'void';
+};
+
+
 Cat.prototype.substractMass = function (dist) {
   // Directly substract from distribution weights
 
@@ -182,6 +202,24 @@ Cat.prototype.substractMass = function (dist) {
           this.sum -= dist[k];
         }
       }
+    }
+  }
+};
+
+
+Cat.prototype.unlearn = function (ev, amount) {
+
+  if (typeof amount !== 'number') {
+    amount = 1;
+  }
+
+  if (this.w.hasOwnProperty(ev)) {
+    if (this.w[ev] - amount > 0) {
+      this.w[ev] -= amount;
+      this.sum -= amount;
+    } else {
+      this.sum -= this.w[ev];
+      delete this.w[ev];
     }
   }
 };

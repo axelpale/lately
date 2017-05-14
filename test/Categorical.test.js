@@ -136,6 +136,12 @@ describe('Categorical', function () {
     });
   });
 
+  describe('#sample()', function () {
+    it('basic', function () {
+      var l = new Unit({ 'a': 1 });
+      assert.strictEqual(l.sample(), 'a');
+    });
+  });
 
   describe('#substractMass(dist)', function () {
     it('basic', function () {
@@ -145,6 +151,15 @@ describe('Categorical', function () {
       l.substractMass({'b': 2});
 
       assert.bout(l.prob(A), 1);
+    });
+  });
+
+  describe('#unlearn(ev)', function () {
+    it('basic', function () {
+      var l = new Unit({ 'a': 1, 'b': 1 }, 2);
+      l.unlearn('a');
+      assert.bout(l.prob('a'), 0);
+      assert.bout(l.prob('b'), 1);
     });
   });
 

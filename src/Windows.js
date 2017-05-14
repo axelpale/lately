@@ -1,5 +1,6 @@
 
 var Categorical = require('./Categorical');
+var fibonacci = require('./lib/fibonacci');
 var math = require('mathjs');
 
 // Constructor
@@ -10,11 +11,13 @@ var W = function (n) {
   this.ws = [];
 
   // Initialize windows and give them width by feeding 'void' event.
+  // Width is the constant number of events in the window.
+  // Increase the width in fibonacci manner for natural growth.
   var i;
   for (i = 0; i < n; i += 1) {
     this.ws[i] = new Categorical();
     this.ws[i].addMass({
-      'void': Math.pow(2, i),
+      'void': fibonacci(i + 1),  // 1, 1, 2, 3, 5, 8
     });
   }
 };
@@ -37,49 +40,42 @@ W.prototype.feed = function (ev) {
   // Push distributions forward by mass of one.
   var forwards = [];
 
-  var i;
+  var i, sample;
 
-  // Collect distributions and substract them by mass.
-  // Do not collect and substract from the last one. The last one
-  // works as catch all categorical dist.
-  for (i = 0; i < this.ws.length - 1; i += 1) {
-    forwards[i] = this.ws[i].getProbDist();
-    this.ws[i].substractMass(forwards[i]);
-  }
-
-  // Add the mass to next windows
-  for (i = 1; i < this.ws.length; i += 1) {
-    this.ws[i].addMass(forwards[i - 1]);
+  // Move single sample into next window. A kind of fuzzy queue.
+  // The sample from the last window is not moved but forgotten.
+  for (i = 0; i < this.ws.length; i += 1) {
+    sample = this.ws[i].sample();
+    forwards[i] = sample;
+    this.ws[i].unlearn(sample);  // Remove one's worth of mass.
   }
 
   // Teach the new event to the first window.
-  this.ws[0].learn(ev);
+  this.ws[0].learn(ev);  // Add one's worth of mass.
+
+  // Propagate the events to next windows
+  for (i = 1; i < this.ws.length; i += 1) {
+    this.ws[i].learn(forwards[i - 1]);  // Add one's worth of mass
+  }
+
+  // Assert outcome: masses stay same.
 };
 
 W.prototype.getActiveEventVectors = function () {
-  // Return active event vectors as array of arrays.
-  // For each window, collect event vectors.
+  // Event vector is an array of values that make the event unique.
+  // Returns
+  //  active event vectors as array of arrays.
+
+  // For each window, collect event vectors, and then push them
+  // into single array.
   return this.ws.reduce(function (acc, w, index) {
-    var evs = w.eventsWithMassAbove(1.0);
+    var evs = w.eventsWithMassAbove(0.9);
 
     // Covert to eventVectors before array concatenation
     return acc.concat(evs.map(function (ev) {
-      return [index, ev];
+      return [index, ev];  // an event vector
     }));
   }, []);
-};
-
-W.prototype.samplePattern = function () {
-  // Pick one pattern randomly from the context.
-  // A pattern consists of one atomic pattern, atom.
-  // One atom is a certain event in a certain window.
-
-  var i = math.randomInt(0, this.ws.length);
-  var w = this.ws[i];
-  var ev = math.pickRandom(w.events());
-
-  var a = new Atom(i, ev);
-  return new Pattern(a);
 };
 
 module.exports = W;
