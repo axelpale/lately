@@ -2,10 +2,10 @@ var assert = require('./assert');
 var Unit = require('../src/Layer');
 
 
-describe('Class', function() {
+describe('Class', function () {
 
-  describe('#method()', function() {
-    it('basic', function() {
+  describe('#method()', function () {
+    it('basic', function () {
 
       var a = 1;
 
