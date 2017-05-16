@@ -183,7 +183,7 @@ Cat.prototype.sample = function () {
     }
   }
 
-  return 'void';
+  return null;
 };
 
 

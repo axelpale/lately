@@ -15,6 +15,12 @@ describe('Windows', function() {
     it('should have correct window weights', function () {
       var w = new Unit(5);
 
+      // 1 + 1 + 2 + 3 + 5 = 12
+      var i;
+      for (i = 0; i < 12; i += 1) {
+        w.feed('a');
+      }
+
       assert.bout(w.getWindow(0).weightSum(), 1);
       assert.bout(w.getWindow(1).weightSum(), 1);
       assert.bout(w.getWindow(2).weightSum(), 2);
@@ -28,6 +34,7 @@ describe('Windows', function() {
     it('basic', function() {
 
       var w = new Unit(3);
+      w.feed('b');
       w.feed('a');
       w.feed('b');
       w.feed('a');
@@ -41,7 +48,7 @@ describe('Windows', function() {
       assert.bout(w1.prob('a'), 0.0);
       assert.bout(w1.prob('b'), 1.0);
       assert.bout(w2.prob('a'), 0.5);
-      assert.bout(w2.prob('b'), 0.0);
+      assert.bout(w2.prob('b'), 0.5);
     });
   });
 
@@ -54,13 +61,12 @@ describe('Windows', function() {
       w.feed('b');
       w.feed('a');
 
-      var evecs = w.getActiveEventVectors();
+      var evecs = w.getActive();
 
       assert.sameDeepMembers(evecs, [
         [0, 'a'],
         [1, 'b'],
         [2, 'a'],
-        [2, 'void'],
       ]);
     });
   });

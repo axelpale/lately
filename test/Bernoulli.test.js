@@ -25,6 +25,18 @@ describe('Bernoulli', function () {
     });
   });
 
+  describe('#prob(evs)', function () {
+    it('basic', function () {
+
+      var b = new Unit();
+      b.learn(['a', 'b']);
+      b.learn([]);
+
+      assert.bout(b.prob(['a', 'b']), 0.25);
+      assert.bout(b.prob([]), 0.25);
+    });
+  });
+
   describe('#sample()', function () {
     it('basic', function () {
 

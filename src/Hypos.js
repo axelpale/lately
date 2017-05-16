@@ -2,6 +2,7 @@
 
 var Categorical = require('./Categorical');
 var Decaying = require('./Decaying');
+var params = require('./parameters');
 
 var hash = function (evec) {
   // Hash event vector
@@ -34,12 +35,12 @@ var H = function () {
 
   // Scores, rewards
   // Use: rewards.prob(hypo.hash)
-  this.rewards = new Decaying(0.95);
+  this.rewards = new Decaying(params.R);
 
   // Prior probability distribution for hypo activeness.
-  this.hypoPrior = new Decaying(0.95);
+  this.hypoPrior = new Decaying(params.R);
   // Prior probability distribution for events.
-  this.evPrior = new Decaying(0.95);
+  this.evPrior = new Decaying(params.R);
 };
 
 // Private methods
@@ -80,7 +81,27 @@ H.prototype.getHypos = function (eventVectors) {
   });
 };
 
-H.prototype.learn = function (eventVectors, ev) {
+H.prototype.learnLateral = function (evs) {
+
+  var hypos = this.getLateralHypos(evs);
+
+  for each ev in evs {
+    var h = this.getHypo(ev);
+    var p = h.prob(ev);
+    var ep = self.evPrior.prob(ev);
+  }
+
+  self.rewards.learn(rewardDist, 1.0);
+};
+
+H.prototype.learn = function (cevs, evs) {
+  // Parameters
+  //   cevs
+  //     context events, the event history. These define the set of
+  //     hypotheses that predict the current events (evs) given cevs.
+  //   evs
+  //     events to learn, the current events. These also define the set of
+  //     hypotheses that predict other evs given ev in evs.
   // Return
   //   A Categorical, reward distribution of the rewarded hypos
 
@@ -91,17 +112,37 @@ H.prototype.learn = function (eventVectors, ev) {
   // - it's prediction probability. Better probability leads to better reward.
   // - hypo's prior probability to be active. Common hypotheses should
   //   receive less reward than rare hypotheses.
+  //   It is the same as the prior probability of the context (evecs).
   // - ev's prior probability. More common the ev, less reward it should get.
   //   Otherwise average hypotheses would win all.
   //
   // This manipulates rewards.
-  var rewardDist = hypos.reduce(function (acc, hypo) {
-    var p = hypo.prob(ev);
-    var hp = self.hypoPrior.prob(hypo.hash);
+  var forwardReward = cevs.reduce(function (acc, cev) {
+    var h = self.getHypo(cev);
+    var p = h.prob(ev);
+    var cp = self.cevPrior.prob(cev);  // Context prior
     var ep = self.evPrior.prob(ev);
-    acc[hypo.hash] = p / Math.max(0.01, hp * ep);
+
+    acc[cev] = p / Math.max(0.01, cp * ep);
     return acc;
   }, {});
+
+  // Reward hypos that correctly estimate the members of evs.
+  var lateralReward = evs.reduce(function (acc, ev, index) {
+    var h = self.getHypo(ev);
+
+    // No reason to predict itself because its always there.
+    evs.filter(function (e, i) {
+      return i !== index;
+    });
+
+    var p = h.prob(ev);
+    var ep = self.evPrior.prob(ev);
+
+    acc[ev] = p / Math.max(0.01, ep);
+    return acc;
+  }, {});
+
   self.rewards.learn(rewardDist, 1.0);
 
   // Show the event to the matching hypotheses.
