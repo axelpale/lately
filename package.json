@@ -19,7 +19,10 @@
     "bayesian",
     "machine learning"
   ],
-  "author": "Akseli Palén <akseli.palen@gmail.com>",
+  "author": {
+    "name": "Akseli Palén",
+    "email": "akseli.palen@gmail.com"
+  },
   "license": "MIT",
   "devDependencies": {
     "chai": "^3.5.0",
@@ -28,6 +31,7 @@
   "dependencies": {
     "collections": "^5.0.6",
     "component-emitter": "^1.2.1",
-    "mathjs": "^3.13.0"
+    "mathjs": "^3.13.0",
+    "redis-sorted-set": "^1.1.1"
   }
 }
