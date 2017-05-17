@@ -1,6 +1,6 @@
 {
   "name": "lately",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Discrete online sequence learner and predictor",
   "main": "index.js",
   "repository": {
