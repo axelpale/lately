@@ -2,10 +2,10 @@ var assert = require('./assert');
 var Unit = require('../src/Windows');
 
 
-describe('Windows', function() {
+describe('Windows', function () {
 
-  describe('#Windows(n)', function() {
-    it('basic', function() {
+  describe('#Windows(n)', function () {
+    it('basic', function () {
 
       var w = new Unit(3);
 
@@ -29,9 +29,9 @@ describe('Windows', function() {
     });
   });
 
-  describe('#feed(ev)', function() {
+  describe('#feed(ev)', function () {
 
-    it('basic', function() {
+    it('basic', function () {
 
       var w = new Unit(3);
       w.feed('b');
@@ -52,9 +52,9 @@ describe('Windows', function() {
     });
   });
 
-  describe('#getActiveEventVectors(ev)', function() {
+  describe('#getActiveEventVectors(ev)', function () {
 
-    it('basic', function() {
+    it('basic', function () {
 
       var w = new Unit(3);
       w.feed('a');

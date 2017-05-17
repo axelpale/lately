@@ -1,6 +1,5 @@
 // Categorical distribution
 
-var math = require('mathjs');
 var limit = require('./lib/limit');
 var distSum = require('./lib/distSum');
 var assertDist = require('./lib/assertDist');
@@ -40,6 +39,20 @@ Cat.prototype.addMass = function (dist) {
       this.sum += dist[k];
     }
   }
+};
+
+
+Cat.prototype.entropy = function () {
+  // Entropy in nats.
+  var k, p;
+  var sum = 0;
+  for (k in this.w) {
+    if (this.w.hasOwnProperty(k)) {
+      p = this.w[k] / this.sum;
+      sum += p * Math.log(p);
+    }
+  }
+  return -sum;
 };
 
 
@@ -96,8 +109,6 @@ Cat.prototype.learn = function (ev, amount) {
   // Parameters:
   //   ev
   //     string or distribution
-
-  var sum, k, p;
 
   if (typeof ev === 'object') {
     this.learnDist(ev, amount);
@@ -156,10 +167,10 @@ Cat.prototype.prob = function (ev) {
     return 0;
   }
 
-  if (this.sum !== 0) {
-    raw = this.w[ev] / this.sum;
-  } else {
+  if (this.sum === 0) {
     raw = 0;
+  } else {
+    raw = this.w[ev] / this.sum;
   }
 
   // Ensure that rounding errors do not lead to non-probability values

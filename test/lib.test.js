@@ -3,10 +3,10 @@ var assert = require('./assert');
 var distSum = require('../src/lib/distSum');
 var fibonacci = require('../src/lib/fibonacci');
 
-describe('lib', function() {
+describe('lib', function () {
 
-  describe('.distSum(d)', function() {
-    it('basic', function() {
+  describe('.distSum(d)', function () {
+    it('basic', function () {
 
       var sum = distSum({
         'a': 2,
@@ -16,7 +16,7 @@ describe('lib', function() {
       assert.bout(sum, 5);
     });
 
-    it('empty', function() {
+    it('empty', function () {
 
       var sum = distSum({});
 

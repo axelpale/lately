@@ -68,7 +68,7 @@ var maturity = function (h) {
     return 0;
   }
 
-  return 1 - 1 / Math.sqrt(sampleSize);
+  return 1 - (1 / Math.sqrt(sampleSize));
 };
 
 var reward = function (p, prior) {

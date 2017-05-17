@@ -26,6 +26,20 @@ describe('Categorical', function () {
     });
   });
 
+  describe('#entropy()', function () {
+    it('basic', function () {
+
+      var l = new Unit({
+        'a': 0.1,
+        'b': 0.9,
+      });
+
+      var v = -(0.1 * Math.log(0.1) + 0.9 * Math.log(0.9));
+
+      assert.bout(l.entropy(), v);
+    });
+  });
+
   describe('#events()', function () {
     it('basic', function () {
 
@@ -79,7 +93,7 @@ describe('Categorical', function () {
   });
 
   describe('#learn(ev)', function () {
-    it('basic', function() {
+    it('basic', function () {
 
       var l = new Unit();
       l.learn(A);
@@ -102,7 +116,7 @@ describe('Categorical', function () {
     it('dist', function () {
 
       var l = new Unit();
-      l.learn({'a': 1, 'b': 1});
+      l.learn({ 'a': 1, 'b': 1 });
 
       assert.bout(l.weight('a'), 0.5);
       assert.bout(l.prob('a'), 0.5);
@@ -111,7 +125,7 @@ describe('Categorical', function () {
     it('dist & amount', function () {
 
       var l = new Unit();
-      l.learn({'a': 1, 'b': 1}, 2);
+      l.learn({ 'a': 1, 'b': 1 }, 2);
       l.learn('c');
 
       assert.bout(l.prob('a'), 1 / 3);
