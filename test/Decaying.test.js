@@ -40,7 +40,7 @@ describe('Decaying', function () {
     it('basic', function () {
 
       var l = new Unit(0.9);
-      l.learn({'a': 1, 'b': 3});
+      l.learn({ 'a': 1, 'b': 3 });
 
       assert.bout(l.prob('a'), 0.25);
     });

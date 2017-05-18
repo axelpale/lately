@@ -7,4 +7,7 @@ module.exports = {
     // CommonJS global variables and CommonJS scoping.
     'commonjs': true,
   },
+  'rules': {
+    'object-property-newline': 'off',
+  }
 };

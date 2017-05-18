@@ -1,77 +1,13 @@
 // A warehouse of hypotheses about the next event.
 
-var SortedSet = require('redis-sorted-set');
 var Categorical = require('./Categorical');
 var Decaying = require('./Decaying');
 var params = require('./parameters');
+var maturity = require('./lib/maturity');
 
-var hash = function (evec) {
-  // Hash event vector
-  return evec.join('//');
-};
+var SortedSet = require('redis-sorted-set');
 
-var maturity = function (h) {
-  // Maturity of hypothesis, a number in range 0..1.
-  //
-  // Background:
-  //   A categorical distribution has a Dirichlet distribution
-  //   as its conjugate prior. The Dirichlet distribution gives
-  //   us the variance of the probabilities that form
-  //   the estimated categorical distribution [1]:
-  //
-  //   Var(P_i) = a_i * (a_0 - a_i) / (a_0**2 * (a_0 + 1))
-  //
-  //   Example 1: given a sample [A, A, B, C]:
-  //     a_A = 2
-  //     a_B = 1
-  //     a_C = 1
-  //     a_0 = 4
-  //     E(P_A) = 2/4
-  //     Var(P_A) = 2 * (4 - 2) / (4*4 * 5)
-  //              = 4 / 80 = 1 / 20
-  //              = 0.05
-  //     Var(P_B) = 1 * 3 / 80 = 3 / 80
-  //              = 0.0375
-  //
-  //   Example 2: given a sample [A, A, A, A, B]:
-  //     Var(P_A) = 4 / (25 * 6) = 4 / 150
-  //              = 0.0266...
-  //              = Var(P_B)
-  //
-  //   We note that the variances of probabilities are about same in size
-  //   regardless the index. Thus, we could take an average of variances.
-  //
-  //   Average variance for the example 1 would be:
-  //     E(Var(P_i)) = (1 / a_0) * Sum_i( Var(P_i) )
-  //                 = (1 / a_0) * (a_0 * Sum_i(a_i) - Sum_i(a_i**2))
-  //                   / (a_0**2 * (a_0 + 1))
-  //                 = (1 / a_0) * (a_0 * a_0 - Sum_i(a_i**2))
-  //                   / (a_0**2 * (a_0 + 1))
-  //                 = 1 / (a_0 * (a_0 + 1))
-  //                   - Sum_i(a_i**2) / (a_0**3 * (a_0 + 1))
-  //
-  //
-  //   On the other hand, the mean squared error of a variable
-  //   equals its estimated variance, given that variance estimator
-  //   is unbiased. [2]
-  //
-  //
-  //
-  //
-  // References:
-  //   [1] https://en.wikipedia.org/wiki/Dirichlet_distribution
-  //   [2] https://en.wikipedia.org/wiki/Mean_squared_error
-
-  var sampleSize = h.weightSum();
-
-  if (sampleSize < 1) {
-    return 0;
-  }
-
-  return 1 - (1 / Math.sqrt(sampleSize));
-};
-
-var reward = function (p, prior) {
+var reward = function (prior, p) {
   // The greater the p to prior, the bigger the reward.
   // If p is smaller than prior, returns negative.
   // The difference in the low or high end of the probability range
@@ -79,20 +15,34 @@ var reward = function (p, prior) {
   return Math.log(p / (1 - p)) - Math.log(prior / (1 - prior));
 };
 
-var weight = function (dist, w) {
-  // Multiply distribution values by w.
-  // Dist is mapping evName -> number
+var competence = function (key, sortedSet) {
+  // Return a number between 0..1 so that the higher the rank,
+  // the closer the number to 1. The key with the highest value will
+  // have weight of 1.0.
+  //
+  // Parameters:
+  //   key
+  //     A key in a sorted set.
+  //   sortedSet
+  //     A redis sorted set
+  //
+  var rank = sortedSet.rank(key);
+  var n = sortedSet.length;
 
-  var d = {};
-
-  var k;
-  for (k in dist) {
-    if (dist.hasOwnProperty(k)) {
-      d[k] = w * dist[k];
-    }
+  if (n === 0) {
+    return 0;
   }
 
-  return d;
+  if (rank >= 0) {
+    if (rank === 1) {
+      return 1;
+    }
+
+    return rank / (n - 1);
+  }
+
+  // Key not ranked
+  return 0;
 };
 
 
@@ -105,15 +55,17 @@ var H = function () {
   this.hypos = {};
 
   // Scores, rewards
-  // Create or replace rewards by:
-  //   this.rewards.add(key, value).
+  // Create or replace a reward by:
+  //   this.rewards.add(key, value)
+  // Get the ranking of a key:
+  //   this.rewards.rank(key)
+  // Get the size of the set:
+  //   this.rewards.length
   // The keys are kept in order based on the value.
   this.rewards = new SortedSet();
 
   // Prior probability distribution for context events.
   this.cevPrior = new Decaying(params.R);
-  // Prior probability distribution for events.
-  this.evPrior = new Decaying(params.R);
 };
 
 // Private methods
@@ -121,16 +73,17 @@ var H = function () {
 
 // Public methods
 
-H.prototype.ensureHypo = function (eventVector) {
-  var h = hash(eventVector);
+H.prototype.ensureHypo = function (cev) {
 
-  if (this.hToHypo.hasOwnProperty(h)) {
-    return this.hToHypo[h];
+  if (this.hypos.hasOwnProperty(cev)) {
+    return this.hypos[cev];
   }
 
-  this.hToHypo[k] = new Categorical();
-  this.hToHypo[k].hash = h;
-  return this.hToHypo[k];
+  // Create
+  var c = new Categorical();
+  this.hypos[cev] = c;
+
+  return c;
 };
 
 H.prototype.getHypo = function (cev) {
@@ -138,7 +91,7 @@ H.prototype.getHypo = function (cev) {
   //   cev
   //     context event, string
   if (this.hypos.hasOwnProperty(cev)) {
-    return this.hypos[h];
+    return this.hypos[cev];
   }
   return null;
 };
@@ -159,38 +112,23 @@ H.prototype.getHypos = function (cevs) {
   });
 };
 
-H.prototype.learn = function (cevs, evs) {
+
+H.prototype.learn = function (cevs, ev) {
   // Parameters
   //   cevs
   //     context events, the event history. These define the set of
-  //     hypotheses that predict the current events (evs) given cevs.
-  //   evs
-  //     events to learn, the current events. These also define the set of
-  //     hypotheses that predict other evs given ev in evs.
+  //     hypotheses that predict the current event (ev) given cevs.
+  //   ev
+  //     event to learn, the current event.
   //
   // Return
   //   A Categorical, reward distribution of the rewarded hypos
 
   var self = this;
 
-  // We reward hypos based on this new evidence from the world.
   // We reward a hypo if its prediction is better than current
-  // average prediction (prior knowledge). We compute this prior
-  // by summing up the posterior probability distributions of
-  // active hypo. Probability distributions of rare events
-  // have more weight.
-  var prediction = cevs.reduce(function (acc, cev) {
-    var h, p, d;
-
-    h = self.getHypo(cev);
-    m =
-    p = self.cevPrior.prob(cev);
-    if (h) {
-      d = h.getProbDist();
-    }
-    acc.learn(h.getProbDist(), Math.min(100, 1 / p));
-    return acc;
-  }, new Categorical());
+  // average prediction (prior knowledge).
+  var prediction = self.predict(cevs);
 
   // Reward each mature and active hypo according to
   // - it's prediction probability. Better probability leads to better reward.
@@ -201,14 +139,15 @@ H.prototype.learn = function (cevs, evs) {
   //   Otherwise average hypotheses would win all.
   //
   // This manipulates rewards.
-  var forwardReward = cevs.reduce(function (acc, cev) {
+  var rewards = cevs.reduce(function (acc, cev) {
     var h = self.getHypo(cev);
 
-    // Reward only mature hypos.
-    var p = h.prob(evs);
-    var pp = prediction.prob(evs);
+    if (h) {
+      var pp = prediction.prob(ev);
+      var p = h.prob(ev);
 
-    acc[cev] = reward(p, pp);
+      acc[cev] = maturity(h) * reward(pp, p);
+    }
     return acc;
   }, {});
 
@@ -238,52 +177,76 @@ H.prototype.learn = function (cevs, evs) {
   //   return acc;
   // }, {});
 
-  self.rewards.learn(forwardReward, 1.0);
+  Object.keys(rewards).forEach(function (key) {
+    var currentReward, newReward;
 
-  // Show the event to the matching hypotheses.
-  // This manipulates hypotheses.
-  eventVectors.forEach(function (evec) {
-    var h = self.ensureHypo(evec);
+    if (self.rewards.has(key)) {
+      currentReward = self.rewards.get(key);
+      self.rewards.add(key, currentReward + newReward);
+    } else {
+      self.rewards.add(key, newReward);
+    }
+  });
+
+  // Teach the new event to active hypos.
+  // This manipulates hypos.
+  cevs.forEach(function (cev) {
+    var h = self.ensureHypo(cev);
     h.learn(ev);
   });
 
-  // Record prior probability of eventVectors and events.
+  // Record prior probability of context events.
   // This manipulates priors.
-  hypos.forEach(function (hypo) {
-    this.hypoPrior.learn(hypo.hash);
+  cevs.forEach(function (cev) {
+    self.cevPrior.learn(cev);
   });
-  this.evPrior.learn(ev);
-
-  return new Categorical(rewardDist);
 };
 
-H.prototype.predict = function (eventVectors, priorHypoDist) {
+
+H.prototype.predict = function (cevs) {
   // Get likelihood distribution for the next event based on
   // the contents of the windows alias context.
   // This is done by weighted sum of the hypotheses.
   //
+  // We compute this prediction
+  // by summing up the posterior probability distributions of
+  // hypos. Probability distributions of rare events
+  // have more weight.
+  //
   // Parameters:
-  //   eventVectors
-  //     array of event vectors
-  //   priorHypoDist (optional)
-  //     dist of hypotheses to weight in prediction.
-  //     This weight is added in, not multiplied in.
+  //   cevs
+  //     array of context events
   //
   // Return
   //   a Categorical
+  //
+  var self = this;
 
-  var hypos = this.getHypos(eventVectors);
-  return hypos.reduce(function (acc, hypo) {
-    // Weight by competence.
-    var we = self.rewards.prob(hypo.hash);
+  return cevs.reduce(function (acc, cev) {
+    var h, m, c, pp, d, w;
 
-    // Duplicate the weights of hypos that are
-    // predicted by the higher layer.
-    if (priorHypoDist.hasOwnProperty(hypo.hash)) {
-      we += priorHypoDist[hypo.hash];
+    h = self.getHypo(cev);
+
+    if (h) {
+      m = maturity(h);
+      c = competence(cev, self.rewards);
+      pp = self.cevPrior.prob(cev);
+
+      // Weight of the hypo's prediction.
+      // If hypo's context has not been observed yet or
+      // it has been forgotten, prior probability is zero.
+      // A prediction in this situation would be so vague
+      // that it is better to give weight 0.
+      if (pp === 0) {
+        w = 0;
+      } else {
+        w = m * c / pp;
+      }
+
+      d = h.getProbDist();
+      acc.learn(d, w);
     }
-
-    return acc.addMass(weight(hypo.getProbDist(), we));
+    return acc;
   }, new Categorical());
 };
 

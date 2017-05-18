@@ -88,3 +88,18 @@
 // Immutable probability distributions.
 // Mutate by learning.
 //
+
+var Layer = require('./Layer');
+
+
+var L = function () {
+  this.layer = new Layer();
+};
+
+L.prototype.feed = function (ev) {
+  this.layer.feed(ev);
+};
+
+L.prototype.predict = function () {
+  return this.layer.predict().toProbDist();
+};

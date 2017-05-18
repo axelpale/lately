@@ -113,10 +113,10 @@ Cell.prototype.prob = function (ev) {
     return 0;
   }
 
-  if (this.sum !== 0) {
-    raw = this.w[ev] / this.sum;
-  } else {
+  if (this.sum === 0) {
     raw = 0;
+  } else {
+    raw = this.w[ev] / this.sum;
   }
 
   // Ensure that rounding errors do not lead to non-probability values

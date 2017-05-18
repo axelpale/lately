@@ -52,7 +52,7 @@ describe('Windows', function () {
     });
   });
 
-  describe('#getActiveEventVectors(ev)', function () {
+  describe('#getActive()', function () {
 
     it('basic', function () {
 
@@ -61,13 +61,9 @@ describe('Windows', function () {
       w.feed('b');
       w.feed('a');
 
-      var evecs = w.getActive();
+      var cevs = w.getActive();
 
-      assert.sameDeepMembers(evecs, [
-        [0, 'a'],
-        [1, 'b'],
-        [2, 'a'],
-      ]);
+      assert.sameDeepMembers(cevs, [ '0/a', '1/b', '2/a']);
     });
   });
 

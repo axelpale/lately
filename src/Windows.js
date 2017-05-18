@@ -1,7 +1,13 @@
 
 var Bernoulli = require('./Bernoulli');
 var fibonacci = require('./lib/fibonacci');
-var math = require('mathjs');
+
+
+var hash = function (evec) {
+  // Hash event vector
+  return evec.join('/');
+};
+
 
 // Constructor
 
@@ -77,7 +83,7 @@ W.prototype.getActive = function () {
 
     // Covert to eventVectors before array concatenation
     return acc.concat(evs.map(function (ev) {
-      return [index, ev];  // an event vector
+      return hash([index, ev]);  // an event vector to context event
     }));
   }, []);
 };

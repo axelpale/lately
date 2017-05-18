@@ -37,7 +37,6 @@ B.prototype.learn = function (evs, amount) {
   //     length of step. Default to 1.
 
   var i, massPerEv;
-  var massSum = 0;
 
   if (typeof evs === 'string') {
     evs = [evs];
@@ -54,10 +53,10 @@ B.prototype.learn = function (evs, amount) {
 
   // 6 events during 2-length step:
   // Total event mass would be 12.
-  if (evs.length !== 0) {
-    massPerEv = amount;
-  } else {
+  if (evs.length === 0) {
     massPerEv = 1;
+  } else {
+    massPerEv = amount;
   }
 
   for (i = 0; i < evs.length; i += 1) {
@@ -109,7 +108,7 @@ B.prototype.prob = function (evs) {
     //   = (1 - N(X) / N) * (1 - N(Y) / N)
     for (ev in this.w) {
       if (this.w.hasOwnProperty(ev)) {
-        product = product * (1 - this.w[ev] / this.n);
+        product = product * (1 - (this.w[ev] / this.n));
       }
     }
   }
@@ -146,7 +145,6 @@ B.prototype.unlearn = function (evs, amount) {
   //     length of step. Default to 1.
 
   var i, ev, massPerEv;
-  var massSum = 0;
 
   if (typeof evs === 'string') {
     evs = [evs];
@@ -163,10 +161,10 @@ B.prototype.unlearn = function (evs, amount) {
 
   // 6 events during 2-length step:
   // Total event mass would be 12.
-  if (evs.length !== 0) {
-    massPerEv = amount;
-  } else {
+  if (evs.length === 0) {
     massPerEv = 1;
+  } else {
+    massPerEv = amount;
   }
 
   for (i = 0; i < evs.length; i += 1) {

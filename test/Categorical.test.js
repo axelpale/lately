@@ -11,7 +11,7 @@ describe('Categorical', function () {
 
   describe('#Categorical(w)', function () {
     it('basic', function () {
-      var l = new Unit({'a': 1, 'b': 1});
+      var l = new Unit({ 'a': 1, 'b': 1 });
       assert.bout(l.prob('a'), 0.5);
     });
   });
@@ -20,7 +20,7 @@ describe('Categorical', function () {
     it('basic', function () {
 
       var l = new Unit();
-      l.addMass({'a': 1, 'b': 2});
+      l.addMass({ 'a': 1, 'b': 2 });
 
       assert.bout(l.prob(A), 0.3333);
     });
@@ -34,7 +34,7 @@ describe('Categorical', function () {
         'b': 0.9,
       });
 
-      var v = -(0.1 * Math.log(0.1) + 0.9 * Math.log(0.9));
+      var v = -((0.1 * Math.log(0.1)) + (0.9 * Math.log(0.9)));
 
       assert.bout(l.entropy(), v);
     });
@@ -44,7 +44,7 @@ describe('Categorical', function () {
     it('basic', function () {
 
       var l = new Unit();
-      l.addMass({'a': 1, 'b': 2});
+      l.addMass({ 'a': 1, 'b': 2 });
 
       assert.sameMembers(l.events(), ['a', 'b']);
     });
@@ -54,7 +54,7 @@ describe('Categorical', function () {
     it('basic', function () {
 
       var l = new Unit();
-      l.addMass({'a': 1, 'b': 2, 'c': 5});
+      l.addMass({ 'a': 1, 'b': 2, 'c': 5 });
 
       assert.sameMembers(l.eventsWithMassAbove(1.5), ['c', 'b']);
     });
@@ -63,29 +63,29 @@ describe('Categorical', function () {
   describe('#getMassDist()', function () {
     it('basic', function () {
 
-      var l = new Unit({'a': 1, 'b': 2});
+      var l = new Unit({ 'a': 1, 'b': 2 });
       var d = l.getMassDist();
 
-      assert.bout(d['a'], 1 / 3);
-      assert.bout(d['b'], 2 / 3);
+      assert.bout(d[A], 1 / 3);
+      assert.bout(d[B], 2 / 3);
     });
   });
 
   describe('#getProbDist()', function () {
     it('basic', function () {
 
-      var l = new Unit({'a': 1, 'b': 2}, 2);
+      var l = new Unit({ 'a': 1, 'b': 2 }, 2);
       var d = l.getProbDist();
 
-      assert.bout(d['a'], 1 / 3);
-      assert.bout(d['b'], 2 / 3);
+      assert.bout(d[A], 1 / 3);
+      assert.bout(d[B], 2 / 3);
     });
   });
 
   describe('#has(ev)', function () {
     it('basic', function () {
 
-      var l = new Unit({'a': 1, 'b': 3});
+      var l = new Unit({ 'a': 1, 'b': 3 });
 
       assert.isTrue(l.has('a'));
       assert.isFalse(l.has('c'));
@@ -161,8 +161,8 @@ describe('Categorical', function () {
     it('basic', function () {
 
       var l = new Unit();
-      l.addMass({'a': 1, 'b': 2});
-      l.substractMass({'b': 2});
+      l.addMass({ 'a': 1, 'b': 2 });
+      l.substractMass({ 'b': 2 });
 
       assert.bout(l.prob(A), 1);
     });

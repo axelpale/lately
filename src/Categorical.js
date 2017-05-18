@@ -160,6 +160,31 @@ Cat.prototype.learnDist = function (evDist, amount) {
 };
 
 
+Cat.prototype.mass = function () {
+  return this.sum;
+};
+
+
+Cat.prototype.mode = function () {
+  // Return the category with the highest probability.
+
+  var maxW = 0;
+  var maxKey = null;
+  var k;
+
+  for (k in this.w) {
+    if (this.w.hasOwnProperty(k)) {
+      if (this.w[k] > maxW) {
+        maxKey = k;
+        maxW = this.w[k];
+      }
+    }
+  }
+
+  return maxKey;
+};
+
+
 Cat.prototype.prob = function (ev) {
   var raw;
 

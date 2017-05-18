@@ -160,7 +160,7 @@ module.exports = {
     // enforce consistent comma style
     'comma-style': 'error',
     // enforce consistent naming when capturing the current execution context
-    'consistent-this': [ 'error', 'self' ],
+    'consistent-this': 'off', // [ 'error', 'self' ],
     // require or disallow newline at the end of files
     'eol-last': 'error',
     // require or disallow spacing between function identifiers and
