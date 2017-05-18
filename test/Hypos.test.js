@@ -4,8 +4,9 @@ var Unit = require('../src/Hypos');
 
 describe('Hypos', function () {
 
-  describe('#Hypos()', function () {
-    it('basic', function () {
+  describe('#learn(cevs, ev)', function () {
+
+    it('single', function () {
 
       var hs = new Unit();
 
@@ -14,6 +15,14 @@ describe('Hypos', function () {
       console.log(hs.predict(['1/b']));
 
       assert.equal(hs.predict(['1/b']).mode(), 'a');
+    });
+  });
+
+  describe('#predict(cevs)', function () {
+    it('empty', function () {
+      var hs = new Unit();
+
+      assert.deepEqual(hs.predict(['1/b']).getProbDist(), {});
     });
   });
 });

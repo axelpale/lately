@@ -11,7 +11,7 @@ module.exports = function (h) {
   //
   //   Deriving this in a closed form to a good maturity function
   //   quickly turns out to be too complex job to be worth it.
-  //   Therefore we built an simulation under lately-simulations
+  //   Therefore we built an simulation under lately-simulations [2]
   //   to examine how the expected reward diminishes as the sample size
   //   grows.
   //
@@ -20,8 +20,17 @@ module.exports = function (h) {
   //   the distribution. Based on results we chose an approximate
   //   maturity function: 1 - sqrt(2 / x).
   //
+  //   However, it turned out that maturity of 1- and 2-sized samples
+  //   must be above 0 because then they will be included in prediction
+  //   when no more reliable data is available. After experimentation,
+  //   we chose the following function:
+  //
+  //   maturity = 1 - sqrt(10 / (x + 10)), where x is number of observations.
+  //
+  //
   // References:
   //   [1] https://en.wikipedia.org/wiki/Dirichlet_distribution
+  //   [2] https://github.com/axelpale/lately-simulations
 
   var sampleSize = h.weightSum();
 
@@ -29,5 +38,5 @@ module.exports = function (h) {
     return 0;
   }
 
-  return 1 - Math.sqrt(2 / sampleSize);
+  return 1 - Math.sqrt(10 / (sampleSize + 10));
 };

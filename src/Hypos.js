@@ -4,46 +4,11 @@ var Categorical = require('./Categorical');
 var Decaying = require('./Decaying');
 var params = require('./parameters');
 var maturity = require('./lib/maturity');
+var competence = require('./lib/competence');
+var reward = require('./lib/reward');
 
 var SortedSet = require('redis-sorted-set');
 
-var reward = function (prior, p) {
-  // The greater the p to prior, the bigger the reward.
-  // If p is smaller than prior, returns negative.
-  // The difference in the low or high end of the probability range
-  // yields greater rewards than in around 0.5.
-  return Math.log(p / (1 - p)) - Math.log(prior / (1 - prior));
-};
-
-var competence = function (key, sortedSet) {
-  // Return a number between 0..1 so that the higher the rank,
-  // the closer the number to 1. The key with the highest value will
-  // have weight of 1.0.
-  //
-  // Parameters:
-  //   key
-  //     A key in a sorted set.
-  //   sortedSet
-  //     A redis sorted set
-  //
-  var rank = sortedSet.rank(key);
-  var n = sortedSet.length;
-
-  if (n === 0) {
-    return 0;
-  }
-
-  if (rank >= 0) {
-    if (rank === 1) {
-      return 1;
-    }
-
-    return rank / (n - 1);
-  }
-
-  // Key not ranked
-  return 0;
-};
 
 
 // Constructor
@@ -232,6 +197,13 @@ H.prototype.predict = function (cevs) {
       c = competence(cev, self.rewards);
       pp = self.cevPrior.prob(cev);
 
+      console.log('hypo:', h.getProbDist());
+      console.log('cev:', cev);
+      console.log('mass:', h.mass());
+      console.log('maturity:', m);
+      console.log('competence:', c);
+      console.log('prior:', pp);
+
       // Weight of the hypo's prediction.
       // If hypo's context has not been observed yet or
       // it has been forgotten, prior probability is zero.
@@ -242,6 +214,8 @@ H.prototype.predict = function (cevs) {
       } else {
         w = m * c / pp;
       }
+
+      console.log('weight:', w);
 
       d = h.getProbDist();
       acc.learn(d, w);
