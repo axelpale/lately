@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Character prediction</title>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+</head>
+<body>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="heading">
+          <h1>Character prediction</h1>
+          <p><a href="https://github.com/axelpale/lately">lately.js</a></p>
+          <p>Type in characters. The predictor finds causal relations among them and predicts the next character.</p>
+        </div>
+
+        <div class="form">
+          <input type="text" id="input">
+        </div>
+
+        <div class="prediction">
+          <h2>Prediction</h2>
+          <div id="prediction"></div>
+        </div>
+
+        <div class="analysis">
+          <h2>Analysis</h2>
+          <div id="analysis"></div>
+        </div>
+    </div><!-- .row -->
+  </div><!-- .container -->
+
+  <script src="./bundle.js"></script>
+
+</body>
+</html>
