@@ -22,9 +22,14 @@ module.exports = function (key, sortedSet) {
   }
 
   // Normalize reward between the highest and lowest rewards
-  var rew = sortedSet.get(key);
-  var min = sortedSet.slice(0, 1)[0].value;
-  var max = sortedSet.slice(-1, sortedSet.length)[0].value;
+  var rew = sortedSet.score(key);
+  var min = sortedSet.range(0, 0, { withScores: true })[0][1];
+  var max = sortedSet.range(-1, -1, { withScores: true })[0][1];
+
+  if (max === min) {
+    return INIT_COMP;
+  }
+  
   var norm = (rew - min) / (max - min);
 
   // However, in the beginning, the competences would be
@@ -38,5 +43,5 @@ module.exports = function (key, sortedSet) {
   // n = 4 => ratio = 0.5
 
   // Weighted average
-  return ratio * INIT_COMP + (1 - ratio) * norm;
+  return (ratio * INIT_COMP) + ((1 - ratio) * norm);
 };

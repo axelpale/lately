@@ -6,7 +6,7 @@ var Windows = require('./Windows');
 // third 2, fourth 3, fifth 5 et cetera.
 // This presumably is a natural growth ratio for temporal
 // fuzzyness.
-var WINDOW_SIZES = [1, 1, 2, 3, 5, 8, 13, 21]
+var WINDOW_SIZES = [1, 1, 2, 3, 5, 8, 13, 21];
 
 // Constructor
 
@@ -47,6 +47,13 @@ CX.prototype.getActive = function () {
   cevs.push(CX.ANY);
 
   return cevs;
+};
+
+CX.prototype.inspect = function () {
+  return {
+    active: this.getActive(),
+    windows: this.ws.inspect(),
+  };
 };
 
 module.exports = CX;

@@ -72,6 +72,11 @@ B.prototype.learn = function (evs, amount) {
 };
 
 
+B.prototype.mass = function () {
+  return this.sum;
+};
+
+
 B.prototype.prob = function (evs) {
   // Estimated probability that evs are in the next step.
   //

@@ -101,5 +101,13 @@ L.prototype.feed = function (ev) {
 };
 
 L.prototype.predict = function () {
-  return this.layer.predict().toProbDist();
+  return this.layer.predict().getProbDist();
 };
+
+L.prototype.inspect = function () {
+  return {
+    layers: [this.layer.inspect()],
+  };
+};
+
+module.exports = L;

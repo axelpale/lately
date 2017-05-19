@@ -1,8 +1,7 @@
 // A warehouse of hypotheses about the next event.
 
 var Categorical = require('./Categorical');
-var Decaying = require('./Decaying');
-var params = require('./parameters');
+var Bernoulli = require('./Bernoulli');
 var maturity = require('./lib/maturity');
 var competence = require('./lib/competence');
 var reward = require('./lib/reward');
@@ -25,12 +24,12 @@ var H = function () {
   // Get the ranking of a key:
   //   this.rewards.rank(key)
   // Get the size of the set:
-  //   this.rewards.length
+  //   this.rewards.card()
   // The keys are kept in order based on the value.
   this.rewards = new SortedSet();
 
   // Prior probability distribution for context events.
-  this.cevPrior = new Decaying(params.R);
+  this.cevPrior = new Bernoulli();
 };
 
 // Private methods
@@ -77,6 +76,33 @@ H.prototype.getHypos = function (cevs) {
   });
 };
 
+H.prototype.inspect = function () {
+
+  var self = this;
+
+  var hypos = Object.keys(this.hypos).reduce(function (acc, cev) {
+    var h = self.hypos[cev];
+
+    acc[cev] = {
+      competence: competence(cev, self.rewards),
+      dist: h.getProbDist(),
+      mass: h.mass(),
+      maturity: maturity(h),
+      prior: self.cevPrior.prob(cev),
+      reward: self.rewards.score(cev),
+    };
+
+    return acc;
+  }, {});
+
+  var rews = self.rewards.slice();
+
+  return {
+    hypos: hypos,
+    rewards: rews,
+  };
+};
+
 
 H.prototype.learn = function (cevs, ev) {
   // Parameters
@@ -89,11 +115,17 @@ H.prototype.learn = function (cevs, ev) {
   // Return
   //   A Categorical, reward distribution of the rewarded hypos
 
+  console.log('### .learn begin');
+
   var self = this;
 
   // We reward a hypo if its prediction is better than current
   // average prediction (prior knowledge).
   var prediction = self.predict(cevs);
+  var prior = prediction.prob(ev);
+
+  console.log('cevs', cevs);
+  console.log('prediction prior', prior);
 
   // Reward each mature and active hypo according to
   // - it's prediction probability. Better probability leads to better reward.
@@ -105,13 +137,22 @@ H.prototype.learn = function (cevs, ev) {
   //
   // This manipulates rewards.
   var rewards = cevs.reduce(function (acc, cev) {
-    var h = self.getHypo(cev);
+    var h, p, m, r;
+    h = self.getHypo(cev);
 
     if (h) {
-      var pp = prediction.prob(ev);
-      var p = h.prob(ev);
+      p = h.prob(ev);
+      m = maturity(h);
+      r = reward(prior, p);
+      s = m * r;
 
-      acc[cev] = maturity(h) * reward(pp, p);
+      console.log(' ', cev);
+      console.log('  h.prob(ev)', p);
+      console.log('  maturity(h)', m);
+      console.log('  reward(prior, p)', r);
+      console.log('  final reward', s);
+
+      acc[cev] = s;
     }
     return acc;
   }, {});
@@ -142,16 +183,15 @@ H.prototype.learn = function (cevs, ev) {
   //   return acc;
   // }, {});
 
-  Object.keys(rewards).forEach(function (key) {
-    var currentReward, newReward;
+  console.log('rewards', rewards);
 
-    if (self.rewards.has(key)) {
-      currentReward = self.rewards.get(key);
-      self.rewards.add(key, currentReward + newReward);
-    } else {
-      self.rewards.add(key, newReward);
-    }
+  Object.keys(rewards).forEach(function (key) {
+    self.rewards.incrBy(rewards[key], key);
   });
+
+  console.log('self.rewards.toArray()', self.rewards.toArray({
+    withScores: true,
+  }));
 
   // Teach the new event to active hypos.
   // This manipulates hypos.
@@ -160,11 +200,9 @@ H.prototype.learn = function (cevs, ev) {
     h.learn(ev);
   });
 
-  // Record prior probability of context events.
+  // Record prior probability of a context event to be active.
   // This manipulates priors.
-  cevs.forEach(function (cev) {
-    self.cevPrior.learn(cev);
-  });
+  self.cevPrior.learn(cevs);
 };
 
 
@@ -187,8 +225,12 @@ H.prototype.predict = function (cevs) {
   //
   var self = this;
 
+  console.log('#### .predict begin')
+
   return cevs.reduce(function (acc, cev) {
     var h, m, c, pp, d, w;
+
+    console.log('cev:', cev);
 
     h = self.getHypo(cev);
 
@@ -197,12 +239,11 @@ H.prototype.predict = function (cevs) {
       c = competence(cev, self.rewards);
       pp = self.cevPrior.prob(cev);
 
-      // console.log('hypo:', h.getProbDist());
-      // console.log('cev:', cev);
-      // console.log('mass:', h.mass());
-      // console.log('maturity:', m);
-      // console.log('competence:', c);
-      // console.log('prior:', pp);
+      console.log('hypo:', h.getProbDist());
+      console.log('mass:', h.mass());
+      console.log('maturity:', m);
+      console.log('competence:', c);
+      console.log('prior:', pp);
 
       // Weight of the hypo's prediction.
       // If hypo's context has not been observed yet or

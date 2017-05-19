@@ -1,6 +1,6 @@
 {
   "name": "lately",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "Discrete online sequence learner and predictor",
   "main": "index.js",
   "repository": {
@@ -27,12 +27,11 @@
   "devDependencies": {
     "chai": "^3.5.0",
     "eslint": "^3.19.0",
+    "jquery": "^3.2.1",
     "mocha": "^3.3.0"
   },
   "dependencies": {
-    "collections": "^5.0.6",
-    "component-emitter": "^1.2.1",
     "mathjs": "^3.13.0",
-    "redis-sorted-set": "^1.1.1"
+    "redis-sorted-set": "^2.0.0"
   }
 }

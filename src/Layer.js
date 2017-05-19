@@ -61,5 +61,12 @@ X.prototype.predict = function () {
   // }
 };
 
+X.prototype.inspect = function () {
+  return {
+    hypos: this.hs.inspect(),
+    context: this.cx.inspect(),
+  };
+};
+
 
 module.exports = X;

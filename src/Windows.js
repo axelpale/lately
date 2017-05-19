@@ -1,6 +1,5 @@
 
-var Bernoulli = require('./Bernoulli');
-var fibonacci = require('./lib/fibonacci');
+var Categorical = require('./Categorical');
 
 
 var hash = function (evec) {
@@ -27,7 +26,7 @@ var W = function (sizes) {
   // A window has a size. Window accommodates this many events.
   var i;
   for (i = 0; i < sizes.length; i += 1) {
-    this.ws[i] = new Bernoulli();
+    this.ws[i] = new Categorical();
   }
 };
 
@@ -36,15 +35,7 @@ var W = function (sizes) {
 
 // Public methods
 
-W.prototype.getNumberOfWindows = function () {
-  return this.ws.length;
-};
-
-W.prototype.getWindow = function (index) {
-  return this.ws[index];
-};
-
-W.prototype.feed = function (evs) {
+W.prototype.feed = function (ev) {
 
   // Push distributions forward.
 
@@ -57,7 +48,7 @@ W.prototype.feed = function (evs) {
 
     sample = this.ws[i].sample();
 
-    // Move (unlearn then learn) samples only from full windows.
+    // Move (unlearn, then learn) samples only from full windows.
     if (this.ws[i].weightSum() >= this.sizes[i]) {
       this.ws[i].unlearn(sample);  // Remove samples's worth of mass.
 
@@ -70,7 +61,15 @@ W.prototype.feed = function (evs) {
   }
 
   // Teach the new event to the first window.
-  this.ws[0].learn(evs);  // Add one's worth of mass.
+  this.ws[0].learn(ev);  // Add one's worth of mass.
+};
+
+W.prototype.getNumberOfWindows = function () {
+  return this.ws.length;
+};
+
+W.prototype.getWindow = function (index) {
+  return this.ws[index];
 };
 
 W.prototype.getActive = function () {
@@ -89,6 +88,19 @@ W.prototype.getActive = function () {
       return hash([index, ev]);  // an event vector to context event
     }));
   }, []);
+};
+
+W.prototype.inspect = function () {
+  var self = this;
+
+  return self.ws.map(function (b, index) {
+    return {
+      index: index,
+      mass: b.mass(),
+      massTarget: self.sizes[index],
+      events: b.w,
+    };
+  });
 };
 
 module.exports = W;
