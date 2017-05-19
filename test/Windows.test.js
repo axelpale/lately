@@ -9,7 +9,7 @@ describe('Windows', function () {
 
       var w = new Unit(3);
 
-      assert.bout(w.getNumberOfWindows(), 3);
+      assert.about(w.getNumberOfWindows(), 3);
     });
 
     it('should have correct window weights', function () {
@@ -21,11 +21,11 @@ describe('Windows', function () {
         w.feed('a');
       }
 
-      assert.bout(w.getWindow(0).weightSum(), 1);
-      assert.bout(w.getWindow(1).weightSum(), 1);
-      assert.bout(w.getWindow(2).weightSum(), 2);
-      assert.bout(w.getWindow(3).weightSum(), 3);
-      assert.bout(w.getWindow(4).weightSum(), 5);
+      assert.about(w.getWindow(0).weightSum(), 1);
+      assert.about(w.getWindow(1).weightSum(), 1);
+      assert.about(w.getWindow(2).weightSum(), 2);
+      assert.about(w.getWindow(3).weightSum(), 3);
+      assert.about(w.getWindow(4).weightSum(), 5);
     });
   });
 
@@ -43,12 +43,12 @@ describe('Windows', function () {
       var w1 = w.getWindow(1);
       var w2 = w.getWindow(2);
 
-      assert.bout(w0.prob('a'), 1.0);
-      assert.bout(w0.prob('b'), 0.0);
-      assert.bout(w1.prob('a'), 0.0);
-      assert.bout(w1.prob('b'), 1.0);
-      assert.bout(w2.prob('a'), 0.5);
-      assert.bout(w2.prob('b'), 0.5);
+      assert.about(w0.prob('a'), 1.0);
+      assert.about(w0.prob('b'), 0.0);
+      assert.about(w1.prob('a'), 0.0);
+      assert.about(w1.prob('b'), 1.0);
+      assert.about(w2.prob('a'), 0.5);
+      assert.about(w2.prob('b'), 0.5);
     });
   });
 

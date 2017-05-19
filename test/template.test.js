@@ -11,7 +11,7 @@ describe('Class', function () {
       var a = 1;
 
       assert.strictEqual(u, u);
-      assert.bout(a, 1);
+      assert.about(a, 1);
     });
   });
 });

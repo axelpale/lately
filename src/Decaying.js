@@ -1,7 +1,8 @@
 // Decaying categorical distribution.
 //
 // Collects an exponentially decaying categorical probability distribution of
-// the inputs. It is used in a network.
+// the input events. At each learn step, weight of previous inputs is
+// multiplied by m, a number between 0 and 1.
 //
 // Online learning
 
@@ -20,7 +21,7 @@ var W_MIN = 0.0001;
 
 // Constructor
 
-var Cell = function (m) {
+var D = function (m) {
   // Parameters
   //   m
   //     decay multiplier
@@ -54,7 +55,7 @@ var forget = function (self, amount) {
 };
 
 
-Cell.prototype.learn = function (ev, amount) {
+D.prototype.learn = function (ev, amount) {
 
   if (typeof ev === 'object') {
     this.learnDist(ev, amount);
@@ -77,7 +78,7 @@ Cell.prototype.learn = function (ev, amount) {
 };
 
 
-Cell.prototype.learnDist = function (evDist, amount) {
+D.prototype.learnDist = function (evDist, amount) {
 
   if (typeof amount !== 'number') {
     amount = 1;
@@ -106,7 +107,7 @@ Cell.prototype.learnDist = function (evDist, amount) {
 };
 
 
-Cell.prototype.prob = function (ev) {
+D.prototype.prob = function (ev) {
   var raw;
 
   if (!this.w.hasOwnProperty(ev)) {
@@ -123,4 +124,4 @@ Cell.prototype.prob = function (ev) {
   return limit(raw, 0.0, 1.0);
 };
 
-module.exports = Cell;
+module.exports = D;

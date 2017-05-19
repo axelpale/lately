@@ -13,23 +13,23 @@ describe('lib', function () {
         'b': 3,
       });
 
-      assert.bout(sum, 5);
+      assert.about(sum, 5);
     });
 
     it('empty', function () {
 
       var sum = distSum({});
 
-      assert.bout(sum, 0);
+      assert.about(sum, 0);
     });
   });
 
   describe('.fibonacci(n)', function () {
     it('basic', function () {
-      assert.bout(fibonacci(0), 0);
-      assert.bout(fibonacci(1), 1);
-      assert.bout(fibonacci(2), 1);
-      assert.bout(fibonacci(3), 2);
+      assert.about(fibonacci(0), 0);
+      assert.about(fibonacci(1), 1);
+      assert.about(fibonacci(2), 1);
+      assert.about(fibonacci(3), 2);
     });
   });
 });

@@ -13,7 +13,7 @@ describe('Bernoulli', function () {
       var b = new Unit();
       b.learn([A, B]);
 
-      assert.bout(b.prob(A), 1);
+      assert.about(b.prob(A), 1);
     });
   });
 
@@ -24,7 +24,7 @@ describe('Bernoulli', function () {
       b.learn([]);
       b.learn([A]);
 
-      assert.bout(b.prob(A), 0.5);
+      assert.about(b.prob(A), 0.5);
     });
   });
 
@@ -35,8 +35,8 @@ describe('Bernoulli', function () {
       b.learn(['a', 'b']);
       b.learn([]);
 
-      assert.bout(b.prob(['a', 'b']), 0.25);
-      assert.bout(b.prob([]), 0.25);
+      assert.about(b.prob(['a', 'b']), 0.25);
+      assert.about(b.prob([]), 0.25);
     });
   });
 
@@ -63,7 +63,7 @@ describe('Bernoulli', function () {
         }
       }
 
-      assert.bout(n[A], N);
+      assert.about(n[A], N);
       assert.isAbout(n[B], N / 2, 200);
     });
   });

@@ -6,7 +6,7 @@ assert.isAbout = function (x, expected, deviation) {
   assert.isAtMost(x, expected + deviation);
 };
 
-assert.bout = function (x, expected) {
+assert.about = function (x, expected) {
   assert.isAbout(x, expected, Math.abs(expected * 0.01) + 0.01);
 };
 

@@ -12,7 +12,7 @@ describe('Categorical', function () {
   describe('#Categorical(w)', function () {
     it('basic', function () {
       var l = new Unit({ 'a': 1, 'b': 1 });
-      assert.bout(l.prob('a'), 0.5);
+      assert.about(l.prob('a'), 0.5);
     });
   });
 
@@ -22,7 +22,7 @@ describe('Categorical', function () {
       var l = new Unit();
       l.addMass({ 'a': 1, 'b': 2 });
 
-      assert.bout(l.prob(A), 0.3333);
+      assert.about(l.prob(A), 0.3333);
     });
   });
 
@@ -36,7 +36,7 @@ describe('Categorical', function () {
 
       var v = -((0.1 * Math.log(0.1)) + (0.9 * Math.log(0.9)));
 
-      assert.bout(l.entropy(), v);
+      assert.about(l.entropy(), v);
     });
   });
 
@@ -66,8 +66,8 @@ describe('Categorical', function () {
       var l = new Unit({ 'a': 1, 'b': 2 });
       var d = l.getMassDist();
 
-      assert.bout(d[A], 1 / 3);
-      assert.bout(d[B], 2 / 3);
+      assert.about(d[A], 1 / 3);
+      assert.about(d[B], 2 / 3);
     });
   });
 
@@ -77,8 +77,8 @@ describe('Categorical', function () {
       var l = new Unit({ 'a': 1, 'b': 2 }, 2);
       var d = l.getProbDist();
 
-      assert.bout(d[A], 1 / 3);
-      assert.bout(d[B], 2 / 3);
+      assert.about(d[A], 1 / 3);
+      assert.about(d[B], 2 / 3);
     });
   });
 
@@ -110,7 +110,7 @@ describe('Categorical', function () {
       l.learn(A, 2);
       l.learn(B, 1);
 
-      assert.bout(l.prob(A), 2 / 3);
+      assert.about(l.prob(A), 2 / 3);
     });
 
     it('dist', function () {
@@ -118,8 +118,8 @@ describe('Categorical', function () {
       var l = new Unit();
       l.learn({ 'a': 1, 'b': 1 });
 
-      assert.bout(l.weight('a'), 0.5);
-      assert.bout(l.prob('a'), 0.5);
+      assert.about(l.weight('a'), 0.5);
+      assert.about(l.prob('a'), 0.5);
     });
 
     it('dist & amount', function () {
@@ -128,7 +128,7 @@ describe('Categorical', function () {
       l.learn({ 'a': 1, 'b': 1 }, 2);
       l.learn('c');
 
-      assert.bout(l.prob('a'), 1 / 3);
+      assert.about(l.prob('a'), 1 / 3);
     });
 
     it('empty & amount', function () {
@@ -136,7 +136,7 @@ describe('Categorical', function () {
       var l = new Unit();
       l.learn({}, 2);
 
-      assert.bout(l.weightSum(), 0);
+      assert.about(l.weightSum(), 0);
     });
 
   });
@@ -146,7 +146,7 @@ describe('Categorical', function () {
 
       var l = new Unit();
 
-      assert.bout(l.prob('a'), 0);
+      assert.about(l.prob('a'), 0);
     });
   });
 
@@ -164,7 +164,7 @@ describe('Categorical', function () {
       l.addMass({ 'a': 1, 'b': 2 });
       l.substractMass({ 'b': 2 });
 
-      assert.bout(l.prob(A), 1);
+      assert.about(l.prob(A), 1);
     });
   });
 
@@ -172,8 +172,8 @@ describe('Categorical', function () {
     it('basic', function () {
       var l = new Unit({ 'a': 1, 'b': 1 }, 2);
       l.unlearn('a');
-      assert.bout(l.prob('a'), 0);
-      assert.bout(l.prob('b'), 1);
+      assert.about(l.prob('a'), 0);
+      assert.about(l.prob('b'), 1);
     });
   });
 

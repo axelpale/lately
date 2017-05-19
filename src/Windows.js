@@ -72,9 +72,10 @@ W.prototype.feed = function (evs) {
 };
 
 W.prototype.getActive = function () {
-  // Event vector is an array of values that make the event unique.
+  // Active conditions.
+  //
   // Returns
-  //  active event vectors as array of arrays.
+  //  array of active context events.
 
   // For each window, collect event vectors, and then push them
   // into single array.

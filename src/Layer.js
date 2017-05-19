@@ -1,8 +1,6 @@
 
-var Windows = require('./Windows');
+var Context = require('./Context');
 var Hypos = require('./Hypos');
-
-var W = 16;  // Number of windows
 
 var X = function () {
   // Parameters:
@@ -15,21 +13,20 @@ var X = function () {
   //   this.hil = null;
   // }
 
+  this.cx = new Context();
   this.hs = new Hypos();
-  this.ws = new Windows(W);
 };
 
 X.prototype.feed = function (ev) {
 
   // Get context events.
-  var cevs = this.ws.getActive();
+  var cevs = this.cx.getActive();
 
   // Reward the correct hypos.
   this.hs.learn(cevs, ev);
 
-  // Push event, move windows.
-  // This causes change in the active set of hypos.
-  this.ws.feed(ev);
+  // Register the new event to context
+  this.cx.feed(ev);
 
   // Emit correct predictions as higher events.
   // if (this.hil) {
@@ -41,7 +38,7 @@ X.prototype.feed = function (ev) {
 
 X.prototype.predict = function () {
 
-  var cevs = this.ws.getActive();
+  var cevs = this.cx.getActive();
   return this.hs.predict(cevs);
 
   // if (this.hil) {

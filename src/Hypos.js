@@ -15,7 +15,7 @@ var SortedSet = require('redis-sorted-set');
 
 var H = function () {
 
-  // Mapping from events to hypotheses
+  // Mapping from condition events to hypotheses
   //   string -> Categorical
   this.hypos = {};
 
@@ -54,7 +54,7 @@ H.prototype.ensureHypo = function (cev) {
 H.prototype.getHypo = function (cev) {
   // Parameters:
   //   cev
-  //     context event, string
+  //     context event i.e. the condition, string
   if (this.hypos.hasOwnProperty(cev)) {
     return this.hypos[cev];
   }
@@ -197,12 +197,12 @@ H.prototype.predict = function (cevs) {
       c = competence(cev, self.rewards);
       pp = self.cevPrior.prob(cev);
 
-      console.log('hypo:', h.getProbDist());
-      console.log('cev:', cev);
-      console.log('mass:', h.mass());
-      console.log('maturity:', m);
-      console.log('competence:', c);
-      console.log('prior:', pp);
+      // console.log('hypo:', h.getProbDist());
+      // console.log('cev:', cev);
+      // console.log('mass:', h.mass());
+      // console.log('maturity:', m);
+      // console.log('competence:', c);
+      // console.log('prior:', pp);
 
       // Weight of the hypo's prediction.
       // If hypo's context has not been observed yet or
@@ -215,7 +215,7 @@ H.prototype.predict = function (cevs) {
         w = m * c / pp;
       }
 
-      console.log('weight:', w);
+      //console.log('weight:', w);
 
       d = h.getProbDist();
       acc.learn(d, w);

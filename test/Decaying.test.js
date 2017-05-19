@@ -31,8 +31,8 @@ describe('Decaying', function () {
       m.learn(B, 2);
       m.learn(A);
 
-      assert.bout(l.prob(A), m.prob(A));
-      assert.bout(l.prob(B), m.prob(B));
+      assert.about(l.prob(A), m.prob(A));
+      assert.about(l.prob(B), m.prob(B));
     });
   });
 
@@ -42,7 +42,7 @@ describe('Decaying', function () {
       var l = new Unit(0.9);
       l.learn({ 'a': 1, 'b': 3 });
 
-      assert.bout(l.prob('a'), 0.25);
+      assert.about(l.prob('a'), 0.25);
     });
   });
 
@@ -50,7 +50,7 @@ describe('Decaying', function () {
     it('empty', function () {
 
       var l = new Unit(0.9);
-      assert.bout(l.prob('a'), 0);
+      assert.about(l.prob('a'), 0);
     });
   });
 });
