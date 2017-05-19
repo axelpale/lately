@@ -11,20 +11,22 @@ var hash = function (evec) {
 
 // Constructor
 
-var W = function (n) {
+var W = function (sizes) {
+  // Parameters:
+  //   sizes
+  //     an array of window sizes. The first element gives the size
+  //     to the first window, second to second et cetera.
 
   // Windows
   this.ws = [];
 
+  // Window sizes
+  this.sizes = sizes.slice(0);
+
   // Initialize windows.
   // A window has a size. Window accommodates this many events.
-  // Each window has a constant designed size, which ramp up
-  // in fibonacci manner: first and second window have size of 1,
-  // third 2, fourth 3, fifth 5 et cetera.
-  // This presumably is a natural growth ratio for temporal
-  // fuzzyness.
   var i;
-  for (i = 0; i < n; i += 1) {
+  for (i = 0; i < sizes.length; i += 1) {
     this.ws[i] = new Bernoulli();
   }
 };
@@ -56,7 +58,7 @@ W.prototype.feed = function (evs) {
     sample = this.ws[i].sample();
 
     // Move (unlearn then learn) samples only from full windows.
-    if (this.ws[i].weightSum() >= fibonacci(i + 1)) {
+    if (this.ws[i].weightSum() >= this.sizes[i]) {
       this.ws[i].unlearn(sample);  // Remove samples's worth of mass.
 
       // Sample is tought to next window.

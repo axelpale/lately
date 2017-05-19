@@ -1,15 +1,19 @@
 
 var Windows = require('./Windows');
 
-var NUM_WINDOWS = 16;
-
+// Each window has a constant designed size, which ramp up
+// in fibonacci manner: first and second window have size of 1,
+// third 2, fourth 3, fifth 5 et cetera.
+// This presumably is a natural growth ratio for temporal
+// fuzzyness.
+var WINDOW_SIZES = [1, 1, 2, 3, 5, 8, 13, 21]
 
 // Constructor
 
 var CX = function () {
 
   // Windows
-  this.ws = new Windows(NUM_WINDOWS);
+  this.ws = new Windows(WINDOW_SIZES);
 };
 
 // Private methods

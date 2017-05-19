@@ -4,16 +4,16 @@ var Unit = require('../src/Windows');
 
 describe('Windows', function () {
 
-  describe('#Windows(n)', function () {
+  describe('#Windows(sizes)', function () {
     it('basic', function () {
 
-      var w = new Unit(3);
+      var w = new Unit([1, 1]);
 
-      assert.about(w.getNumberOfWindows(), 3);
+      assert.about(w.getNumberOfWindows(), 2);
     });
 
     it('should have correct window weights', function () {
-      var w = new Unit(5);
+      var w = new Unit([1, 1, 2, 3, 5]);
 
       // 1 + 1 + 2 + 3 + 5 = 12
       var i;
@@ -33,7 +33,7 @@ describe('Windows', function () {
 
     it('basic', function () {
 
-      var w = new Unit(3);
+      var w = new Unit([1, 1, 2]);
       w.feed('b');
       w.feed('a');
       w.feed('b');
@@ -56,7 +56,7 @@ describe('Windows', function () {
 
     it('basic', function () {
 
-      var w = new Unit(3);
+      var w = new Unit([1, 1, 2]);
       w.feed('a');
       w.feed('b');
       w.feed('a');
