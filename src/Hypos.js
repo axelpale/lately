@@ -137,7 +137,7 @@ H.prototype.learn = function (cevs, ev) {
   //
   // This manipulates rewards.
   var rewards = cevs.reduce(function (acc, cev) {
-    var h, p, m, r;
+    var h, p, m, r, s;
     h = self.getHypo(cev);
 
     if (h) {
@@ -225,7 +225,7 @@ H.prototype.predict = function (cevs) {
   //
   var self = this;
 
-  console.log('#### .predict begin')
+  console.log('#### .predict begin');
 
   return cevs.reduce(function (acc, cev) {
     var h, m, c, pp, d, w;

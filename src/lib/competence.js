@@ -29,7 +29,7 @@ module.exports = function (key, sortedSet) {
   if (max === min) {
     return INIT_COMP;
   }
-  
+
   var norm = (rew - min) / (max - min);
 
   // However, in the beginning, the competences would be
