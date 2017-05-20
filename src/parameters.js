@@ -1,4 +1,6 @@
 
+exports.LAYERS = 1;
+
 // History decaying rate per step.
 // This percentage of history data remain after a step.
 exports.R = 0.99;

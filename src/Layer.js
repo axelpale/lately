@@ -17,7 +17,14 @@ var X = function () {
   this.hs = new Hypos();
 };
 
-X.prototype.feed = function (ev) {
+X.prototype.feed = function (evs) {
+  // Parameters:
+  //   evs
+  //     array of event strings
+  //
+  // Return set of correct precitions
+
+  var ev = evs[0];  // TODO
 
   // Get context events.
   var cevs = this.cx.getActive();
@@ -28,37 +35,18 @@ X.prototype.feed = function (ev) {
   // Register the new event to context
   this.cx.feed(ev);
 
-  // Emit correct predictions as higher events.
-  // if (this.hil) {
-  //   var hypohash = rewardCat.mode();
-  //   var hiEv = hypohash + '//' + ev;
-  //   this.hil.feed(hiEv);
-  // }
+  return [];  // TODO
 };
 
-X.prototype.predict = function () {
+X.prototype.predict = function (amplification) {
+  // Parameters:
+  //   amplification (optional)
+  //     These predictions will be amplified.
+  //     This is the way for higher layer to affect
+  //     distributions below.
 
   var cevs = this.cx.getActive();
-  return this.hs.predict(cevs);
-
-  // if (this.hil) {
-  //   // Support hypos that previously predicted correctly a event and caused
-  //   // the event on higher layer that is now predicted by the higher layer.
-  //   var predHiEvDist = this.hil.predict();
-  //
-  //   // Map HiEvs names to hypohashes
-  //   var hypohashDist = Object.keys(predHiEvDist).reduce(function (acc, k) {
-  //     var arr = k.split('//');
-  //     var hypohash = arr.slice(0, -1).join('//');
-  //     var val = predHiEvDist[k];
-  //     acc[hypohash] = val;
-  //     return acc;
-  //   }, {});
-  //
-  //   this.h.predict(evecs, hypohashDist);
-  // } else {
-  //   this.h.predict(evecs);
-  // }
+  return this.hs.predict(cevs, amplification);
 };
 
 X.prototype.inspect = function () {

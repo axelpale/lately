@@ -95,7 +95,7 @@ H.prototype.inspect = function () {
     return acc;
   }, {});
 
-  var rews = self.rewards.slice();
+  var rews = self.rewards.toArray({ withScores: true });
 
   return {
     hypos: hypos,

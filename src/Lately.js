@@ -90,24 +90,56 @@
 //
 
 var Layer = require('./Layer');
+var parameters = require('./parameters');
 
 
 var L = function () {
-  this.layer = new Layer();
+
+  this.layers = new Array(parameters.LAYERS);
+
+  var i;
+  for (i = 0; i < this.layers.length; i += 1) {
+    this.layers[i] = new Layer();
+  }
+
 };
+
 
 L.prototype.feed = function (ev) {
-  this.layer.feed(ev);
+
+  var i;
+  var corrects = [ev];
+
+  // From bottom to top.
+  for (i = 0; i < this.layers.length; i += 1) {
+    corrects = this.layers[i].feed(corrects);
+  }
 };
 
+
 L.prototype.predict = function () {
-  return this.layer.predict().getProbDist();
+
+  var i = this.layers.length - 1;
+  var highest = this.layers[i];
+
+  var prediction = highest.predict();
+
+  // From top to bottom
+  for (i = i - 1; i >= 0; i -= 1) {
+    prediction = this.layers[i].predict(prediction);
+  }
+
+  return prediction.getProbDist();
 };
+
 
 L.prototype.inspect = function () {
   return {
-    layers: [this.layer.inspect()],
+    layers: this.layers.map(function (layer) {
+      return layer.inspect();
+    }),
   };
 };
+
 
 module.exports = L;
