@@ -8,17 +8,26 @@ var C = 'c';
 
 describe('Decaying', function () {
 
-  describe('#learn(ev)', function () {
-    it('basic', function () {
+  it('basic', function () {
+    var l = new Unit(0.9999);
+    l.learn(A);
+    l.learn(B);
+    l.learn(C);
+    l.learn(B);
 
-      var l = new Unit(0.9999);
-      l.learn(A);
-      l.learn(B);
-      l.learn(C);
-      l.learn(B);
+    assert.isAbout(l.prob(A), 0.25, 0.1);
+    assert.isTrue(l.has(B));
+    assert.isAbout(l.getProbDist()[A], 0.25, 0.1);
+  });
 
-      assert.isAbout(l.prob(A), 0.25, 0.1);
+  describe('#getProbDist()', function () {
+    it('empty', function () {
+      var l = new Unit(0.5);
+      assert.deepEqual(l.getProbDist(), {});
     });
+  });
+
+  describe('#learn(ev)', function () {
 
     it('amount', function () {
 

@@ -1,6 +1,7 @@
 // A warehouse of hypotheses about the next event.
 
 var Categorical = require('./Categorical');
+var Decaying = require('./Decaying');
 var Bernoulli = require('./Bernoulli');
 var maturity = require('./lib/maturity');
 var competence = require('./lib/competence');
@@ -28,8 +29,10 @@ var H = function () {
   // The keys are kept in order based on the value.
   this.rewards = new SortedSet();
 
-  // Prior probability distribution for context events.
+  // Prior probability distribution for context events, i.e. layer i+1 events.
   this.cevPrior = new Bernoulli();
+  // Prior probability distribution for new events, i.e. layer i events.
+  this.evPrior = new Bernoulli();
 };
 
 // Private methods
@@ -115,7 +118,7 @@ H.prototype.learn = function (cevs, ev) {
   // Return
   //   A Categorical, reward distribution of the rewarded hypos
 
-  console.log('### .learn begin');
+  //console.log('### .learn begin');
 
   var self = this;
 
@@ -124,8 +127,8 @@ H.prototype.learn = function (cevs, ev) {
   var prediction = self.predict(cevs);
   var prior = prediction.prob(ev);
 
-  console.log('cevs', cevs);
-  console.log('prediction prior', prior);
+  //console.log('cevs', cevs);
+  //console.log('prediction prior', prior);
 
   // Reward each mature and active hypo according to
   // - it's prediction probability. Better probability leads to better reward.
@@ -146,11 +149,11 @@ H.prototype.learn = function (cevs, ev) {
       r = reward(prior, p);
       s = m * r;
 
-      console.log(' ', cev);
-      console.log('  h.prob(ev)', p);
-      console.log('  maturity(h)', m);
-      console.log('  reward(prior, p)', r);
-      console.log('  final reward', s);
+      //console.log(' ', cev);
+      //console.log('  h.prob(ev)', p);
+      //console.log('  maturity(h)', m);
+      //console.log('  reward(prior, p)', r);
+      //console.log('  final reward', s);
 
       acc[cev] = s;
     }

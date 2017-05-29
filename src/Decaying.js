@@ -6,8 +6,9 @@
 //
 // Online learning
 
-var limit = require('./lib/limit');
 var distSum = require('./lib/distSum');
+var limit = require('./lib/limit');
+
 
 // Constants
 ////////////
@@ -28,12 +29,13 @@ var D = function (m) {
   //     0.0 => arrival time prediction, lifo
   //     1.0 => categorical distribution prediction
   //
+
   this.w = {};
   this.sum = 0;
   this.m = limit(m, M_MIN, M_MAX);
 };
 
-// Private functions
+// Private methods
 
 
 var forget = function (self, amount) {
@@ -52,6 +54,28 @@ var forget = function (self, amount) {
       }
     }
   }
+};
+
+
+// Public methods
+
+D.prototype.getProbDist = function () {
+  // Get probability distribution
+  var d = {};
+
+  var k;
+  for (k in this.w) {
+    if (this.w.hasOwnProperty(k)) {
+      d[k] = this.w[k] / this.sum;
+    }
+  }
+
+  return d;
+};
+
+
+D.prototype.has = function (ev) {
+  return this.w.hasOwnProperty(ev);
 };
 
 
@@ -104,6 +128,11 @@ D.prototype.learnDist = function (evDist, amount) {
   this.sum += psum * amount;
 
   forget(this, amount);
+};
+
+
+D.prototype.mass = function () {
+  return this.sum;
 };
 
 
