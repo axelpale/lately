@@ -186,15 +186,15 @@ H.prototype.learn = function (cevs, ev) {
   //   return acc;
   // }, {});
 
-  console.log('rewards', rewards);
+  //console.log('rewards', rewards);
 
   Object.keys(rewards).forEach(function (key) {
     self.rewards.incrBy(rewards[key], key);
   });
 
-  console.log('self.rewards.toArray()', self.rewards.toArray({
-    withScores: true,
-  }));
+  // console.log('self.rewards.toArray()', self.rewards.toArray({
+  //   withScores: true,
+  // }));
 
   // Teach the new event to active hypos.
   // This manipulates hypos.
@@ -228,12 +228,12 @@ H.prototype.predict = function (cevs) {
   //
   var self = this;
 
-  console.log('#### .predict begin');
+  //console.log('#### .predict begin');
 
   return cevs.reduce(function (acc, cev) {
     var h, m, c, pp, d, w;
 
-    console.log('cev:', cev);
+    //console.log('cev:', cev);
 
     h = self.getHypo(cev);
 
@@ -242,11 +242,11 @@ H.prototype.predict = function (cevs) {
       c = competence(cev, self.rewards);
       pp = self.cevPrior.prob(cev);
 
-      console.log('hypo:', h.getProbDist());
-      console.log('mass:', h.mass());
-      console.log('maturity:', m);
-      console.log('competence:', c);
-      console.log('prior:', pp);
+      // console.log('hypo:', h.getProbDist());
+      // console.log('mass:', h.mass());
+      // console.log('maturity:', m);
+      // console.log('competence:', c);
+      // console.log('prior:', pp);
 
       // Weight of the hypo's prediction.
       // If hypo's context has not been observed yet or
