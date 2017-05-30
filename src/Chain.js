@@ -1,3 +1,4 @@
+var Discrete = require('./Discrete');
 
 
 var C = function (initialEventArray, initialDelayArray) {
@@ -19,17 +20,32 @@ var C = function (initialEventArray, initialDelayArray) {
 };
 
 C.prototype.delaysBetween = function (a, b) {
-
+  // Find all delays between consecutive a and b
+  //
+  // Parameters:
+  //   a
+  //     event id
+  //   b
+  //     event id
+  //
+  // Returns:
+  //   array of numbers
+  //
   // Example:
   //
-  // Seq Index    0 1 2 3     6   8 9         14   17 18  20
-  // Event name   a a a b c c a c b a c c c c a c c b a c b
-  // Event delay  1 1 1 1 1 1 1 1 6 1 1 1 1 1 1 1 1 1 1 3 1
-  // A-B              ---     -----           ------- -----
-  // A-B delays        1       1+6             1+1+1   3+1
+  //   Seq Index    0 1 2 3     6   8 9         14   17 18  20
+  //   Event name   a a a b c c a c b a c c c c a c c b a c b
+  //   Event id     4 4 4 2 5 5 4 5 2 4 5 5 5 5 4 5 5 2 4 5 2
+  //   Event delay  1 1 1 1 1 1 1 1 6 1 1 1 1 1 1 1 1 1 1 3 1
+  //   A-B              ---     -----           ------- -----
+  //   A-B delays        1       1+6             1+1+1   3+1
   //
-  // > distancesBetween(a, b);
-  // [1, 7, 3, 4]
+  //   > delaysBetween(a, b);
+  //   [1, 7, 3, 4]
+  //
+  // Time complexity:
+  //   O(n*log(n)) where n is the length of the largest of a and b.
+  //
 
   var aIndices = this.index[a];
   var bIndices = this.index[b];
@@ -38,6 +54,8 @@ C.prototype.delaysBetween = function (a, b) {
       typeof bIndices === 'undefined') {
     return [];
   }
+
+  //console.log(aIndices, bIndices);
 
   // Indices are already in order from smallest to largest.
 
@@ -51,9 +69,10 @@ C.prototype.delaysBetween = function (a, b) {
   // Array of pairs, indices of shortest A-B's
   var axbx = [];
 
-  while (curPos.a < aIndices.length || curPos.b < bIndices.length) {
+  while (curPos.a < aIndices.length && curPos.b < bIndices.length) {
     ax = aIndices[curPos.a];
     bx = bIndices[curPos.b];
+    //console.log('ax', ax, 'bx', bx);
     if (ax < bx) {
       if (curPos.a + 1 < aIndices.length) {
         axp1 = aIndices[curPos.a + 1];
@@ -83,6 +102,35 @@ C.prototype.delaysBetween = function (a, b) {
   return axbx.map(function (ab) {
     return this.times[ab[1]] - this.times[ab[0]];
   }, this);
+};
+
+C.prototype.discreteFrom = function (ev) {
+  // Find distribution of outgoing adjacent events after the given ev.
+  //
+  // Return
+  //   a Discrete distribution
+
+  // Ev occurs at these indices of the sequence.
+  // Indices are in order.
+  var indices = this.index[ev];
+
+  var disc = new Discrete();
+
+  if (typeof indices === 'undefined') {
+    return disc;
+  }
+
+  // Remove occurence if it is the last occurence at the end of sequence.
+  // This simplifies the code of the following map operation.
+  if (indices[indices.length - 1] === this.seq.length - 1) {
+    indices.pop();
+  }
+
+  indices.forEach(function (i) {
+    disc.add(this.seq[i + 1]);
+  }, this);
+
+  return disc;
 };
 
 C.prototype.push = function (ev, delay) {
