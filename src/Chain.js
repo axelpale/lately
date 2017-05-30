@@ -13,6 +13,9 @@ var C = function (initialEventArray, initialDelayArray) {
   // the sequence.
   this.index = {};
 
+  // Collect a frequency distribution for prior probabilities.
+  this.freq = new Discrete();
+
   if (typeof initialEventArray === 'object' &&
       typeof initialDelayArray === 'object') {
     this.push(initialEventArray, initialDelayArray);
@@ -133,6 +136,10 @@ C.prototype.discreteFrom = function (ev) {
   return disc;
 };
 
+C.prototype.frequencies = function () {
+  return this.freq.clone();
+};
+
 C.prototype.push = function (ev, delay) {
   // Parameters:
   //   ev
@@ -148,6 +155,7 @@ C.prototype.push = function (ev, delay) {
 
   this._push(ev, delay);
   this._index(ev);
+  this.freq.add(ev);
 };
 
 C.prototype.size = function () {
@@ -155,6 +163,8 @@ C.prototype.size = function () {
 };
 
 C.prototype._push = function (ev, delay) {
+  // Push event to sequence and its absolute delay to time array.
+
   var prevTime;
   this.seq.push(ev);
 

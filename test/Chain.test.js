@@ -13,6 +13,8 @@ describe('Chain', function () {
     u.push([A, B], [1, 1]);
 
     assert.deepEqual(u.delaysBetween(A, B), [1]);
+    assert.about(u.frequencies().get(A), 1);
+    assert.about(u.frequencies().get(B), 1);
   });
 
   describe('#Chain()', function () {

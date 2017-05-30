@@ -55,6 +55,13 @@ D.prototype.addDist = function (dist) {
   }
 };
 
+D.prototype.clone = function () {
+  // TODO optimize by writing it open. No need to recompute sum.
+  var c = new D();
+  c.addDist(this.w);
+  return c;
+};
+
 D.prototype.get = function (ev) {
   // Return the current weight of ev.
 
