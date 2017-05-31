@@ -22,6 +22,7 @@ var C = function (initialEventArray, initialDelayArray) {
   }
 };
 
+
 C.prototype.delaysBetween = function (a, b) {
   // Find all delays between consecutive a and b
   //
@@ -107,6 +108,7 @@ C.prototype.delaysBetween = function (a, b) {
   }, this);
 };
 
+
 C.prototype.discreteFrom = function (ev) {
   // Find distribution of outgoing adjacent events after the given ev.
   //
@@ -136,9 +138,11 @@ C.prototype.discreteFrom = function (ev) {
   return disc;
 };
 
+
 C.prototype.frequencies = function () {
   return this.freq.clone();
 };
+
 
 C.prototype.push = function (ev, delay) {
   // Parameters:
@@ -154,13 +158,15 @@ C.prototype.push = function (ev, delay) {
   }
 
   this._push(ev, delay);
-  this._index(ev);
+  this._index(ev, this.seq.length - 1);
   this.freq.add(ev);
 };
+
 
 C.prototype.size = function () {
   return this.seq.length;
 };
+
 
 C.prototype._push = function (ev, delay) {
   // Push event to sequence and its absolute delay to time array.
@@ -176,10 +182,11 @@ C.prototype._push = function (ev, delay) {
   }
 };
 
-C.prototype._index = function (ev) {
+
+C.prototype._index = function (ev, evIndex) {
+  // Add ev to the index.
 
   var arrayOfIndicesForEv = this.index[ev];
-  var evIndex = this.seq.length - 1;
 
   if (typeof arrayOfIndicesForEv === 'undefined') {
     this.index[ev] = [evIndex];
@@ -188,5 +195,6 @@ C.prototype._index = function (ev) {
   }
 
 };
+
 
 module.exports = C;
