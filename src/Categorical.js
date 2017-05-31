@@ -51,6 +51,25 @@ Cat.prototype.addMass = function (dist) {
 };
 
 
+Cat.prototype.divergenceFrom = function (prior) {
+  // Kullback-Leibler divergence D_kl(P||Q) in bits, where
+  // P is this distribution and
+  // Q is the given prior.
+  //
+  // Returns the information gained when switching from prior to this cat.
+
+  var div = 0;
+
+  prior.forEach(function (ev, pr) {
+    var pi = this.prob(ev);
+    div += pi * Math.log(pi / pr);
+  }, this);
+
+  // From nats to bits
+  return div * Math.LOG2E;
+};
+
+
 Cat.prototype.entropy = function () {
   // Entropy in nats.
   var k, p;

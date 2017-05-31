@@ -9,7 +9,7 @@ var C = 'c';
 
 describe('Categorical', function () {
 
-  describe('#Categorical(w)', function () {
+  describe('#Categorical(dist)', function () {
     it('basic', function () {
       var l = new Unit({ 'a': 1, 'b': 1 });
       assert.about(l.prob('a'), 0.5);
@@ -23,6 +23,16 @@ describe('Categorical', function () {
       l.addMass({ 'a': 1, 'b': 2 });
 
       assert.about(l.prob(A), 0.3333);
+    });
+  });
+
+  describe('#divergenceFrom(cat)', function () {
+    it('basic', function () {
+
+      var prior = new Unit({ 'a': 1, 'b': 3 });
+      var posterior = new Unit({ 'a': 1, 'b': 1 });
+
+      assert.about(posterior.divergenceFrom(prior), 0.20751);
     });
   });
 
