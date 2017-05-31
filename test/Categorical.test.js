@@ -60,6 +60,20 @@ describe('Categorical', function () {
     });
   });
 
+  describe('#forEach()', function () {
+    it('basic', function () {
+
+      var cat = new Unit({ 'a': 2, 'b': 3, 'c': 5 }, 10);
+      var res = {};
+
+      cat.forEach(function (ev, p) {
+        res[ev] = p;
+      });
+
+      assert.deepEqual(res, cat.getProbDist());
+    });
+  });
+
   describe('#getMassDist()', function () {
     it('basic', function () {
 

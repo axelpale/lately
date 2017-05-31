@@ -22,6 +22,15 @@ var Cat = function (d, amount) {
   }
 };
 
+// Class methods
+
+Cat.createFromDiscrete = function (disc) {
+  // Parameters:
+  //   disc
+  //     discrete distribution
+  return new Cat(disc.w, disc.sum);
+};
+
 
 // Public methods
 
@@ -67,6 +76,22 @@ Cat.prototype.eventsWithMassAbove = function (minMass) {
   return self.events().filter(function (ev) {
     return self.w[ev] > minMass;
   });
+};
+
+
+Cat.prototype.forEach = function (iteratee, ctx) {
+  // Parameters:
+  //   iteratee
+  //     function (ev, probability)
+  //   ctx (optional, default to undefined)
+  //     iteratee's this value
+  var k, p;
+  for (k in this.w) {
+    if (this.w.hasOwnProperty(k)) {
+      p = this.w[k] / this.sum;
+      iteratee.call(ctx, k, p);
+    }
+  }
 };
 
 
