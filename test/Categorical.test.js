@@ -26,6 +26,16 @@ describe('Categorical', function () {
     });
   });
 
+  describe('#clone()', function () {
+    it('basic', function () {
+      var d = new Unit({ 'a': 1, 'b': 3 });
+      var c = d.clone();
+      assert.equal(c.prob('a'), d.prob('a'));
+      assert.equal(c.prob('b'), d.prob('b'));
+      assert.equal(c.prob('x'), d.prob('x'));
+    });
+  });
+
   describe('#divergenceFrom(cat)', function () {
     it('basic', function () {
 

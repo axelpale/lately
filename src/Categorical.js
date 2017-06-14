@@ -51,6 +51,13 @@ Cat.prototype.addMass = function (dist) {
 };
 
 
+Cat.prototype.clone = function () {
+  var c = new Cat();
+  c.addMass(this.w);
+  return c;
+};
+
+
 Cat.prototype.divergenceFrom = function (prior) {
   // Kullback-Leibler divergence D_kl(P||Q) in bits, where
   // P is this distribution and
