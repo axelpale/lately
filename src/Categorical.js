@@ -101,14 +101,14 @@ Cat.prototype.eventsWithMassAbove = function (minMass) {
 Cat.prototype.forEach = function (iteratee, ctx) {
   // Parameters:
   //   iteratee
-  //     function (ev, probability)
+  //     function (ev, probability, mass)
   //   ctx (optional, default to undefined)
   //     iteratee's this value
   var k, p;
   for (k in this.w) {
     if (this.w.hasOwnProperty(k)) {
       p = this.w[k] / this.sum;
-      iteratee.call(ctx, k, p);
+      iteratee.call(ctx, k, p, this.w[k]);
     }
   }
 };
