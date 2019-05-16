@@ -4,14 +4,16 @@
   "description": "Example app",
   "main": "app.js",
   "scripts": {
-    "start": "webpack",
+    "start": "nodemon --watch app.js --exec 'npm run build'",
+    "build": "webpack",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "MIT",
   "devDependencies": {
     "webpack-cli": "^3.3.2",
-    "webpack": "^4.31.0"
+    "webpack": "^4.31.0",
+    "nodemon": "^1.19.0"
   },
   "dependencies": {
     "mcbsp": "file:local_modules/mcbsp"
