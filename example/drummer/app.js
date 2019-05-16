@@ -13,6 +13,25 @@ const clearElem = (el) => {
   return el;
 };
 
+const createChannelControlsElem = (model, dispatch) => {
+  const controls = document.createElement('div');
+  model.history.forEach((channel, i) => {
+    const audio = document.createElement('div');
+    audio.classList.add('channel-control');
+    audio.dataset.channel = i;
+
+    const img = document.createElement('img');
+    img.width = 16;
+    img.height = 16;
+    img.src = 'img/audio.png';
+    audio.appendChild(img);
+
+    controls.appendChild(audio);
+  });
+
+  return controls;
+};
+
 const createFrameElem = (t) => {
   const f = document.createElement('div');
   f.dataset.time = t;
@@ -179,10 +198,13 @@ const predict = (model) => {
     const timelineContainer = document.getElementById('timeline');
     clearElem(timelineContainer);
 
-    const timeline = createTimelineElem(model.history, dispatch);
-    const predictedTimeline = createPredictedTimelineElem(model.prediction);
+    const channelControls = createChannelControlsElem(model, dispatch);
+    timelineContainer.appendChild(channelControls);
 
+    const timeline = createTimelineElem(model.history, dispatch);
     timelineContainer.appendChild(timeline);
+
+    const predictedTimeline = createPredictedTimelineElem(model.prediction);
     timelineContainer.appendChild(predictedTimeline);
   };
 

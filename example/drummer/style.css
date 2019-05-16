@@ -14,9 +14,19 @@
   height: 1em;
   margin: 0.2em;
   background: white;
-  border: 1px solid black;
+  outline: 1px solid black;
 }
 
 .cell-on {
   background: black;
+}
+
+.channel-control {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  margin: 0.2em;
+}
+.channel-control img {
+  margin: 0 auto 0 auto;
 }
