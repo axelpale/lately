@@ -23,9 +23,14 @@ exports.moment = (hist, t, pastSize, futureSize) => {
 
 exports.similaritySingle = (a, b) => {
   // Single channel slice similarity.
+  //
+  // Alternatives for scoring:
+  //   1 - Math.abs(x - y);
+  //   Math.min(x, y);
+  //
   const scores = a.map((x, i) => {
     const y = b[i];
-    return 1 - Math.abs(x - y);
+    return Math.min(x, y);
   });
   return lib.arraySum(scores);
 };
