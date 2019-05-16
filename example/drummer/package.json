@@ -1,0 +1,15 @@
+{
+  "name": "lately-drummer",
+  "version": "1.0.0",
+  "description": "Example app",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {},
+  "dependencies": {
+    "webpack": "^4.31.0"
+  }
+}
