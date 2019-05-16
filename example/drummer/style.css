@@ -1,0 +1,17 @@
+.container {
+  width: 11em;
+  margin: 2em auto 2em auto;
+}
+
+.timeline {
+  width: 100;
+}
+
+.cell {
+  display: inline-block;
+  width: 2em;
+  height: 2em;
+  margin: 0.2em;
+  background: black;
+  border: 1px solid black;
+}
