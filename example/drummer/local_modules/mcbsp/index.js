@@ -40,6 +40,9 @@ exports.similarity = (a, b) => {
 };
 
 exports.predict = (hist, context, distance) => {
+  // Assert hist.length === context.length
+
+  const channels = context.length;
   const contextSize = context[0].length;
   const futureSize = distance;
 
@@ -53,10 +56,7 @@ exports.predict = (hist, context, distance) => {
 
   let weightSum = lib.arraySum(weights);
 
-  const accum = [
-    lib.zeros(futureSize),
-    lib.zeros(futureSize)
-  ];
+  const accum = context.map(() => lib.zeros(futureSize));
 
   let normalized = moments.reduce((pred, m, t) => {
     return lib.multiAdd(pred, lib.multiScale(m.future, weights[t] / weightSum))
