@@ -139,9 +139,11 @@ const predict = (model) => {
   const initialModel = {
     history: [
       [1,1,1,0,0,0,1,1,1,0,0,0,1,1,1,0,0,0,1,1,1,0,0,0], // sun up
+      [0,1,1,1,0,0,0,0,1,1,0,0,0,0,1,1,1,0,0,1,1,1,0,0], // flower open
+      [0,1,1,1,0,0,0,0,1,1,0,0,0,0,1,1,1,0,0,1,1,1,0,0], // flower open
       [0,1,1,1,0,0,0,0,1,1,0,0,0,0,1,1,1,0,0,1,1,1,0,0] // flower open
     ],
-    prediction: [[], []]
+    prediction: [[], [], [], []],
     predictionDistance: 8,
   };
   initialModel.prediction = predict(initialModel)
