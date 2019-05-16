@@ -63,6 +63,20 @@ const createDeleteFrameElem = (t, dispatch) => {
   return b;
 };
 
+const createDuplicateFrameElem = (t, dispatch) => {
+  const b = document.createElement('button');
+  b.innerHTML = 'duplicate';
+
+  b.addEventListener('click', () => {
+    dispatch({
+      type: 'DUPLICATE_FRAME',
+      time: t
+    });
+  });
+
+  return b;
+};
+
 const createCellElem = (t, ch, value, numChannels) => {
   const cel = document.createElement('div');
   cel.dataset.time = t;
@@ -107,6 +121,8 @@ const createTimelineElem = (model, dispatch) => {
     }
 
     fr.appendChild(createDeleteFrameElem(t, dispatch));
+    fr.appendChild(createDuplicateFrameElem(t, dispatch));
+
     timeline.appendChild(fr);
   }
 
@@ -148,13 +164,22 @@ const historySetValue = (hist, ev) => {
   return newHist;
 }
 
+const historyDuplicateFrame = (hist, t) => {
+  const newHist = historyClone(hist);
+  newHist.map((ch, i) => {
+    const cellValue = ch[t];
+    return ch.splice(t, 0, cellValue);
+  });
+  return newHist;
+};
+
 const historyRemoveFrame = (hist, t) => {
   const newHist = historyClone(hist);
   newHist.map((ch) => {
     return ch.splice(t, 1);
   });
   return newHist;
-}
+};
 
 const predict = (model) => {
   let contextSize = 8;
@@ -170,10 +195,12 @@ const predict = (model) => {
     history: [
       [1,1,1,0,0,0,1,1,1,0,0,0,1,1,1,0,0,0,1,1,1,0,0,0], // sun up
       [0,1,1,1,0,0,0,0,1,1,0,0,0,0,1,1,1,0,0,1,1,1,0,0], // flower open
-      [0,1,1,1,0,0,0,0,1,1,0,0,0,0,1,1,1,0,0,1,1,1,0,0], // flower open
-      [0,1,1,1,0,0,0,0,1,1,0,0,0,0,1,1,1,0,0,1,1,1,0,0] // flower open
+      [0,1,1,1,0,0,0,0,1,1,0,0,0,1,1,1,1,0,0,0,1,1,0,0],
+      [0,1,1,1,0,1,0,0,1,1,0,0,0,0,0,1,1,0,0,1,1,1,0,0],
+      [0,0,0,1,0,0,0,0,1,1,1,0,0,0,0,1,1,0,1,0,0,1,0,0],
+      [0,1,0,1,0,1,1,0,0,0,1,1,0,0,0,1,1,0,1,0,0,1,0,0]
     ],
-    prediction: [[], [], [], []],
+    prediction: null,
     predictionDistance: 8,
   };
   initialModel.prediction = predict(initialModel)
@@ -184,6 +211,15 @@ const predict = (model) => {
 
       case 'SET_VALUE': {
         const newHist = historySetValue(model.history, ev);
+        const newPred = predict(model);
+        return Object.assign({}, model, {
+          history: newHist,
+          prediction: newPred
+        });
+      }
+
+      case 'DUPLICATE_FRAME': {
+        const newHist = historyDuplicateFrame(model.history, ev.time);
         const newPred = predict(model);
         return Object.assign({}, model, {
           history: newHist,
