@@ -1,6 +1,6 @@
 // Testing
 
-const mcbsp = require('./multi');
+const mcbsp = require('./index');
 
 const history = [
   [1,1,1,0,0,0,1,1,1,0,0,0,1,1,1,0,0,0,1,1,1,0,0,0], // sun up
