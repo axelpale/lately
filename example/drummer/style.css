@@ -10,8 +10,8 @@
 .cell {
   display: inline-block;
   vertical-align: middle;
-  width: 2em;
-  height: 2em;
+  width: 1em;
+  height: 1em;
   margin: 0.2em;
   background: white;
   border: 1px solid black;
