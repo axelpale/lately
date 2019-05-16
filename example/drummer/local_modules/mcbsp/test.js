@@ -39,5 +39,6 @@ console.log('moment', mcbsp.moment(history, 3, 2, 2));
     let w = JSON.stringify(mom.past) + JSON.stringify(mom.future);
     console.log('  t=' + mom.t + ':', w, 'simil=' + pred.weights[index]);
   });
+  console.log('  probabilities:', JSON.stringify(pred.probabilities));
   console.log('  prediction:', JSON.stringify(pred.prediction));
 }

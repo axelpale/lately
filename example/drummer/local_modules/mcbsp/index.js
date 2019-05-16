@@ -67,7 +67,7 @@ exports.predict = (hist, context, distance) => {
   return {
     moments,
     weights,
-    likelihoods: normalized,
+    probabilities: normalized,
     prediction: maxLikelihood
   };
 };
