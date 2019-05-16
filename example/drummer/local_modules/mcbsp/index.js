@@ -52,8 +52,8 @@ exports.predict = (hist, context, distance) => {
   const historySize = hist[0].length;
   const futureSize = distance;
 
-  // No reason to include moments where the future is about to be predicted
-  const times = lib.range(historySize - futureSize);
+  // No reason to include moments where the future is about to be predicted.
+  const times = lib.range(Math.max(0, historySize - futureSize + 1));
   var moments = times.map(t => {
     return exports.moment(hist, t, contextSize, futureSize);
   });
