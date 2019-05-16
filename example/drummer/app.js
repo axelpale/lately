@@ -131,17 +131,19 @@ const createTimelineElem = (model, dispatch) => {
 
 const createPredictedTimelineElem = (model, dispatch) => {
   const timeline = document.createElement('div');
-  const channels = model.prediction.length;
-  const duration = model.prediction[0].length;
+  const distance = model.predictionDistance;
+  const channels = model.history.length;
   const currentTime = model.history[0].length;
 
+  const prediction = predict(model);
+
   let t, ch, cel, val, fr;
-  for (t = 0; t < duration; t += 1) {
+  for (t = 0; t < distance; t += 1) {
     fr = createFrameElem(currentTime + t);
     fr.classList.add('prediction');
 
     for (ch = 0; ch < channels; ch += 1) {
-      val = model.prediction[ch][t];
+      val = prediction[ch][t];
       cel = createCellElem(t, ch, val, channels);
       fr.appendChild(cel);
     }
@@ -182,7 +184,7 @@ const historyRemoveFrame = (hist, t) => {
 };
 
 const predict = (model) => {
-  let contextSize = 8;
+  let contextSize = model.contextDistance;
   let distance = model.predictionDistance;
   let t = model.history[0].length;
   let context = mcbsp.past(model.history, t, contextSize);
@@ -200,39 +202,29 @@ const predict = (model) => {
       [0,0,0,1,0,0,0,0,1,1,1,0,0,0,0,1,1,0,1,0,0,1,0,0],
       [0,1,0,1,0,1,1,0,0,0,1,1,0,0,0,1,1,0,1,0,0,1,0,0]
     ],
-    prediction: null,
+    contextDistance: 8,
     predictionDistance: 8,
   };
-  initialModel.prediction = predict(initialModel)
   let currentModel = initialModel;
 
   const reducer = (model, ev) => {
     switch (ev.type) {
 
       case 'SET_VALUE': {
-        const newHist = historySetValue(model.history, ev);
-        const newPred = predict(model);
         return Object.assign({}, model, {
-          history: newHist,
-          prediction: newPred
+          history: historySetValue(model.history, ev)
         });
       }
 
       case 'DUPLICATE_FRAME': {
-        const newHist = historyDuplicateFrame(model.history, ev.time);
-        const newPred = predict(model);
         return Object.assign({}, model, {
-          history: newHist,
-          prediction: newPred
+          history: historyDuplicateFrame(model.history, ev.time)
         });
       }
 
       case 'REMOVE_FRAME': {
-        const newHist = historyRemoveFrame(model.history, ev.time);
-        const newPred = predict(model);
         return Object.assign({}, model, {
-          history: newHist,
-          prediction: newPred
+          history: historyRemoveFrame(model.history, ev.time)
         });
       }
 
