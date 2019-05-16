@@ -60,7 +60,7 @@ exports.predict = (hist, context, distance) => {
 
   var weights = moments.map(m => {
     var sim = exports.similarity(m.past, context);
-    return sim;
+    return sim * sim;
   });
 
   let weightSum = lib.arraySum(weights);
