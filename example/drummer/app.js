@@ -91,16 +91,16 @@ const bindCellElem = (cel, dispatch) => {
   });
 };
 
-const createTimelineElem = (hist, dispatch) => {
+const createTimelineElem = (model, dispatch) => {
   const timeline = document.createElement('div');
-  const channels = hist.length;
-  const duration = hist[0].length;
+  const channels = model.history.length;
+  const duration = model.history[0].length;
 
   let t, ch, cel, val, fr;
   for (t = 0; t < duration; t += 1) {
     fr = createFrameElem(t);
     for (ch = 0; ch < channels; ch += 1) {
-      val = hist[ch][t];
+      val = model.history[ch][t];
       cel = createCellElem(t, ch, val, channels);
       bindCellElem(cel, dispatch)
       fr.appendChild(cel);
@@ -212,7 +212,7 @@ const predict = (model) => {
     const channelControls = createChannelControlsElem(model, dispatch);
     timelineContainer.appendChild(channelControls);
 
-    const timeline = createTimelineElem(model.history, dispatch);
+    const timeline = createTimelineElem(model, dispatch);
     timelineContainer.appendChild(timeline);
 
     const predictedTimeline = createPredictedTimelineElem(model, dispatch);
