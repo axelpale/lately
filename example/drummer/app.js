@@ -5,11 +5,32 @@
 // - frame: a state of each channel at a given time
 // - cell: a state of a channel at a given time
 
+const clearElem = (el) => {
+  while(el.firstChild){
+    el.removeChild(el.firstChild);
+  }
+  return el;
+};
+
 const createFrameElem = (t) => {
   const f = document.createElement('div');
   f.dataset.time = t;
   f.classList.add('frame');
   return f;
+};
+
+const createDeleteFrameElem = (t, dispatch) => {
+  const b = document.createElement('button');
+  b.innerHTML = 'del';
+
+  b.addEventListener('click', () => {
+    dispatch({
+      type: 'REMOVE_FRAME',
+      time: t
+    });
+  });
+
+  return b;
 };
 
 const createCellElem = (t, ch, value, numChannels) => {
@@ -38,13 +59,6 @@ const bindCellElem = (cel, dispatch) => {
   });
 };
 
-const clearElem = (el) => {
-  while(el.firstChild){
-    el.removeChild(el.firstChild);
-  }
-  return el;
-};
-
 const createTimelineElem = (hist, dispatch) => {
   const timeline = document.createElement('div');
 
@@ -60,17 +74,31 @@ const createTimelineElem = (hist, dispatch) => {
       bindCellElem(cel, dispatch)
       fr.appendChild(cel);
     }
+
+    fr.appendChild(createDeleteFrameElem(t, dispatch));
     timeline.appendChild(fr);
   }
 
   return timeline;
 };
 
-const historySet = (hist, t, ch, value) => {
-  const newHist = hist.map((ch) => {
+const historyClone = (hist) => {
+  return hist.map((ch) => {
     return ch.slice()
   })
+}
+
+const historySet = (hist, t, ch, value) => {
+  const newHist = historyClone(hist);
   newHist[ch][t] = value;
+  return newHist;
+}
+
+const historyRemoveFrame = (hist, t) => {
+  const newHist = historyClone(hist);
+  newHist.map((ch) => {
+    return ch.splice(t, 1);
+  });
   return newHist;
 }
 
@@ -88,6 +116,10 @@ const historySet = (hist, t, ch, value) => {
       case 'SET_VALUE':
         return Object.assign({}, model, {
           history: historySet(model.history, ev.time, ev.channel, ev.value)
+        })
+      case 'REMOVE_FRAME':
+        return Object.assign({}, model, {
+          history: historyRemoveFrame(model.history, ev.time)
         })
       default:
         return model;

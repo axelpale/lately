@@ -9,6 +9,7 @@
 
 .cell {
   display: inline-block;
+  vertical-align: middle;
   width: 2em;
   height: 2em;
   margin: 0.2em;
