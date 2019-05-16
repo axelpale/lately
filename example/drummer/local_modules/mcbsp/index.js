@@ -49,14 +49,18 @@ exports.predict = (hist, context, distance) => {
 
   const channels = context.length;
   const contextSize = context[0].length;
+  const historySize = hist[0].length;
   const futureSize = distance;
 
-  var moments = hist[0].map((ev, t) => {
+  // No reason to include moments where the future is about to be predicted
+  const times = lib.range(historySize - futureSize);
+  var moments = times.map(t => {
     return exports.moment(hist, t, contextSize, futureSize);
   });
 
-  var weights = moments.map((m) => {
-    return exports.similarity(m.past, context);
+  var weights = moments.map(m => {
+    var sim = exports.similarity(m.past, context);
+    return sim;
   });
 
   let weightSum = lib.arraySum(weights);
