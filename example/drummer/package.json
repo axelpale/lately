@@ -14,5 +14,6 @@
     "webpack": "^4.31.0"
   },
   "dependencies": {
+    "mcbsp": "file:local_modules/mcbsp"
   }
 }

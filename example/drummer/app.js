@@ -4,6 +4,7 @@
 // - channel: a dimension of each time frame
 // - frame: a state of each channel at a given time
 // - cell: a state of a channel at a given time
+const mcbsp = require('mcbsp');
 
 const clearElem = (el) => {
   while(el.firstChild){
@@ -37,11 +38,12 @@ const createCellElem = (t, ch, value, numChannels) => {
   const cel = document.createElement('div');
   cel.dataset.time = t;
   cel.dataset.channel = ch;
+  cel.dataset.value = value;
   cel.classList.add('cell');
 
-  if (value === 1) {
-    cel.classList.add('cell-on');
-  }
+  const valStr = ((1 - value) * 100).toFixed(0) + '%';
+  cel.style.backgroundColor = 'hsl(0,0%,' + valStr + ')';
+  cel.title = value;
 
   cel.classList.add('cell-ch' + numChannels);
 
@@ -54,14 +56,13 @@ const bindCellElem = (cel, dispatch) => {
       type: 'SET_VALUE',
       time: cel.dataset.time,
       channel: cel.dataset.channel,
-      value: cel.classList.contains('cell-on') ? 0 : 1
+      value: parseFloat(cel.dataset.value) > 0.5 ? 0 : 1 // invert
     });
   });
 };
 
 const createTimelineElem = (hist, dispatch) => {
   const timeline = document.createElement('div');
-
   const channels = hist.length;
   const duration = hist[0].length;
 
@@ -82,15 +83,37 @@ const createTimelineElem = (hist, dispatch) => {
   return timeline;
 };
 
+const createPredictedTimelineElem = (prediction) => {
+  const timeline = document.createElement('div');
+  const channels = prediction.length;
+  const duration = prediction[0].length;
+
+  let t, ch, cel, val, fr;
+  for (t = 0; t < duration; t += 1) {
+    fr = createFrameElem(t);
+    fr.classList.add('prediction');
+
+    for (ch = 0; ch < channels; ch += 1) {
+      val = prediction[ch][t];
+      cel = createCellElem(t, ch, val, channels);
+      fr.appendChild(cel);
+    }
+
+    timeline.appendChild(fr);
+  }
+
+  return timeline;
+};
+
 const historyClone = (hist) => {
   return hist.map((ch) => {
     return ch.slice()
   })
 }
 
-const historySet = (hist, t, ch, value) => {
+const historySetValue = (hist, ev) => {
   const newHist = historyClone(hist);
-  newHist[ch][t] = value;
+  newHist[ev.channel][ev.time] = ev.value;
   return newHist;
 }
 
@@ -102,35 +125,61 @@ const historyRemoveFrame = (hist, t) => {
   return newHist;
 }
 
+const predict = (history) => {
+  let contextSize = 8;
+  let predictionSize = 4;
+  let t = history[0].length;
+  let context = mcbsp.past(history, t, contextSize);
+  let pred = mcbsp.predict(history, context, predictionSize);
+  return pred.probabilities;
+};
+
 {
   const initialModel = {
     history: [
       [1,1,1,0,0,0,1,1,1,0,0,0,1,1,1,0,0,0,1,1,1,0,0,0], // sun up
       [0,1,1,1,0,0,0,0,1,1,0,0,0,0,1,1,1,0,0,1,1,1,0,0] // flower open
-    ]
+    ],
+    prediction: [[], []]
   };
+  initialModel.prediction = predict(initialModel.history, 3)
   let currentModel = initialModel;
 
   const reducer = (model, ev) => {
     switch (ev.type) {
-      case 'SET_VALUE':
+
+      case 'SET_VALUE': {
+        const newHist = historySetValue(model.history, ev);
+        const newPred = predict(newHist, 3);
         return Object.assign({}, model, {
-          history: historySet(model.history, ev.time, ev.channel, ev.value)
-        })
-      case 'REMOVE_FRAME':
+          history: newHist,
+          prediction: newPred
+        });
+      }
+
+      case 'REMOVE_FRAME': {
+        const newHist = historyRemoveFrame(model.history, ev.time);
+        const newPred = predict(newHist, 3);
         return Object.assign({}, model, {
-          history: historyRemoveFrame(model.history, ev.time)
-        })
+          history: newHist,
+          prediction: newPred
+        });
+      }
+
       default:
         return model;
     }
   };
 
   const render = (model) => {
-    const timeline = createTimelineElem(model.history, dispatch);
     const timelineContainer = document.getElementById('timeline');
     clearElem(timelineContainer);
+
+    const timeline = createTimelineElem(model.history, dispatch);
+    const predictedTimeline = createPredictedTimelineElem(model.prediction);
+
     timelineContainer.appendChild(timeline);
+    timelineContainer.appendChild(predictedTimeline);
   };
 
   const dispatch = (ev) => {
