@@ -1,4 +1,6 @@
 // Single-channel binary predictor.
+// Was used to develop multi-channel version. Here for reference.
+
 var lib = require('./lib')
 
 var seq = [1,0,1,0,1,1,0,1,0,1]
