@@ -126,12 +126,12 @@ const historyRemoveFrame = (hist, t) => {
   return newHist;
 }
 
-const predict = (history) => {
+const predict = (model) => {
   let contextSize = 8;
-  let predictionSize = 4;
-  let t = history[0].length;
-  let context = mcbsp.past(history, t, contextSize);
-  let pred = mcbsp.predict(history, context, predictionSize);
+  let distance = model.predictionDistance;
+  let t = model.history[0].length;
+  let context = mcbsp.past(model.history, t, contextSize);
+  let pred = mcbsp.predict(model.history, context, distance);
   return pred.probabilities;
 };
 
@@ -142,8 +142,9 @@ const predict = (history) => {
       [0,1,1,1,0,0,0,0,1,1,0,0,0,0,1,1,1,0,0,1,1,1,0,0] // flower open
     ],
     prediction: [[], []]
+    predictionDistance: 8,
   };
-  initialModel.prediction = predict(initialModel.history, 3)
+  initialModel.prediction = predict(initialModel)
   let currentModel = initialModel;
 
   const reducer = (model, ev) => {
@@ -151,7 +152,7 @@ const predict = (history) => {
 
       case 'SET_VALUE': {
         const newHist = historySetValue(model.history, ev);
-        const newPred = predict(newHist, 3);
+        const newPred = predict(model);
         return Object.assign({}, model, {
           history: newHist,
           prediction: newPred
@@ -160,7 +161,7 @@ const predict = (history) => {
 
       case 'REMOVE_FRAME': {
         const newHist = historyRemoveFrame(model.history, ev.time);
-        const newPred = predict(newHist, 3);
+        const newPred = predict(model);
         return Object.assign({}, model, {
           history: newHist,
           prediction: newPred
