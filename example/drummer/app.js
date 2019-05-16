@@ -116,6 +116,7 @@ const createTimelineElem = (model, dispatch) => {
     for (ch = 0; ch < channels; ch += 1) {
       val = model.history[ch][t];
       cel = createCellElem(t, ch, val, channels);
+      cel.classList.add('cell-history');
       bindCellElem(cel, dispatch)
       fr.appendChild(cel);
     }
@@ -145,6 +146,7 @@ const createPredictedTimelineElem = (model, dispatch) => {
     for (ch = 0; ch < channels; ch += 1) {
       val = prediction[ch][t];
       cel = createCellElem(t, ch, val, channels);
+      cel.classList.add('cell-prediction');
       fr.appendChild(cel);
     }
 

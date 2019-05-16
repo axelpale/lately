@@ -17,9 +17,8 @@
   outline: 1px solid black;
 }
 
-.cell-on {
-  background: black;
-}
+.cell-history { outline: 1px solid black; }
+.cell-prediction { outline: 1px dashed gray; }
 
 .channel-control {
   display: inline-block;
