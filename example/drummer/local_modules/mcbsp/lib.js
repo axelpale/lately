@@ -4,7 +4,7 @@ exports.zeros = (n) => {
 
 exports.range = (n) => {
   // See https://stackoverflow.com/a/10050831/638546
-  return Array.apply(null, Array(5)).map(function (_, i) {return i;});
+  return Array.apply(null, Array(n)).map(function (_, i) {return i;});
 }
 
 exports.arrayScale = (arr, mult) => {
