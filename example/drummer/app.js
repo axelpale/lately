@@ -36,6 +36,16 @@ const createFrameElem = (t) => {
   const f = document.createElement('div');
   f.dataset.time = t;
   f.classList.add('frame');
+
+  const label = document.createElement('div');
+  label.classList.add('frame-label');
+  if (t % 4 === 0) {
+    label.innerHTML = t.toString(10);
+  } else {
+    label.innerHTML = '';
+  }
+  f.appendChild(label);
+
   return f;
 };
 
@@ -103,18 +113,19 @@ const createTimelineElem = (hist, dispatch) => {
   return timeline;
 };
 
-const createPredictedTimelineElem = (prediction) => {
+const createPredictedTimelineElem = (model, dispatch) => {
   const timeline = document.createElement('div');
-  const channels = prediction.length;
-  const duration = prediction[0].length;
+  const channels = model.prediction.length;
+  const duration = model.prediction[0].length;
+  const currentTime = model.history[0].length;
 
   let t, ch, cel, val, fr;
   for (t = 0; t < duration; t += 1) {
-    fr = createFrameElem(t);
+    fr = createFrameElem(currentTime + t);
     fr.classList.add('prediction');
 
     for (ch = 0; ch < channels; ch += 1) {
-      val = prediction[ch][t];
+      val = model.prediction[ch][t];
       cel = createCellElem(t, ch, val, channels);
       fr.appendChild(cel);
     }
@@ -204,7 +215,7 @@ const predict = (model) => {
     const timeline = createTimelineElem(model.history, dispatch);
     timelineContainer.appendChild(timeline);
 
-    const predictedTimeline = createPredictedTimelineElem(model.prediction);
+    const predictedTimeline = createPredictedTimelineElem(model, dispatch);
     timelineContainer.appendChild(predictedTimeline);
   };
 

@@ -30,3 +30,12 @@
 .channel-control img {
   margin: 0 auto 0 auto;
 }
+
+.frame-label {
+  display: inline-block;
+  width: 2em;
+  margin-left: -3em;
+  padding-right: 1em;
+  text-align: right;
+  color: darkgray;
+}
