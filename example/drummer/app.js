@@ -41,8 +41,9 @@ const createCellElem = (t, ch, value, numChannels) => {
   cel.dataset.value = value;
   cel.classList.add('cell');
 
-  const valStr = ((1 - value) * 100).toFixed(0) + '%';
-  cel.style.backgroundColor = 'hsl(0,0%,' + valStr + ')';
+  const probStr = ((1 - value) * 100).toFixed(0) + '%';
+  cel.style.backgroundColor = 'hsl(0,0%,' + probStr + ')';
+
   cel.title = value;
 
   cel.classList.add('cell-ch' + numChannels);
