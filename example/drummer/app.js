@@ -13,6 +13,34 @@ const clearElem = (el) => {
   return el;
 };
 
+const createPredictionDistanceControl = (model, dispatch) => {
+  const control = document.createElement('div');
+
+  const input = document.createElement('input');
+  input.type = 'range';
+  input.value = model.predictionDistance;
+  input.name = 'predictionDistance';
+  input.min = '1';
+  input.max = '16';
+  input.step = '1';
+
+  input.addEventListener('change', (ev) => {
+    dispatch({
+      type: 'SET_PREDICTION_DISTANCE',
+      value: parseInt(input.value)
+    });
+  });
+
+  const label = document.createElement('label');
+  label.for = 'predictionDistance';
+  label.innerHTML = model.predictionDistance + ' Prediction Distance';
+
+  control.appendChild(input);
+  control.appendChild(label);
+
+  return control;
+};
+
 const createContextDistanceControl = (model, dispatch) => {
   const control = document.createElement('div');
 
@@ -46,6 +74,9 @@ const createPredictionControlsElem = (model, dispatch) => {
 
   const contextDistanceElem = createContextDistanceControl(model, dispatch);
   controls.appendChild(contextDistanceElem);
+
+  const predDistanceElem = createPredictionDistanceControl(model, dispatch);
+  controls.appendChild(predDistanceElem);
 
   return controls;
 };
@@ -269,6 +300,12 @@ const predict = (model) => {
       case 'SET_CONTEXT_DISTANCE': {
         return Object.assign({}, model, {
           contextDistance: ev.value
+        });
+      }
+
+      case 'SET_PREDICTION_DISTANCE': {
+        return Object.assign({}, model, {
+          predictionDistance: ev.value
         });
       }
 
