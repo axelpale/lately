@@ -223,10 +223,10 @@ const historyRemoveFrame = (hist, t) => {
 };
 
 const predict = (model) => {
-  let contextSize = model.contextDistance;
+  let contextDistance = model.contextDistance;
   let distance = model.predictionDistance;
   let t = model.history[0].length;
-  let context = mcbsp.past(model.history, t, contextSize);
+  let context = mcbsp.past(model.history, t, contextDistance);
   let pred = mcbsp.predict(model.history, context, distance);
   return pred.probabilities;
 };
