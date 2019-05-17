@@ -20,6 +20,14 @@
 .cell-history { outline: 1px solid black; }
 .cell-prediction { outline: 1px dashed gray; }
 
+.cellrow {
+  display: inline-block;
+}
+
+.frame-context .cellrow {
+  background: #CCC;
+}
+
 .channel-control {
   display: inline-block;
   width: 1em;

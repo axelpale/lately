@@ -86,6 +86,13 @@ const createFrameElem = (t) => {
   return f;
 };
 
+const createCellRowElem = (t) => {
+  const r = document.createElement('div');
+  r.dataset.time = t;
+  r.classList.add('cellrow');
+  return r;
+};
+
 const createDeleteFrameElem = (t, dispatch) => {
   const b = document.createElement('button');
   b.innerHTML = 'del';
@@ -147,16 +154,23 @@ const createTimelineElem = (model, dispatch) => {
   const channels = model.history.length;
   const duration = model.history[0].length;
 
-  let t, ch, cel, val, fr;
+  let t, ch, cel, val, fr, cr;
   for (t = 0; t < duration; t += 1) {
     fr = createFrameElem(t);
+    cr = createCellRowElem(t);
+
+    if (t >= duration - model.contextDistance) {
+      fr.classList.add('frame-context');
+    }
+
     for (ch = 0; ch < channels; ch += 1) {
       val = model.history[ch][t];
       cel = createCellElem(t, ch, val, channels);
       cel.classList.add('cell-history');
       bindCellElem(cel, dispatch)
-      fr.appendChild(cel);
+      cr.appendChild(cel);
     }
+    fr.appendChild(cr);
 
     fr.appendChild(createDeleteFrameElem(t, dispatch));
     fr.appendChild(createDuplicateFrameElem(t, dispatch));
@@ -175,17 +189,20 @@ const createPredictedTimelineElem = (model, dispatch) => {
 
   const prediction = predict(model);
 
-  let t, ch, cel, val, fr;
+  let t, ch, cel, val, fr, cr;
   for (t = 0; t < distance; t += 1) {
     fr = createFrameElem(currentTime + t);
+    cr = createCellRowElem(currentTime + t);
+
     fr.classList.add('prediction');
 
     for (ch = 0; ch < channels; ch += 1) {
       val = prediction[ch][t];
       cel = createCellElem(t, ch, val, channels);
       cel.classList.add('cell-prediction');
-      fr.appendChild(cel);
+      cr.appendChild(cel);
     }
+    fr.appendChild(cr);
 
     timeline.appendChild(fr);
   }
