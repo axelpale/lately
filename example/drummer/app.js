@@ -13,6 +13,43 @@ const clearElem = (el) => {
   return el;
 };
 
+const createContextDistanceControl = (model, dispatch) => {
+  const control = document.createElement('div');
+
+  const input = document.createElement('input');
+  input.type = 'range';
+  input.value = model.contextDistance;
+  input.name = 'contextDistance';
+  input.min = '1';
+  input.max = '16';
+  input.step = '1';
+
+  input.addEventListener('change', (ev) => {
+    dispatch({
+      type: 'SET_CONTEXT_DISTANCE',
+      value: parseInt(input.value)
+    });
+  });
+
+  const label = document.createElement('label');
+  label.for = 'contextDistance';
+  label.innerHTML = model.contextDistance + ' Context Distance';
+
+  control.appendChild(input);
+  control.appendChild(label);
+
+  return control;
+};
+
+const createPredictionControlsElem = (model, dispatch) => {
+  const controls = document.createElement('div');
+
+  const contextDistanceElem = createContextDistanceControl(model, dispatch);
+  controls.appendChild(contextDistanceElem);
+
+  return controls;
+};
+
 const createChannelControlsElem = (model, dispatch) => {
   const controls = document.createElement('div');
   model.history.forEach((channel, i) => {
@@ -212,6 +249,12 @@ const predict = (model) => {
   const reducer = (model, ev) => {
     switch (ev.type) {
 
+      case 'SET_CONTEXT_DISTANCE': {
+        return Object.assign({}, model, {
+          contextDistance: ev.value
+        });
+      }
+
       case 'SET_VALUE': {
         return Object.assign({}, model, {
           history: historySetValue(model.history, ev)
@@ -236,17 +279,20 @@ const predict = (model) => {
   };
 
   const render = (model) => {
-    const timelineContainer = document.getElementById('timeline');
-    clearElem(timelineContainer);
+    const container = document.getElementById('timeline');
+    clearElem(container);
+
+    const predictionControls = createPredictionControlsElem(model, dispatch);
+    container.appendChild(predictionControls);
 
     const channelControls = createChannelControlsElem(model, dispatch);
-    timelineContainer.appendChild(channelControls);
+    container.appendChild(channelControls);
 
     const timeline = createTimelineElem(model, dispatch);
-    timelineContainer.appendChild(timeline);
+    container.appendChild(timeline);
 
     const predictedTimeline = createPredictedTimelineElem(model, dispatch);
-    timelineContainer.appendChild(predictedTimeline);
+    container.appendChild(predictedTimeline);
   };
 
   const dispatch = (ev) => {
