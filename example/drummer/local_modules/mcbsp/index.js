@@ -1,6 +1,7 @@
 // Multi-channel binary predictor
 //
 const lib = require('./lib');
+const binaryEntropy = require('./binaryEntropy');
 const way = require('senseway');
 
 exports.past = (hist, t, size) => {
@@ -22,15 +23,25 @@ exports.moment = (hist, t, pastSize, futureSize) => {
   }
 };
 
-exports.similarity = (a, b) => {
+exports.gain = binaryEntropy;
+
+exports.similarity = (a, b, apriori) => {
   // Similarity score between two multi-channel history slices.
   return way.reduce(a, (acc, aq, c, t) => {
     const bq = b[c][t];
-    const score = Math.min(aq, bq);
+
     // Alternatives for scoring:
-    //   1 - Math.abs(x - y);
-    //   Math.min(x, y);
-    return acc + score;
+    //   1 - Math.abs(aq - bq);
+    //   Math.min(aq, bq);
+    const score = 1 - Math.abs(aq - bq);
+
+    // Weight in the info gain.
+    // Otherwise full ones or zeros will get huge weight.
+    const p = apriori[c][0];
+    // Binary entropy function
+    const gain = binaryEntropy(p);
+
+    return acc + score * gain;
   }, 0);
 };
 
@@ -48,8 +59,10 @@ exports.predict = (hist, context, distance) => {
     return exports.moment(hist, t, contextSize, futureSize);
   });
 
+  const apriori = way.mean(hist);
+
   var weights = moments.map(m => {
-    var sim = exports.similarity(m.past, context);
+    var sim = exports.similarity(m.past, context, apriori);
     return sim * sim;
   });
 
