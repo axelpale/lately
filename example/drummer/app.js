@@ -334,13 +334,20 @@ const predict = (model) => {
 };
 
 {
-  const initialModel = {
+  const defaultModel = {
     historyKey: 'FLOWER',
     history: datasets.FLOWER,
     contextDistance: 8,
     predictionDistance: 8,
   };
-  let currentModel = initialModel;
+
+  let initialModel;
+  const storedModel = window.localStorage.getItem('model');
+  if (storedModel) {
+    initialModel = JSON.parse(storedModel);
+  } else {
+    initialModel = defaultModel;
+  }
 
   const reducer = (model, ev) => {
     switch (ev.type) {
@@ -387,9 +394,12 @@ const predict = (model) => {
     }
   };
 
+  let currentModel = initialModel;
+
   const dispatch = (ev) => {
     const newModel = reducer(currentModel, ev);
     render(newModel);
+    store(newModel);
     currentModel = newModel;
   };
 
@@ -409,6 +419,11 @@ const predict = (model) => {
     elems.forEach(elem => {
       container.appendChild(elem);
     });
+  };
+
+  const store = (model) => {
+    const modelJson = JSON.stringify(model);
+    window.localStorage.setItem('model', modelJson);
   };
 
   // Init
