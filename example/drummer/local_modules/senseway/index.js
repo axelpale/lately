@@ -5,6 +5,18 @@ exports.add = (wayA, wayB) => {
   return wayA.map((ch, c) => ch.map((q, t) => q + wayB[c][t]))
 }
 
+exports.after = (way, t, len) => {
+  if (typeof len === 'undefined') { len = way[0].length - t }
+  len = Math.min(len, way[0].length - t)
+  return way.map(ch => ch.slice(t, t + len))
+}
+
+exports.before = (way, t, len) => {
+  if (typeof len === 'undefined') { len = t }
+  len = Math.min(len, t)
+  return way.map(ch => ch.slice(t - len, t))
+}
+
 exports.channel = (way, c) => {
   // Pick one channel for a way.
   return [way[c]]

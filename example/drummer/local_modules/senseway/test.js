@@ -28,6 +28,22 @@ test('add', (t) => {
   t.end()
 })
 
+test('after', (t) => {
+  t.deepEqual(way.after(ONES, 2), [
+    [1],
+    [1]
+  ])
+  t.end()
+})
+
+test('before', (t) => {
+  t.deepEqual(way.before(W1, 2), [
+    [0, 0],
+    [1, 0]
+  ])
+  t.end()
+})
+
 test('channel', (t) => {
   t.deepEqual(way.channel(W0, 1), [
     [0, 1, 1]
