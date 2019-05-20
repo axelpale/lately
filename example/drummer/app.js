@@ -248,6 +248,33 @@ const createPredictedTimelineElem = (model, dispatch) => {
   return timeline;
 };
 
+const createAPriori = (model, dispatch) => {
+  const container = document.createElement('div');
+  const numChannels = model.history.length;
+  const channelMeans = way.mean(model.history);
+
+  const t = 0;
+  let fr = createFrameElem('a priori');
+  let cr = createCellRowElem(t);
+
+  fr.classList.add('apriori');
+
+  let c, cel, val;
+  for (c = 0; c < numChannels; c += 1) {
+    val = channelMeans[c][t];
+    cel = createCellElem(t, c, val, numChannels);
+    cel.classList.add('cell-apriori');
+    cr.appendChild(cel);
+  }
+
+  fr.appendChild(cr);
+  container.appendChild(fr);
+
+  return container;
+};
+
+// History manipulation
+
 const historySetValue = (hist, ev) => {
   const newHist = way.clone(hist);
   newHist[ev.channel][ev.time] = ev.value;
@@ -365,6 +392,12 @@ const predict = (model) => {
     }
   };
 
+  const dispatch = (ev) => {
+    const newModel = reducer(currentModel, ev);
+    render(newModel);
+    currentModel = newModel;
+  };
+
   const render = (model) => {
     const container = document.getElementById('timeline');
     clearElem(container);
@@ -380,12 +413,9 @@ const predict = (model) => {
 
     const predictedTimeline = createPredictedTimelineElem(model, dispatch);
     container.appendChild(predictedTimeline);
-  };
 
-  const dispatch = (ev) => {
-    const newModel = reducer(currentModel, ev);
-    render(newModel);
-    currentModel = newModel;
+    const aPriori = createAPriori(model, dispatch);
+    container.appendChild(aPriori);
   };
 
   // Init

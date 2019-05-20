@@ -40,9 +40,13 @@
 
 .frame-label {
   display: inline-block;
-  width: 2em;
-  margin-left: -3em;
+  width: 3em;
+  margin-left: -4em;
   padding-right: 1em;
   text-align: right;
   color: darkgray;
+}
+
+.apriori {
+  margin-top: 1em;
 }
