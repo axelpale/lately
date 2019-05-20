@@ -100,6 +100,14 @@ exports.multiply = (wayA, wayB) => {
   return wayA.map((ch, c) => ch.map((q, t) => q * wayB[c][t]))
 }
 
+exports.reduce = (way, iteratee, acc) => {
+  return way.reduce((ac, ch, c) => {
+    return ch.reduce((a, q, t) => {
+      return iteratee(a, q, c, t)
+    }, ac)
+  }, acc)
+}
+
 exports.scale = (way, multiplier) => {
   return way.map(ch => ch.map(quantum => quantum * multiplier))
 }

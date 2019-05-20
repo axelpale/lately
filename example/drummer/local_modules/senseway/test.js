@@ -142,6 +142,11 @@ test('multiply', (t) => {
   t.end()
 })
 
+test('reduce', (t) => {
+  t.equal(way.reduce(ONES, (acc, q) => acc + q, 0), 6)
+  t.end()
+})
+
 test('scale', (t) => {
   t.deepEqual(way.scale(ONES, 2), [
     [2, 2, 2],
