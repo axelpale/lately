@@ -34,7 +34,7 @@ const createPredictionDistanceControl = (model, dispatch) => {
 
   const label = document.createElement('label');
   label.for = 'predictionDistance';
-  label.innerHTML = model.predictionDistance + ' Prediction Distance';
+  label.innerHTML = ' ' + model.predictionDistance + ' Prediction Distance';
 
   control.appendChild(input);
   control.appendChild(label);
@@ -62,7 +62,7 @@ const createContextDistanceControl = (model, dispatch) => {
 
   const label = document.createElement('label');
   label.for = 'contextDistance';
-  label.innerHTML = model.contextDistance + ' Context Distance';
+  label.innerHTML = ' ' + model.contextDistance + ' Context Distance';
 
   control.appendChild(input);
   control.appendChild(label);
