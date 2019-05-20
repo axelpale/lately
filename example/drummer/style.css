@@ -44,8 +44,8 @@
 
 .frame-label {
   display: inline-block;
-  width: 3em;
-  margin-left: -4em;
+  width: 4em;
+  margin-left: -5em;
   padding-right: 1em;
   text-align: right;
   color: darkgray;
