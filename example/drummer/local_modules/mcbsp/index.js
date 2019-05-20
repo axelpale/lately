@@ -61,9 +61,16 @@ exports.predict = (hist, context, distance) => {
 
   const apriori = way.mean(hist);
 
-  var weights = moments.map(m => {
+  let weights = moments.map(m => {
     var sim = exports.similarity(m.past, context, apriori);
-    return sim * sim;
+    return sim;
+  });
+
+  const weightMean = lib.arrayMean(weights);
+
+  // Pick weights above mean weight.
+  weights = weights.map(w => {
+    return Math.max(0, w - weightMean);
   });
 
   let weightSum = lib.arraySum(weights);
