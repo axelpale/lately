@@ -61,7 +61,7 @@ exports.predict = (hist, context, distance) => {
     return lib.multiAdd(pred, lib.multiScale(m.future, weights[t] / weightSum))
   }, accum);
 
-  let maxLikelihood = lib.multiRound(normalized);
+  let maxLikelihood = way.map(normalized, q => Math.round(q));
 
   return {
     moments,
