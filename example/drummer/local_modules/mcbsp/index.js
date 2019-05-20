@@ -71,7 +71,7 @@ exports.predict = (hist, context, distance) => {
   const accum = context.map(() => lib.zeros(futureSize));
 
   let normalized = moments.reduce((pred, m, t) => {
-    return lib.multiAdd(pred, lib.multiScale(m.future, weights[t] / weightSum))
+    return way.add(pred, way.scale(m.future, weights[t] / weightSum));
   }, accum);
 
   let maxLikelihood = way.map(normalized, q => Math.round(q));
