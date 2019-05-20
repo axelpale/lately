@@ -16,6 +16,7 @@
     "nodemon": "^1.19.0"
   },
   "dependencies": {
-    "mcbsp": "file:local_modules/mcbsp"
+    "mcbsp": "file:local_modules/mcbsp",
+    "senseway": "file:local_modules/senseway"
   }
 }

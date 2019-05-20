@@ -5,6 +5,7 @@
 // - frame: a state of each channel at a given time
 // - cell: a state of a channel at a given time
 const mcbsp = require('mcbsp');
+const way = require('senseway');
 
 const clearElem = (el) => {
   while(el.firstChild){
@@ -241,20 +242,14 @@ const createPredictedTimelineElem = (model, dispatch) => {
   return timeline;
 };
 
-const historyClone = (hist) => {
-  return hist.map((ch) => {
-    return ch.slice()
-  })
-}
-
 const historySetValue = (hist, ev) => {
-  const newHist = historyClone(hist);
+  const newHist = way.clone(hist);
   newHist[ev.channel][ev.time] = ev.value;
   return newHist;
 }
 
 const historyDuplicateFrame = (hist, t) => {
-  const newHist = historyClone(hist);
+  const newHist = way.clone(hist);
   newHist.map((ch, i) => {
     const cellValue = ch[t];
     return ch.splice(t, 0, cellValue);
@@ -263,7 +258,7 @@ const historyDuplicateFrame = (hist, t) => {
 };
 
 const historyRemoveFrame = (hist, t) => {
-  const newHist = historyClone(hist);
+  const newHist = way.clone(hist);
   newHist.map((ch) => {
     return ch.splice(t, 1);
   });
@@ -274,7 +269,7 @@ const predict = (model) => {
   let contextDistance = model.contextDistance;
   let distance = model.predictionDistance;
   let t = model.history[0].length;
-  let context = mcbsp.past(model.history, t, contextDistance);
+  let context = way.before(model.history, t, contextDistance);
   let pred = mcbsp.predict(model.history, context, distance);
   return pred.probabilities;
 };
