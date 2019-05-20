@@ -86,7 +86,7 @@ exports.len = (way) => {
 }
 
 exports.map = (way, fn) => {
-  return way.map(ch => ch.map(quantum => fn(quantum)))
+  return way.map((ch, c) => ch.map((q, t) => fn(q, c, t)))
 }
 
 exports.mix = (wayA, wayB) => {
