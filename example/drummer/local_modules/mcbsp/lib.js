@@ -19,6 +19,10 @@ exports.arrayAdd = (a, b) => {
   return a.map((x, i) => x + b[i]);
 }
 
+exports.arrayMean = (arr) => {
+  return arr.reduce((acc, q) => acc + q, 0) / arr.length;
+}
+
 exports.arrayNor = (a, b) => {
   return a.map((x, i) => x === b[i] ? 1 : 0)
 }
