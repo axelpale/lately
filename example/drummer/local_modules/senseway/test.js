@@ -76,6 +76,14 @@ test('equal', (t) => {
   t.end()
 })
 
+test('fill', (t) => {
+  t.deepEqual(way.fill(ONES, 0), [
+    [0, 0, 0],
+    [0, 0, 0]
+  ])
+  t.end()
+})
+
 test('first', (t) => {
   t.deepEqual(way.first(W0, 2), [
     [1, 0],

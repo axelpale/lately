@@ -62,6 +62,11 @@ exports.equal = (wayA, wayB) => {
   return true
 }
 
+exports.fill = (way, filler) => {
+  // Same size, quanta replaced with filler.
+  return way.map(ch => ch.map(q => filler))
+}
+
 exports.first = (way, n) => {
   // First n frames; the oldest
   return way.map(ch => ch.slice(0, n))
