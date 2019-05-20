@@ -95,6 +95,13 @@ exports.map = (way, fn) => {
   return way.map((ch, c) => ch.map((q, t) => fn(q, c, t)))
 }
 
+exports.mean = (way) => {
+  // Returns a frame.
+  return way.map((ch) => {
+    return [ch.reduce((acc, q) => acc + q, 0) / ch.length]
+  })
+}
+
 exports.mix = (wayA, wayB) => {
   if (wayA[0].length !== wayB[0].length) {
     throw new Error('Length of channels must match.')

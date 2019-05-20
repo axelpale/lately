@@ -133,6 +133,18 @@ test('map', (t) => {
   t.end()
 })
 
+test('mean', (t) => {
+  t.deepEqual(way.mean(ONES), [
+    [1],
+    [1]
+  ])
+  t.deepEqual(way.mean(ZEROS), [
+    [0],
+    [0]
+  ])
+  t.end()
+})
+
 test('mix', (t) => {
   t.deepEqual(way.mix(ZEROS, ONES), [
     [0, 0, 0],
