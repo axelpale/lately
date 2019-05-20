@@ -24,6 +24,10 @@
   display: inline-block;
 }
 
+.dataset select {
+  width: 12em;
+}
+
 .frame-context .cellrow {
   background: #CCC;
 }

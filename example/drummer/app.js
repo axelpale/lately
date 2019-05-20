@@ -6,12 +6,38 @@
 // - cell: a state of a channel at a given time
 const mcbsp = require('mcbsp');
 const way = require('senseway');
+const datasets = require('./datasets')
 
 const clearElem = (el) => {
   while(el.firstChild){
     el.removeChild(el.firstChild);
   }
   return el;
+};
+
+const createDatasetControl = (model, dispatch) => {
+  const control = document.createElement('div');
+  control.classList.add('dataset');
+  const input = document.createElement('select');
+
+  Object.keys(datasets).forEach(key => {
+    const opt = document.createElement('option');
+    opt.value = key;
+    if (model.historyKey === key) { opt.selected = 'selected'; }
+    opt.innerHTML = key;
+    input.appendChild(opt);
+  });
+
+  control.appendChild(input);
+
+  input.addEventListener('change', (ev) => {
+    dispatch({
+      type: 'SELECT_DATASET',
+      key: ev.target.value
+    });
+  });
+
+  return control;
 };
 
 const createPredictionDistanceControl = (model, dispatch) => {
@@ -308,47 +334,9 @@ const predict = (model) => {
 };
 
 {
-
-  const FLOWER = [
-    [1,1,1,0,0,0,1,1,1,0,0,0,1,1,1,0,0,0,1,1,1,0,0,0], // sun up
-    [0,1,1,1,0,0,0,0,1,1,0,0,0,0,1,1,1,0,0,1,1,1,0,0], // flower open
-    [0,1,1,1,0,0,0,0,1,1,0,0,0,1,1,1,1,0,0,0,1,1,0,0],
-    [0,1,1,1,0,1,0,0,1,1,0,0,0,0,0,1,1,0,0,1,1,1,0,0],
-    [0,0,0,1,0,0,0,0,1,1,1,0,0,0,0,1,1,0,1,0,0,1,0,0],
-    [0,1,0,1,0,1,1,0,0,0,1,1,0,0,0,1,1,0,1,0,0,1,0,0]
-  ];
-
-  const SHEAR16 = [
-    [1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0], // sun up
-    [0,1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0], // flower open
-    [0,0,1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0],
-    [0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,1,0,0],
-    [0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,1,0],
-    [0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,1]
-  ];
-
-  const SHEAR36 = [
-    [1,1,1,0,0,0,1,1,1,0,0,0,1,1,1,0,0,0,1,1,1,0,0,0], // sun up
-    [0,1,1,1,0,0,0,1,1,1,0,0,0,1,1,1,0,0,0,1,1,1,0,0], // flower open
-    [0,0,1,1,1,0,0,0,1,1,1,0,0,0,1,1,1,0,0,0,1,1,1,0],
-    [0,0,0,1,1,1,0,0,0,1,1,1,0,0,0,1,1,1,0,0,0,1,1,1],
-    [1,0,0,0,1,1,1,0,0,0,1,1,1,0,0,0,1,1,1,0,0,0,1,1],
-    [1,1,0,0,0,1,1,1,0,0,0,1,1,1,0,0,0,1,1,1,0,0,0,1]
-  ];
-
-  const SHEAR56 = [
-    [1,1,1,1,1,0,1,1,1,1,1,0,1,1,1,1,1,0,1,1,1,1,1,0], // sun up
-    [0,1,1,1,1,1,0,1,1,1,1,1,0,1,1,1,1,1,0,1,1,1,1,1], // flower open
-    [1,0,1,1,1,1,1,0,1,1,1,1,1,0,1,1,1,1,1,0,1,1,1,1],
-    [1,1,0,1,1,1,1,1,0,1,1,1,1,1,0,1,1,1,1,1,0,1,1,1],
-    [1,1,1,0,1,1,1,1,1,0,1,1,1,1,1,0,1,1,1,1,1,0,1,1],
-    [1,1,1,1,0,1,1,1,1,1,0,1,1,1,1,1,0,1,1,1,1,1,0,1]
-  ];
-
-  const NOISE = way.map(way.create(6, 24, 0), q => Math.random());
-
   const initialModel = {
-    history: FLOWER,
+    historyKey: 'FLOWER',
+    history: datasets.FLOWER,
     contextDistance: 8,
     predictionDistance: 8,
   };
@@ -387,6 +375,13 @@ const predict = (model) => {
         });
       }
 
+      case 'SELECT_DATASET': {
+        return Object.assign({}, model, {
+          historyKey: ev.key,
+          history: datasets[ev.key]
+        });
+      }
+
       default:
         return model;
     }
@@ -402,20 +397,18 @@ const predict = (model) => {
     const container = document.getElementById('timeline');
     clearElem(container);
 
-    const predictionControls = createPredictionControlsElem(model, dispatch);
-    container.appendChild(predictionControls);
+    const elems = [
+      createDatasetControl(model, dispatch),
+      createPredictionControlsElem(model, dispatch),
+      createChannelControlsElem(model, dispatch),
+      createTimelineElem(model, dispatch),
+      createPredictedTimelineElem(model, dispatch),
+      createAPriori(model, dispatch)
+    ];
 
-    const channelControls = createChannelControlsElem(model, dispatch);
-    container.appendChild(channelControls);
-
-    const timeline = createTimelineElem(model, dispatch);
-    container.appendChild(timeline);
-
-    const predictedTimeline = createPredictedTimelineElem(model, dispatch);
-    container.appendChild(predictedTimeline);
-
-    const aPriori = createAPriori(model, dispatch);
-    container.appendChild(aPriori);
+    elems.forEach(elem => {
+      container.appendChild(elem);
+    });
   };
 
   // Init
