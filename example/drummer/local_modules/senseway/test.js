@@ -59,6 +59,12 @@ test('channels', (t) => {
   t.end()
 })
 
+test('clone', (t) => {
+  t.deepEqual(way.clone(W0), W0)
+  t.notEqual(way.clone(W0), W0)
+  t.end()
+})
+
 test('create', (t) => {
   t.deepEqual(way.create(2, 3, 1), ONES)
   t.end()

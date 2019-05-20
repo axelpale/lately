@@ -27,6 +27,12 @@ exports.channels = (way, cs) => {
   return cs.map(c => way[c])
 }
 
+exports.clone = (way) => {
+  return way.map((ch) => {
+    return ch.slice()
+  })
+}
+
 exports.create = (width, len, fill) => {
   if (typeof fill !== 'number') {
     throw new Error('Fill must be number');
