@@ -103,16 +103,22 @@ const createChannelControlsElem = (model, dispatch) => {
 
 const createFrameElem = (t) => {
   const f = document.createElement('div');
-  f.dataset.time = t;
   f.classList.add('frame');
 
   const label = document.createElement('div');
   label.classList.add('frame-label');
-  if (t % 4 === 0) {
-    label.innerHTML = t.toString(10);
+
+  if (typeof t === 'number') {
+    f.dataset.time = t;
+    if (t % 4 === 0) {
+      label.innerHTML = t.toString(10);
+    } else {
+      label.innerHTML = '';
+    }
   } else {
-    label.innerHTML = '';
+    label.innerHTML = '' + t;
   }
+
   f.appendChild(label);
 
   return f;
