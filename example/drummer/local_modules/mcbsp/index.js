@@ -1,47 +1,37 @@
 // Multi-channel binary predictor
 //
 const lib = require('./lib');
+const way = require('senseway');
 
 exports.past = (hist, t, size) => {
   // Multi-channel past
-  return hist.map(channel => lib.pastSingle(channel, t, size))
+  return way.before(hist, t, size)
 };
 
 exports.future = (hist, t, size) => {
   // Multi-channel future
-  return hist.map(channel => lib.futureSingle(channel, t, size))
+  return way.after(hist, t, size)
 };
 
 exports.moment = (hist, t, pastSize, futureSize) => {
   // Multi-channel moment
   return {
     t: t,
-    past: exports.past(hist, t, pastSize),
-    future: exports.future(hist, t, futureSize)
+    past: way.before(hist, t, pastSize),
+    future: way.after(hist, t, futureSize)
   }
-};
-
-exports.similaritySingle = (a, b) => {
-  // Single channel slice similarity.
-  //
-  // Alternatives for scoring:
-  //   1 - Math.abs(x - y);
-  //   Math.min(x, y);
-  //
-  const scores = a.map((x, i) => {
-    const y = b[i];
-    return Math.min(x, y);
-  });
-  return lib.arraySum(scores);
 };
 
 exports.similarity = (a, b) => {
   // Similarity score between two multi-channel history slices.
-  const chanScores = a.map((chanx, i) => {
-    const chany = b[i];
-    return exports.similaritySingle(chanx, chany);
-  });
-  return lib.arraySum(chanScores);
+  return way.reduce(a, (acc, aq, c, t) => {
+    const bq = b[c][t];
+    const score = Math.min(aq, bq);
+    // Alternatives for scoring:
+    //   1 - Math.abs(x - y);
+    //   Math.min(x, y);
+    return acc + score;
+  }, 0);
 };
 
 exports.predict = (hist, context, distance) => {
