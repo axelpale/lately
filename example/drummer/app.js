@@ -159,7 +159,7 @@ const createCellRowElem = (t) => {
 
 const createDeleteFrameElem = (t, dispatch) => {
   const b = document.createElement('button');
-  b.innerHTML = 'del';
+  b.innerHTML = '&ndash;';
 
   b.addEventListener('click', () => {
     dispatch({
@@ -173,7 +173,7 @@ const createDeleteFrameElem = (t, dispatch) => {
 
 const createDuplicateFrameElem = (t, dispatch) => {
   const b = document.createElement('button');
-  b.innerHTML = 'duplicate';
+  b.innerHTML = '+';
 
   b.addEventListener('click', () => {
     dispatch({
