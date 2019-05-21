@@ -108,12 +108,68 @@ const createPredictionControlsElem = (model, dispatch) => {
   return controls;
 };
 
-const createChannelControlsElem = (model, dispatch) => {
+const createDeleteChannelButton = (c, dispatch) => {
+  const cont = document.createElement('div');
+  cont.classList.add('channel-control');
+
+  const b = document.createElement('button');
+  b.innerHTML = '&ndash;';
+  b.title = 'Delete channel';
+
+  b.addEventListener('click', () => {
+    dispatch({
+      type: 'REMOVE_CHANNEL',
+      channel: c
+    });
+  });
+
+  cont.appendChild(b);
+  return cont;
+};
+
+const createDuplicateChannelButton = (c, dispatch) => {
+  const cont = document.createElement('div');
+  cont.classList.add('channel-control');
+
+  const b = document.createElement('button');
+  b.innerHTML = '+';
+  b.title = 'Duplicate channel';
+
+  b.addEventListener('click', () => {
+    dispatch({
+      type: 'DUPLICATE_CHANNEL',
+      channel: c
+    });
+  });
+
+  cont.appendChild(b);
+  return cont;
+};
+
+const createDuplicateChannelControls = (model, dispatch) => {
+  const container = document.createElement('div');
+  model.history.forEach((channel, c) => {
+    container.appendChild(createDuplicateChannelButton(c, dispatch));
+  });
+  return container;
+};
+
+const createDeleteChannelControls = (model, dispatch) => {
+  const container = document.createElement('div');
+  model.history.forEach((channel, c) => {
+    container.appendChild(createDeleteChannelButton(c, dispatch));
+  });
+  return container;
+};
+
+
+const createAudioControls = (model, dispatch) => {
   const controls = document.createElement('div');
-  model.history.forEach((channel, i) => {
+
+  model.history.forEach((channel, c) => {
     const audio = document.createElement('div');
     audio.classList.add('channel-control');
-    audio.dataset.channel = i;
+    audio.dataset.channel = c;
 
     const img = document.createElement('img');
     img.width = 16;
@@ -125,6 +181,16 @@ const createChannelControlsElem = (model, dispatch) => {
   });
 
   return controls;
+};
+
+const createChannelControlsElem = (model, dispatch) => {
+  const container = document.createElement('div');
+
+  container.appendChild(createAudioControls(model, dispatch));
+  container.appendChild(createDuplicateChannelControls(model, dispatch));
+  container.appendChild(createDeleteChannelControls(model, dispatch));
+
+  return container;
 };
 
 const createFrameElem = (t) => {
@@ -394,9 +460,25 @@ const predict = (model) => {
         });
       }
 
+      case 'DUPLICATE_CHANNEL': {
+        const c = ev.channel;
+        const ch = [model.history[c]];
+        const pre = model.history.slice(0, c);
+        const post = model.history.slice(c);
+        return Object.assign({}, model, {
+          history: [].concat(pre, ch, post)
+        });
+      }
+
       case 'REMOVE_FRAME': {
         return Object.assign({}, model, {
           history: historyRemoveFrame(model.history, ev.time)
+        });
+      }
+
+      case 'REMOVE_CHANNEL': {
+        return Object.assign({}, model, {
+          history: model.history.filter((ch, c) => c !== ev.channel)
         });
       }
 

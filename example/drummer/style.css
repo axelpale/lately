@@ -39,7 +39,13 @@
   margin: 0.2em;
 }
 .channel-control img {
+  width: 1em;
+  height: 1em;
   margin: 0 auto 0 auto;
+}
+.channel-control button {
+  margin-left: -0.2em;
+  margin-right: 0.2em;
 }
 
 .frame-label {
