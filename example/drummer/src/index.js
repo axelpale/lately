@@ -6,24 +6,28 @@
 // - cell: a state of a channel at a given time
 const datasets = require('./datasets');
 const clearElem = require('./clearElem');
-const createDatasetControl = require('./createDatasetControl');
-const createPredictionControls = require('./createPredictionControls');
-const createChannelControls = require('./createChannelControls');
-
-const createHistoryElem = require('./createHistoryElem');
-const createPredictedFutureElem = require('./createPredictedFutureElem');
-const createAPrioriElem = require('./createAPrioriElem');
 const predict = require('./predict');
 
-const reduceSetValue = require('./reduceSetValue');
-const reduceSetContextDistance = require('./reduceSetContextDistance');
-const reduceDuplicateFrame = require('./reduceDuplicateFrame');
-const reduceRemoveFrame = require('./reduceRemoveFrame');
-const reduceDuplicateChannel = require('./reduceDuplicateChannel');
-const reduceSetPredictionDistance = require('./reduceSetPredictionDistance');
+const elements = [
+  require('./createDatasetControl'),
+  require('./createPredictionControls'),
+  require('./createChannelControls'),
+  require('./createHistoryElem'),
+  require('./createPredictedFutureElem'),
+  require('./createAPrioriElem')
+];
 
-const reduceRemoveChannel = require('./reduceRemoveChannel');
-const reduceSelectDataset = require('./reduceSelectDataset');
+const reducers = [
+  require('./reduceSetValue'),
+  require('./reduceSetContextDistance'),
+  require('./reduceDuplicateFrame'),
+  require('./reduceRemoveFrame'),
+  require('./reduceDuplicateChannel'),
+  require('./reduceRemoveFrame'),
+  require('./reduceSetPredictionDistance'),
+  require('./reduceRemoveChannel'),
+  require('./reduceSelectDataset')
+];
 
 {
   const defaultModel = {
@@ -42,17 +46,7 @@ const reduceSelectDataset = require('./reduceSelectDataset');
   }
 
   const reducer = (model, ev) => {
-    model = reduceSetValue(model, ev);
-    model = reduceSetContextDistance(model, ev);
-    model = reduceDuplicateFrame(model, ev);
-    model = reduceRemoveFrame(model, ev);
-    model = reduceDuplicateChannel(model, ev);
-    model = reduceRemoveFrame(model, ev);
-    model = reduceSetPredictionDistance(model, ev);
-    model = reduceRemoveChannel(model, ev);
-    model = reduceSelectDataset(model, ev);
-
-    return model;
+    return reducers.reduce((acc, re) => re(acc, ev), model);
   };
 
   let currentModel = initialModel;
@@ -68,17 +62,8 @@ const reduceSelectDataset = require('./reduceSelectDataset');
     const container = document.getElementById('timeline');
     clearElem(container);
 
-    const elems = [
-      createDatasetControl(model, dispatch),
-      createPredictionControls(model, dispatch),
-      createChannelControls(model, dispatch),
-      createHistoryElem(model, dispatch),
-      createPredictedFutureElem(model, dispatch),
-      createAPrioriElem(model, dispatch)
-    ];
-
-    elems.forEach(elem => {
-      container.appendChild(elem);
+    elements.forEach(createElemFn => {
+      container.appendChild(createElemFn(model, dispatch));
     });
   };
 
