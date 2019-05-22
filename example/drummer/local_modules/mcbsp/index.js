@@ -90,3 +90,5 @@ exports.predict = (hist, context, distance) => {
     prediction: maxLikelihood
   };
 };
+
+exports.pattern = require('./pattern');
