@@ -7,6 +7,10 @@
   width: 100;
 }
 
+.way {
+  margin-bottom: 0.62em;
+}
+
 .cell {
   display: inline-block;
   vertical-align: middle;
