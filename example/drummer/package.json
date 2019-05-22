@@ -4,7 +4,7 @@
   "description": "Example app",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon --watch src/**/*.js --exec 'npm run build'",
+    "start": "nodemon --watch src --watch local_modules --exec 'npm run build'",
     "build": "webpack",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
