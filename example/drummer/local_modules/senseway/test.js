@@ -180,6 +180,18 @@ test('multiply', (t) => {
   t.end()
 })
 
+test('pad', (t) => {
+  t.deepEqual(way.pad(ONES, 5, 2), [
+    [1, 1, 1, 2, 2],
+    [1, 1, 1, 2, 2]
+  ])
+  t.deepEqual(way.pad(ONES, 3, 2), [
+    [1, 1, 1],
+    [1, 1, 1]
+  ])
+  t.end()
+})
+
 test('reduce', (t) => {
   t.equal(way.reduce(ONES, (acc, q) => acc + q, 0), 6)
   t.end()

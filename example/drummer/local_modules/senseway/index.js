@@ -122,6 +122,14 @@ exports.multiply = (wayA, wayB) => {
   return wayA.map((ch, c) => ch.map((q, t) => q * wayB[c][t]))
 }
 
+exports.pad = (way, len, filler) => {
+  if (way[0].length >= len) {
+    return way
+  }
+  const tail = exports.create(way.length, len - way[0].length, filler)
+  return exports.join(way, tail)
+}
+
 exports.reduce = (way, iteratee, acc) => {
   return way.reduce((ac, ch, c) => {
     return ch.reduce((a, q, t) => {
