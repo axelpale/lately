@@ -14,7 +14,8 @@ const elements = [
   require('./createChannelControls'),
   require('./createHistoryElem'),
   require('./createPredictedFutureElem'),
-  require('./createAPrioriElem')
+  require('./createAPrioriElem'),
+  require('./createPatternElem')
 ];
 
 const reducers = [
