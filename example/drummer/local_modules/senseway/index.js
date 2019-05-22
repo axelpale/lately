@@ -122,7 +122,15 @@ exports.multiply = (wayA, wayB) => {
   return wayA.map((ch, c) => ch.map((q, t) => q * wayB[c][t]))
 }
 
-exports.pad = (way, len, filler) => {
+exports.padLeft = (way, len, filler) => {
+  if (way[0].length >= len) {
+    return way
+  }
+  const head = exports.create(way.length, len - way[0].length, filler)
+  return exports.join(head, way)
+}
+
+exports.padRight = (way, len, filler) => {
   if (way[0].length >= len) {
     return way
   }

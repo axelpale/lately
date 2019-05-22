@@ -180,12 +180,24 @@ test('multiply', (t) => {
   t.end()
 })
 
-test('pad', (t) => {
-  t.deepEqual(way.pad(ONES, 5, 2), [
+test('padLeft', (t) => {
+  t.deepEqual(way.padLeft(ONES, 5, 2), [
+    [2, 2, 1, 1, 1],
+    [2, 2, 1, 1, 1]
+  ])
+  t.deepEqual(way.padLeft(ONES, 2, 2), [
+    [1, 1, 1],
+    [1, 1, 1]
+  ])
+  t.end()
+})
+
+test('padRight', (t) => {
+  t.deepEqual(way.padRight(ONES, 5, 2), [
     [1, 1, 1, 2, 2],
     [1, 1, 1, 2, 2]
   ])
-  t.deepEqual(way.pad(ONES, 3, 2), [
+  t.deepEqual(way.padRight(ONES, 2, 2), [
     [1, 1, 1],
     [1, 1, 1]
   ])
@@ -213,6 +225,10 @@ test('slice', (t) => {
   t.deepEqual(way.slice(W0, 1, 50), [
     [0, 1],
     [1, 1]
+  ])
+  t.deepEqual(way.slice(W0, 0, 0), [
+    [],
+    []
   ])
   t.end()
 })
