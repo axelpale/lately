@@ -74,7 +74,15 @@ exports.averageContext = (history, values, mask) => {
   }
 
   // Normalise to get the weighted average.
-  const sliceAverage = way.scale(sliceSum, supportSum > 0 ? 1 / supportSum : 0)
+  let sliceAverage = way.scale(sliceSum, supportSum > 0 ? 1 / supportSum : 0)
+
+  // If sum of support is 0, there is absolutely no matching pattern.
+  // Then we just need to use our best knowledge, a priori.
+  if (supportSum === 0) {
+    const prior = way.mean(history)
+    sliceAverage = way.map(sliceAverage, (zero, c) => prior[c][0])
+    // TODO way.repeat(way.mean(history), way.len(sliceAverage))
+  }
 
   return sliceAverage
 }
