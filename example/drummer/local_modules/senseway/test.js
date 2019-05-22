@@ -11,13 +11,17 @@ const W1 = [
   [0, 0, 1],
   [1, 0, 0]
 ]
+const ZEROS = [
+  [0, 0, 0],
+  [0, 0, 0]
+]
 const ONES = [
   [1, 1, 1],
   [1, 1, 1]
 ]
-const ZEROS = [
-  [0, 0, 0],
-  [0, 0, 0]
+const TWOS = [
+  [2, 2, 2],
+  [2, 2, 2]
 ]
 
 test('add', (t) => {
@@ -137,6 +141,14 @@ test('map', (t) => {
   t.deepEqual(way.map(ONES, (q, c, t) => t * (c + 1)), [
     [0, 1, 2],
     [0, 2, 4]
+  ])
+  t.end()
+})
+
+test('map2', (t) => {
+  t.deepEqual(way.map2(ONES, TWOS, (qa, qb) => qa + qb), [
+    [3, 3, 3],
+    [3, 3, 3]
   ])
   t.end()
 })

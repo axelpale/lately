@@ -100,6 +100,10 @@ exports.map = (way, fn) => {
   return way.map((ch, c) => ch.map((q, t) => fn(q, c, t)))
 }
 
+exports.map2 = (wayA, wayB, fn) => {
+  return wayA.map((ch, c) => ch.map((q, t) => fn(q, wayB[c][t], c, t)))
+}
+
 exports.mean = (way) => {
   // Returns a frame.
   return way.map((ch) => {
