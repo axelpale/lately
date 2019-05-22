@@ -198,5 +198,9 @@ test('slice', (t) => {
     [0, 1],
     [1, 1]
   ])
+  t.deepEqual(way.slice(W0, 1, 50), [
+    [0, 1],
+    [1, 1]
+  ])
   t.end()
 })
