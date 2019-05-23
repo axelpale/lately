@@ -30,8 +30,8 @@ const reducers = [
   const defaultModel = {
     historyKey: 'FLOWER',
     history: datasets.FLOWER,
-    contextDistance: 8,
-    predictionDistance: 8,
+    contextDistance: datasets.FLOWER.length,
+    predictionDistance: datasets.FLOWER.length
   };
 
   let initialModel;
