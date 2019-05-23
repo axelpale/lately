@@ -1,6 +1,11 @@
 .container {
   width: 20em;
   margin: 2em auto 2em auto;
+  font-family: Palatino, serif;
+}
+
+h1 {
+  font-size: 2.4rem;
 }
 
 .timeline {
@@ -33,7 +38,7 @@
 }
 
 .dataset select {
-  width: 12em;
+  width: 9.72rem;
 }
 
 .frame {
@@ -66,8 +71,8 @@
 
 .frame-label {
   display: inline-block;
-  width: 7em;
-  margin-left: -8em;
+  width: 8em;
+  margin-left: -9em;
   padding-right: 1em;
   text-align: right;
   color: darkgray;
@@ -79,7 +84,7 @@
 }
 
 .way {
-  margin-bottom: 0.62em;
+  margin-bottom: 1em;
 }
 .way.history {
   margin-bottom: 0;
