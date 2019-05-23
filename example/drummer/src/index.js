@@ -11,20 +11,16 @@ const predict = require('./predict');
 const elements = [
   require('./createDatasetControl'),
   require('./createPredictionControls'),
-  require('./createChannelControls'),
-  require('./createHistoryElem'),
+  require('./createAudioControls'),
+  require('./historyComponent/render'),
   require('./createPredictedFutureElem'),
   require('./createAPrioriElem'),
   require('./createPatternElem')
 ];
 
 const reducers = [
-  require('./reduceSetValue'),
+  require('./historyComponent/reduce'),
   require('./reduceSetContextDistance'),
-  require('./reduceDeleteFrame'),
-  require('./reduceDuplicateFrame'),
-  require('./reduceDeleteChannel'),
-  require('./reduceDuplicateChannel'),
   require('./reduceSetPredictionDistance'),
   require('./reduceSelectDataset')
 ];

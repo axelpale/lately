@@ -1,6 +1,10 @@
-const createFrameElem = require('./createFrameElem');
-const createCellRowElem = require('./createCellRowElem');
-const createCellElem = require('./createCellElem');
+const renderFrameElem = require('./renderFrameElem');
+const renderCellRowElem = require('./renderCellRowElem');
+const renderCellElem = require('./renderCellElem');
+
+const renderDuplicateChannelControls = require('./renderDuplicateChannelControls');
+const renderDeleteChannelControls = require('./renderDeleteChannelControls');
+
 
 module.exports = (way, opts) => {
   // Params:
@@ -8,7 +12,9 @@ module.exports = (way, opts) => {
   //   opts
   //     class: string
   //     click: fn(channel, time)
+  //     deleteChannel: fn(channel)
   //     deleteFrame: fn(time)
+  //     duplicateChannel: fn(channel)
   //     duplicateFrame: fn(time)
   //     label: string
   //     numbers: bool
@@ -35,6 +41,18 @@ module.exports = (way, opts) => {
     container.classList.add(opts.class);
   }
 
+  // Channel controls
+
+  if (typeof opts.duplicateChannel === 'function') {
+    container.appendChild(renderDuplicateChannelControls(way, opts.duplicateChannel));
+  }
+
+  if (typeof opts.deleteChannel === 'function') {
+    container.appendChild(renderDeleteChannelControls(way, opts.deleteChannel));
+  }
+
+  // Frames
+
   for (let t = 0; t < way[0].length; t += 1) {
 
     // Label for the frame row
@@ -48,12 +66,12 @@ module.exports = (way, opts) => {
       }
     }
 
-    const fr = createFrameElem(lab);
-    const cr = createCellRowElem(t);
+    const fr = renderFrameElem(lab);
+    const cr = renderCellRowElem(t);
 
     for (let c = 0; c < way.length; c += 1) {
       const val = way[c][t];
-      const cel = createCellElem(t, c, val, way.length);
+      const cel = renderCellElem(t, c, val, way.length);
 
       if (typeof opts.click === 'function') {
         cel.addEventListener('click', () => {
