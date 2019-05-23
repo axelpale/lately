@@ -11,7 +11,6 @@ module.exports = (way, opts) => {
   //   way
   //   opts
   //     class: string
-  //     click: fn(channel, time)
   //     deleteChannel: fn(channel)
   //     deleteFrame: fn(time)
   //     duplicateChannel: fn(channel)
@@ -19,6 +18,7 @@ module.exports = (way, opts) => {
   //     label: string
   //     numbers: bool
   //     numbersBegin: int
+  //     setCell: fn(channel, time, value)
   //
   const container = document.createElement('div');
   container.classList.add('way');
@@ -73,13 +73,14 @@ module.exports = (way, opts) => {
       const val = way[c][t];
       const cel = renderCellElem(t, c, val, way.length);
 
-      if (typeof opts.click === 'function') {
+      if (typeof opts.setCell === 'function') {
         cel.addEventListener('click', () => {
-          opts.click(c, t, val);
+          opts.setCell(c, t, val ? 0 : 1);
         });
       }
       cr.appendChild(cel);
     }
+
     fr.appendChild(cr);
 
     if (typeof opts.deleteFrame === 'function') {

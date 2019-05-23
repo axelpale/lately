@@ -54,7 +54,7 @@ module.exports = (model, ev) => {
       });
     }
 
-    case 'SET_VALUE': {
+    case 'SET_HISTORY_VALUE': {
       return Object.assign({}, model, {
         history: historySetValue(model.history, ev)
       });

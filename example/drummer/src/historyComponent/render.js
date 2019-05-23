@@ -5,12 +5,12 @@ module.exports = (model, dispatch) => {
     label: 'history',
     class: 'history',
     numbers: true,
-    click: (channel, time, value) => {
+    setCell: (channel, time, value) => {
       dispatch({
-        type: 'SET_VALUE',
+        type: 'SET_HISTORY_VALUE',
         channel: channel,
         time: time,
-        value: parseFloat(value) > 0.5 ? 0 : 1 // invert
+        value: value
       });
     },
     deleteChannel: (channel) => {
