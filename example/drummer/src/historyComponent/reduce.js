@@ -1,62 +1,35 @@
 const way = require('senseway');
 
-const historyDeleteFrame = (hist, t) => {
-  const newHist = way.clone(hist);
-  newHist.map((ch) => {
-    return ch.splice(t, 1);
-  });
-  return newHist;
-};
-
-const historyDuplicateFrame = (hist, t) => {
-  const newHist = way.clone(hist);
-  newHist.map((ch, i) => {
-    const cellValue = ch[t];
-    return ch.splice(t, 0, cellValue);
-  });
-  return newHist;
-};
-
-const historySetValue = (hist, ev) => {
-  const newHist = way.clone(hist);
-  newHist[ev.channel][ev.time] = ev.value;
-  return newHist;
-};
-
 module.exports = (model, ev) => {
   switch (ev.type) {
 
     case 'DELETE_HISTORY_CHANNEL': {
       return Object.assign({}, model, {
-        history: model.history.filter((ch, c) => c !== ev.channel)
+        history: way.dropChannel(model.history, ev.channel),
       });
     }
 
     case 'DELETE_HISTORY_FRAME': {
       return Object.assign({}, model, {
-        history: historyDeleteFrame(model.history, ev.time)
+        history: way.dropAt(model.history, ev.time)
       });
     }
 
     case 'DUPLICATE_HISTORY_CHANNEL': {
-      const c = ev.channel;
-      const ch = [model.history[c]];
-      const pre = model.history.slice(0, c);
-      const post = model.history.slice(c);
       return Object.assign({}, model, {
-        history: [].concat(pre, ch, post)
+        history: way.repeatChannel(model.history, ev.channel),
       });
     }
 
     case 'DUPLICATE_HISTORY_FRAME': {
       return Object.assign({}, model, {
-        history: historyDuplicateFrame(model.history, ev.time)
+        history: way.repeatAt(model.history, ev.time)
       });
     }
 
     case 'SET_HISTORY_VALUE': {
       return Object.assign({}, model, {
-        history: historySetValue(model.history, ev)
+        history: way.set(model.history, ev.channel, ev.time, ev.value)
       });
     }
 
