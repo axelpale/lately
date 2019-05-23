@@ -69,6 +69,9 @@ const reducers = [
     window.localStorage.setItem('model', modelJson);
   };
 
-  // Init
-  render(initialModel);
+  // This allows reducers to fill in missing properties.
+  // Also triggers the first render.
+  dispatch({
+    type: '__INIT__'
+  });
 };
