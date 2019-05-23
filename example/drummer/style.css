@@ -7,16 +7,12 @@
   width: 100;
 }
 
-.way {
-  margin-bottom: 0.62em;
-}
-
 .cell {
   display: inline-block;
   vertical-align: middle;
-  width: 1em;
-  height: 1em;
-  margin: 0.2em;
+  width: 1.62em;
+  height: 1.62em;
+  margin: 0em;
   background: white;
   outline: 1px solid black;
 }
@@ -26,10 +22,15 @@
 
 .cellrow {
   display: inline-block;
+  vertical-align: top;
 }
 
 .dataset select {
   width: 12em;
+}
+
+.frame {
+  height: 1.62em;
 }
 
 .frame-context .cellrow {
@@ -38,29 +39,41 @@
 
 .channel-control {
   display: inline-block;
-  width: 1em;
-  height: 1em;
-  margin: 0.2em;
+  text-align: center;
+  width: 1.62em;
+  height: 1.62em;
+  margin: 0em;
 }
 .channel-control img {
   width: 1em;
   height: 1em;
   margin: 0 auto 0 auto;
 }
-.channel-control button {
-  margin-left: -0.2em;
-  margin-right: 0.2em;
+.channel-control button, .frame-button {
+  font-size: 1em;
+  width: 1.62em;
+  height: 1.62em;
+  margin-left: 0em;
+  margin-right: 0em;
 }
 
 .frame-label {
   display: inline-block;
-  width: 5em;
-  margin-left: -6em;
+  width: 7em;
+  margin-left: -8em;
   padding-right: 1em;
   text-align: right;
   color: darkgray;
+  font-size: 1.27em;
 }
 
 .apriori {
   margin-top: 1em;
+}
+
+.way {
+  margin-bottom: 0.62em;
+}
+.way.history {
+  margin-bottom: 0;
 }
