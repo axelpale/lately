@@ -12,6 +12,7 @@ module.exports = (model, dispatch) => {
   const dependent = mcbsp.pattern.dependent(hist, vals, mask);
 
   const container = document.createElement('div');
+
   container.appendChild(renderWay(vals, {
     label: 'pattern',
     numbers: false,
@@ -20,6 +21,14 @@ module.exports = (model, dispatch) => {
       channel: c,
       time: t,
       value: value
+    }),
+    deleteFrame: (t) => dispatch({
+      type: 'DELETE_PATTERN_FRAME',
+      time: t
+    }),
+    duplicateFrame: (t) => dispatch({
+      type: 'DUPLICATE_PATTERN_FRAME',
+      time: t
     })
   }));
 
@@ -31,8 +40,17 @@ module.exports = (model, dispatch) => {
       channel: c,
       time: t,
       value: value
+    }),
+    deleteFrame: (t) => dispatch({
+      type: 'DELETE_PATTERN_FRAME',
+      time: t
+    }),
+    duplicateFrame: (t) => dispatch({
+      type: 'DUPLICATE_PATTERN_FRAME',
+      time: t
     })
   }));
+
   container.appendChild(renderWay(avgContext, { label: 'avg context' }));
   container.appendChild(renderWay(dependent, 'dependent'));
   return container;
