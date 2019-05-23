@@ -11,7 +11,7 @@ const predict = require('./predict');
 const elements = [
   require('./createDatasetControl'),
   require('./createPredictionControls'),
-  require('./createAudioControls'),
+  // require('./createAudioControls'),
   require('./historyComponent/render'),
   require('./createPredictedFutureElem'),
   require('./createAPrioriElem'),
