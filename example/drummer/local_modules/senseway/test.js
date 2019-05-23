@@ -86,6 +86,13 @@ test('dropAt', (t) => {
   t.end()
 })
 
+test('dropChannel', (t) => {
+  t.deepEqual(way.dropChannel(V, 1), [
+    [1, 0, 1]
+  ])
+  t.end()
+})
+
 test('equal', (t) => {
   t.true(way.equal(W0, W0))
   t.false(way.equal(W0, W1))
@@ -225,6 +232,15 @@ test('repeatAt', (t) => {
   t.deepEqual(way.repeatAt(V, 1), [
     [1, 0, 0, 1],
     [0, 1, 1, 0]
+  ])
+  t.end()
+})
+
+test('repeatChannel', t => {
+  t.deepEqual(way.repeatChannel(V, 0), [
+    [1, 0, 1],
+    [1, 0, 1],
+    [0, 1, 0]
   ])
   t.end()
 })

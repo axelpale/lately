@@ -59,6 +59,10 @@ exports.dropAt = (way, t) => {
   return w
 }
 
+exports.dropChannel = (way, channel) => {
+  return way.filter((ch, c) => c !== channel)
+}
+
 exports.equal = (wayA, wayB) => {
   let i, j, ch
   for (i = 0; i < wayA.length; i += 1) {
@@ -162,6 +166,12 @@ exports.repeatAt = (way, t) => {
     const val = ch[t]
     return ch.splice(t, 0, val)
   })
+  return w
+}
+
+exports.repeatChannel = (way, c) => {
+  const w = way.slice()
+  w.splice(c, 0, way[c])
   return w
 }
 
