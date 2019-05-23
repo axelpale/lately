@@ -1,6 +1,7 @@
 const renderFrameElem = require('./renderFrameElem');
 const renderCellRowElem = require('./renderCellRowElem');
 const renderCellElem = require('./renderCellElem');
+const renderFrameButton = require('./renderFrameButton');
 
 const renderDuplicateChannelControls = require('./renderDuplicateChannelControls');
 const renderDeleteChannelControls = require('./renderDeleteChannelControls');
@@ -84,21 +85,15 @@ module.exports = (way, opts) => {
     fr.appendChild(cr);
 
     if (typeof opts.deleteFrame === 'function') {
-      const btn = document.createElement('button');
-      btn.innerHTML = '&ndash;';
-      btn.addEventListener('click', () => {
+      fr.appendChild(renderFrameButton('&ndash;', () => {
         opts.deleteFrame(t);
-      });
-      fr.appendChild(btn);
+      }));
     }
 
     if (typeof opts.duplicateFrame === 'function') {
-      const btn = document.createElement('button');
-      btn.innerHTML = '+';
-      btn.addEventListener('click', () => {
+      fr.appendChild(renderFrameButton('+', () => {
         opts.duplicateFrame(t);
-      });
-      fr.appendChild(btn);
+      }));
     }
 
     container.appendChild(fr);
