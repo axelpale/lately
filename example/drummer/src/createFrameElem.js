@@ -1,22 +1,12 @@
-module.exports = (t) => {
+module.exports = (label) => {
   const f = document.createElement('div');
   f.classList.add('frame');
 
-  const label = document.createElement('div');
-  label.classList.add('frame-label');
-
-  if (typeof t === 'number') {
-    f.dataset.time = t;
-    if (t % 4 === 0) {
-      label.innerHTML = t.toString(10);
-    } else {
-      label.innerHTML = '';
-    }
-  } else {
-    label.innerHTML = '' + t;
-  }
-
-  f.appendChild(label);
+  const l = document.createElement('div');
+  l.classList.add('frame-label');
+  l.innerHTML = '' + label;
+  f.appendChild(l);
+  f.dataset.label = label;
 
   return f;
 };

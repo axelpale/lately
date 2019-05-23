@@ -8,7 +8,7 @@ module.exports = (c, dispatch) => {
 
   b.addEventListener('click', () => {
     dispatch({
-      type: 'DUPLICATE_CHANNEL',
+      type: 'DUPLICATE_HISTORY_CHANNEL',
       channel: c
     });
   });

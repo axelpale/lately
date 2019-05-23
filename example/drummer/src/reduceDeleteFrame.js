@@ -1,6 +1,6 @@
 const way = require('senseway');
 
-const historyRemoveFrame = (hist, t) => {
+const historyDeleteFrame = (hist, t) => {
   const newHist = way.clone(hist);
   newHist.map((ch) => {
     return ch.splice(t, 1);
@@ -11,9 +11,9 @@ const historyRemoveFrame = (hist, t) => {
 module.exports = (model, ev) => {
   switch (ev.type) {
 
-    case 'REMOVE_FRAME': {
+    case 'DELETE_HISTORY_FRAME': {
       return Object.assign({}, model, {
-        history: historyRemoveFrame(model.history, ev.time)
+        history: historyDeleteFrame(model.history, ev.time)
       });
     }
 

@@ -6,5 +6,9 @@ const predict = require('./predict');
 
 module.exports = (model, dispatch) => {
   const prediction = predict(model);
-  return renderWay(prediction, 'prediction');
+  return renderWay(prediction, {
+    label: 'prediction',
+    numbers: true,
+    numbersBegin: model.history[0].length
+  });
 };

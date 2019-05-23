@@ -8,7 +8,7 @@ module.exports = (c, dispatch) => {
 
   b.addEventListener('click', () => {
     dispatch({
-      type: 'REMOVE_CHANNEL',
+      type: 'DELETE_HISTORY_CHANNEL',
       channel: c
     });
   });

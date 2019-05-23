@@ -12,7 +12,7 @@ const historyDuplicateFrame = (hist, t) => {
 module.exports = (model, ev) => {
   switch (ev.type) {
 
-    case 'DUPLICATE_FRAME': {
+    case 'DUPLICATE_HISTORY_FRAME': {
       return Object.assign({}, model, {
         history: historyDuplicateFrame(model.history, ev.time)
       });

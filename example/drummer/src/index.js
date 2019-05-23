@@ -21,12 +21,11 @@ const elements = [
 const reducers = [
   require('./reduceSetValue'),
   require('./reduceSetContextDistance'),
+  require('./reduceDeleteFrame'),
   require('./reduceDuplicateFrame'),
-  require('./reduceRemoveFrame'),
+  require('./reduceDeleteChannel'),
   require('./reduceDuplicateChannel'),
-  require('./reduceRemoveFrame'),
   require('./reduceSetPredictionDistance'),
-  require('./reduceRemoveChannel'),
   require('./reduceSelectDataset')
 ];
 

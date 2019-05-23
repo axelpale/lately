@@ -15,9 +15,17 @@ module.exports = (model, dispatch) => {
   const dependent = mcbsp.pattern.dependent(model.history, values, mask);
 
   const container = document.createElement('div');
-  container.appendChild(renderWay(values, 'pattern'));
-  container.appendChild(renderWay(mask, 'mask'));
-  container.appendChild(renderWay(avgContext, 'avg context'));
+  container.appendChild(renderWay(values, {
+    label: 'pattern',
+    numbers: false,
+    click: (c, t) => dispatch({
+      type: 'SET_PATTERN_VALUE',
+      channel: c,
+      time: t
+    })
+  }));
+  container.appendChild(renderWay(mask, { label: 'mask' }));
+  container.appendChild(renderWay(avgContext, { label: 'avg context' }));
   container.appendChild(renderWay(dependent, 'dependent'));
   return container;
 };

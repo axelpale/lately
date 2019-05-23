@@ -2,7 +2,7 @@
 module.exports = (model, ev) => {
   switch (ev.type) {
 
-    case 'DUPLICATE_CHANNEL': {
+    case 'DUPLICATE_HISTORY_CHANNEL': {
       const c = ev.channel;
       const ch = [model.history[c]];
       const pre = model.history.slice(0, c);
