@@ -61,31 +61,44 @@ exports.predict = (hist, context, distance) => {
 
   const apriori = way.mean(hist);
 
-  let weights = moments.map(m => {
-    var sim = exports.similarity(m.past, context, apriori);
-    return sim;
+  // Compute weights for each moment based on how well they matched the context
+  moments = moments.map(m => {
+    return Object.assign({
+      weight: exports.similarity(m.past, context, apriori)
+    }, m)
   });
 
-  const weightMean = lib.arrayMean(weights);
+  // Sort to pick the best. Best first.
+  const sorted = moments.slice().sort((m0, m1) => {
+    return m1.weight - m0.weight;
+  });
+  const middleAt = Math.floor(sorted.length / 2);
+  const median = sorted[middleAt];
 
-  // Pick weights above mean weight.
-  weights = weights.map(w => {
-    return Math.max(0, w - weightMean);
+  const weightMedian = (sorted.length % 2 === 0) ?
+    (sorted[middleAt - 1].weight + sorted[middleAt].weight) / 2 :
+    median.weight;
+
+  // Pick weights above median weight. NOTE modifies moments.
+  moments.forEach(m => {
+    m.weight = Math.max(0, m.weight - weightMedian);
   });
 
-  let weightSum = lib.arraySum(weights);
+  // Keep only up to n best
+  const best = sorted.slice(0, 3);
+
+  const weightSum = lib.arraySum(best.map(m => m.weight));
 
   const accum = context.map(() => lib.zeros(futureSize));
-
-  let normalized = moments.reduce((pred, m, t) => {
-    return way.add(pred, way.scale(m.future, weights[t] / weightSum));
+  const normalized = best.reduce((pred, m, t) => {
+    return way.add(pred, way.scale(m.future, m.weight / weightSum));
   }, accum);
 
   let maxLikelihood = way.map(normalized, q => Math.round(q));
 
   return {
-    moments,
-    weights,
+    moments: best,
+    weights: best.map(m => m.weight),
     probabilities: normalized,
     prediction: maxLikelihood
   };
