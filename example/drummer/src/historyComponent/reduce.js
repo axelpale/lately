@@ -6,6 +6,8 @@ module.exports = (model, ev) => {
     case 'DELETE_HISTORY_CHANNEL': {
       return Object.assign({}, model, {
         history: way.dropChannel(model.history, ev.channel),
+        patternValues: way.dropChannel(model.patternValues, ev.channel),
+        patternMask: way.dropChannel(model.patternValues, ev.channel)
       });
     }
 
@@ -18,6 +20,8 @@ module.exports = (model, ev) => {
     case 'DUPLICATE_HISTORY_CHANNEL': {
       return Object.assign({}, model, {
         history: way.repeatChannel(model.history, ev.channel),
+        patternValues: way.repeatChannel(model.patternValues, ev.channel),
+        patternMask: way.repeatChannel(model.patternMask, ev.channel)
       });
     }
 

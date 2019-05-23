@@ -15,14 +15,15 @@ const elements = [
   require('./historyComponent/render'),
   require('./createPredictedFutureElem'),
   require('./createAPrioriElem'),
-  require('./createPatternElem')
+  require('./patternComponent/render')
 ];
 
 const reducers = [
-  require('./historyComponent/reduce'),
+  require('./reduceSelectDataset'),
   require('./reduceSetContextDistance'),
   require('./reduceSetPredictionDistance'),
-  require('./reduceSelectDataset')
+  require('./historyComponent/reduce'),
+  require('./patternComponent/reduce')
 ];
 
 {
