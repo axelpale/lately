@@ -3,6 +3,10 @@
 const way = require('./index')
 const test = require('tape')
 
+const V = [
+  [1, 0, 1],
+  [0, 1, 0]
+]
 const W0 = [
   [1, 0, 1],
   [0, 1, 1]
@@ -71,6 +75,14 @@ test('clone', (t) => {
 
 test('create', (t) => {
   t.deepEqual(way.create(2, 3, 1), ONES)
+  t.end()
+})
+
+test('dropAt', (t) => {
+  t.deepEqual(way.dropAt(V, 1), [
+    [1, 1],
+    [0, 0]
+  ])
   t.end()
 })
 
@@ -209,10 +221,26 @@ test('reduce', (t) => {
   t.end()
 })
 
+test('repeatAt', (t) => {
+  t.deepEqual(way.repeatAt(V, 1), [
+    [1, 0, 0, 1],
+    [0, 1, 1, 0]
+  ])
+  t.end()
+})
+
 test('scale', (t) => {
   t.deepEqual(way.scale(ONES, 2), [
     [2, 2, 2],
     [2, 2, 2]
+  ])
+  t.end()
+})
+
+test('set', (t) => {
+  t.deepEqual(way.set(ONES, 0, 2, 0), [
+    [1, 1, 0],
+    [1, 1, 1]
   ])
   t.end()
 })

@@ -35,7 +35,7 @@ exports.clone = (way) => {
 
 exports.create = (width, len, fill) => {
   if (typeof fill !== 'number') {
-    throw new Error('Fill must be number');
+    throw new Error('Fill must be number')
   }
 
   const channels = [];
@@ -43,15 +43,24 @@ exports.create = (width, len, fill) => {
   for (i = 0; i < width; i += 1) {
     ch = [];
     for (j = 0; j < len; j += 1) {
-      ch.push(fill);
+      ch.push(fill)
     }
-    channels.push(ch);
+    channels.push(ch)
   }
-  return channels;
+  return channels
 };
 
+exports.dropAt = (way, t) => {
+  // Remove frame at t
+  const w = exports.clone(way)
+  w.map((ch) => {
+    return ch.splice(t, 1)
+  })
+  return w
+}
+
 exports.equal = (wayA, wayB) => {
-  let i, j, ch;
+  let i, j, ch
   for (i = 0; i < wayA.length; i += 1) {
     for (j = 0; j < wayA[0].length; j += 1) {
       if (wayA[i][j] !== wayB[i][j]) {
@@ -146,8 +155,25 @@ exports.reduce = (way, iteratee, acc) => {
   }, acc)
 }
 
+exports.repeatAt = (way, t) => {
+  // Repeat frame at
+  const w = exports.clone(way)
+  w.map(ch => {
+    const val = ch[t]
+    return ch.splice(t, 0, val)
+  })
+  return w
+}
+
 exports.scale = (way, multiplier) => {
   return way.map(ch => ch.map(quantum => quantum * multiplier))
+}
+
+exports.set = (way, c, t, value) => {
+  // Set value of a cell
+  const w = exports.clone(way)
+  w[c][t] = value
+  return w
 }
 
 exports.slice = (way, begin, end) => {
