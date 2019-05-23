@@ -8,7 +8,7 @@ module.exports = (model, dispatch) => {
   const channelGain = way.map(channelMeans, mcbsp.gain);
 
   container.appendChild(renderWay(channelMeans, 'a priori'));
-  container.appendChild(renderWay(channelGain, 'infogain'));
+  container.appendChild(renderWay(channelGain, 'entropy'));
 
   return container;
 };
