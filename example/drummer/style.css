@@ -25,6 +25,13 @@
   vertical-align: top;
 }
 
+.context-distance input {
+  width: 9.72rem;
+}
+.prediction-distance input {
+  width: 9.72rem;
+}
+
 .dataset select {
   width: 12em;
 }
