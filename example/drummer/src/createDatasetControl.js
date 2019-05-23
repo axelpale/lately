@@ -3,7 +3,15 @@ const datasets = require('./datasets');
 module.exports = (model, dispatch) => {
   const control = document.createElement('div');
   control.classList.add('dataset');
+
+  const label = document.createElement('label');
+  label.classList.add('frame-label');
+  label.for = 'dataset';
+  label.innerHTML = 'dataset';
+  control.appendChild(label);
+
   const input = document.createElement('select');
+  input.name = 'dataset';
 
   Object.keys(datasets).forEach(key => {
     const opt = document.createElement('option');
