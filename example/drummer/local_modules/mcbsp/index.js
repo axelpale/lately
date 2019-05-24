@@ -91,10 +91,11 @@ exports.predict = (hist, context, distance) => {
 
   const accum = context.map(() => lib.zeros(futureSize));
   const normalized = best.reduce((pred, m, t) => {
-    return way.add(pred, way.scale(m.future, m.weight / weightSum));
+    const scale = weightSum > 0 ? m.weight / weightSum : 0;
+    return way.add(pred, way.scale(m.future, scale));
   }, accum);
 
-  let maxLikelihood = way.map(normalized, q => Math.round(q));
+  const maxLikelihood = way.map(normalized, q => Math.round(q));
 
   return {
     moments: best,
