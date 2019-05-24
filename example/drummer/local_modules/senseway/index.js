@@ -189,3 +189,7 @@ exports.set = (way, c, t, value) => {
 exports.slice = (way, begin, end) => {
   return way.map(ch => ch.slice(begin, end))
 }
+
+exports.width = (way) => {
+  return way.length
+}

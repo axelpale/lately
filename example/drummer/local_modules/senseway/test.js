@@ -276,3 +276,8 @@ test('slice', (t) => {
   ])
   t.end()
 })
+
+test('width', (t) => {
+  t.equal(way.width(ONES), 2)
+  t.end()
+})
