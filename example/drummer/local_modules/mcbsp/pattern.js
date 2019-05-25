@@ -98,9 +98,7 @@ exports.averageContext = (history, values, mask) => {
   return sliceAverage
 }
 
-exports.dependent = (history, values, mask) => {
-  const averageContext = exports.averageContext(history, values, mask)
-
+const dependent = (history, averageContext) => {
   // Each element in the average slice tells us the probability of value 1
   // happening on that same position next to where the pattern exists.
   // In other words, the average slice gives the probability distribution
@@ -132,4 +130,9 @@ exports.dependent = (history, values, mask) => {
 
   // Weight the channels
   return gain
+}
+
+exports.dependent = (history, values, mask) => {
+  const averageContext = exports.averageContext(history, values, mask)
+  return dependent(history, averageContext)
 }
