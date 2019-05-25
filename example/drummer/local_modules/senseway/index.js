@@ -190,6 +190,10 @@ exports.slice = (way, begin, end) => {
   return way.map(ch => ch.slice(begin, end))
 }
 
+exports.sum = (way) => {
+  return way.reduce((acc, ch) => ch.reduce((ac, q) => ac + q, acc), 0)
+}
+
 exports.width = (way) => {
   return way.length
 }

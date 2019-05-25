@@ -277,6 +277,13 @@ test('slice', (t) => {
   t.end()
 })
 
+test('sum', (t) => {
+  t.equal(way.sum(ONES), 6)
+  t.equal(way.sum(V), 3)
+  t.equal(way.sum(ZEROS), 0)
+  t.end()
+})
+
 test('width', (t) => {
   t.equal(way.width(ONES), 2)
   t.end()
