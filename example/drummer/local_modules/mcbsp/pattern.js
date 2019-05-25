@@ -84,6 +84,7 @@ exports.averageContext = (history, values, mask) => {
   }
 
   // Normalise to get the weighted average.
+  // Take care of possible division by zero.
   let sliceAverage = way.scale(sliceSum, supportSum > 0 ? 1 / supportSum : 0)
 
   // If sum of support is 0, there is absolutely no matching pattern.
