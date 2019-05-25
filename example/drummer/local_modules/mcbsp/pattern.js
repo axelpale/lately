@@ -17,8 +17,8 @@ exports.averageContext = (history, values, mask) => {
   const len = way.len(mask)
   const hlen = way.len(history)
 
-  // A normalising parameter.
-  const maxSupport = way.reduce(mask, (acc, q) => acc + q, 0)
+  // Compute mask mass to compare later how perfectly a time slice matches.
+  const maskMass = way.reduce(mask, (acc, q) => acc + q, 0)
 
   // We add up the matching parts of the history to see what
   // happens around the pattern. Let us init the sum with zeros.
@@ -60,12 +60,22 @@ exports.averageContext = (history, values, mask) => {
     }
 
     // Compute how much the slice resembles the pattern.
+    // 0 & 0 => 1
+    // 0 & 1 => 0
+    // 1 & 1 => 1
+    // 0.5 & 0.5 => 1
     const match = way.map2(values, tslice, (a, b) => 1 - Math.abs(a - b))
     // Mask out those resemblances that are not part of the pattern.
+    // We do not care about them.
     const masked = way.map2(match, tmask, (d, m) => d * m)
-    // Sum up
-    const support = way.reduce(masked, (acc, q) => acc + q, 0)
+    // Measure how much the slice resembles the pattern
+    // by summing up the matches after masking.
+    let support = way.reduce(masked, (acc, q) => acc + q, 0)
     // If the pattern exists in the slice, support is high.
+    // To make the existence test more crispier, use only perfect matches.
+    if (support < maskMass) {
+      support = 0
+    }
     // Lets add up the supporting slices by taking
     // a weighted average of the slices.
     const weightedSlice = way.scale(tslice, support)
