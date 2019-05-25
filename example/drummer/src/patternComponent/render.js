@@ -14,7 +14,7 @@ module.exports = (model, dispatch) => {
   const container = document.createElement('div');
 
   container.appendChild(renderWay(vals, {
-    label: 'pattern',
+    label: 'pattern values',
     numbers: false,
     setCell: (c, t, value) => dispatch({
       type: 'SET_PATTERN_VALUE',
@@ -33,7 +33,7 @@ module.exports = (model, dispatch) => {
   }));
 
   container.appendChild(renderWay(mask, {
-    label: 'mask',
+    label: 'pattern mask',
     numbers: false,
     setCell: (c, t, value) => dispatch({
       type: 'SET_PATTERN_MASK_VALUE',
@@ -51,7 +51,9 @@ module.exports = (model, dispatch) => {
     })
   }));
 
-  container.appendChild(renderWay(avgContext, { label: 'avg context' }));
-  container.appendChild(renderWay(dependent, 'dependent'));
+  container.appendChild(renderWay(avgContext, {
+    label: 'avg context'
+  }));
+  container.appendChild(renderWay(dependent, 'bits of information gained'));
   return container;
 };
