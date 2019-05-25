@@ -63,6 +63,10 @@ exports.dropChannel = (way, channel) => {
   return way.filter((ch, c) => c !== channel)
 }
 
+exports.each = (way, iteratee) => {
+  way.forEach((ch, c) => ch.forEach((q, t) => iteratee(q, c, t)))
+}
+
 exports.equal = (wayA, wayB) => {
   let i, j, ch
   for (i = 0; i < wayA.length; i += 1) {

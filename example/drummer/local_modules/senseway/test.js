@@ -27,7 +27,7 @@ const TWOS = [
   [2, 2, 2],
   [2, 2, 2]
 ]
-const IDS = [
+const SEQ = [
   [0, 1, 2],
   [3, 4, 5]
 ]
@@ -95,6 +95,16 @@ test('dropChannel', (t) => {
     [1, 0, 1]
   ])
   t.end()
+})
+
+test('each', (t) => {
+  t.plan(6)
+
+  let i = 0
+  way.each(SEQ, (q, c, time) => {
+    t.equal(q, i)
+    i += 1
+  })
 })
 
 test('equal', (t) => {
@@ -178,7 +188,7 @@ test('map2', (t) => {
 
 test('max', (t) => {
   t.equal(way.max(ONES), 1)
-  t.equal(way.max(IDS), 5)
+  t.equal(way.max(SEQ), 5)
   t.end()
 })
 
@@ -196,7 +206,7 @@ test('mean', (t) => {
 
 test('min', (t) => {
   t.equal(way.min(ONES), 1)
-  t.equal(way.min(IDS), 0)
+  t.equal(way.min(SEQ), 0)
   t.end()
 })
 
