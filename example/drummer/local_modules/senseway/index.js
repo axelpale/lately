@@ -117,11 +117,29 @@ exports.map2 = (wayA, wayB, fn) => {
   return wayA.map((ch, c) => ch.map((q, t) => fn(q, wayB[c][t], c, t)))
 }
 
+exports.max = (way) => {
+  // Largest value in the way.
+  return way.reduce((acc, ch) => {
+    return ch.reduce((ac, q) => {
+      return q > ac ? q : ac
+    }, acc)
+  }, way[0][0])
+}
+
 exports.mean = (way) => {
   // Returns a frame.
   return way.map((ch) => {
     return [ch.reduce((acc, q) => acc + q, 0) / ch.length]
   })
+}
+
+exports.min = (way) => {
+  // Smallest value in the way.
+  return way.reduce((acc, ch) => {
+    return ch.reduce((ac, q) => {
+      return q < ac ? q : ac
+    }, acc)
+  }, way[0][0])
 }
 
 exports.mix = (wayA, wayB) => {

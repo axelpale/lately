@@ -27,6 +27,10 @@ const TWOS = [
   [2, 2, 2],
   [2, 2, 2]
 ]
+const IDS = [
+  [0, 1, 2],
+  [3, 4, 5]
+]
 
 test('add', (t) => {
   t.deepEqual(way.add(W0, W1), [
@@ -172,6 +176,12 @@ test('map2', (t) => {
   t.end()
 })
 
+test('max', (t) => {
+  t.equal(way.max(ONES), 1)
+  t.equal(way.max(IDS), 5)
+  t.end()
+})
+
 test('mean', (t) => {
   t.deepEqual(way.mean(ONES), [
     [1],
@@ -181,6 +191,12 @@ test('mean', (t) => {
     [0],
     [0]
   ])
+  t.end()
+})
+
+test('min', (t) => {
+  t.equal(way.min(ONES), 1)
+  t.equal(way.min(IDS), 0)
   t.end()
 })
 
