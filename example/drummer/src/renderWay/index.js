@@ -17,6 +17,7 @@ module.exports = (way, opts) => {
   //     duplicateChannel: fn(channel)
   //     duplicateFrame: fn(time)
   //     label: string
+  //     mask: a way with same size as the given way
   //     numbers: bool
   //     numbersBegin: int
   //     setCell: fn(channel, time, value)
@@ -76,6 +77,10 @@ module.exports = (way, opts) => {
     for (let c = 0; c < way.length; c += 1) {
       const val = way[c][t];
       const cel = renderCellElem(t, c, val, way.length);
+
+      if (typeof opts.mask === 'object') {
+        cel.style.opacity = '' + opts.mask[c][t]
+      }
 
       if (typeof opts.setCell === 'function') {
         cel.addEventListener('click', () => {
