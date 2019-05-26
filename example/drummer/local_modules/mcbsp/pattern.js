@@ -187,3 +187,82 @@ exports.firstOrderPatterns = (history, patternLen) => {
     ]
   })
 }
+
+exports.predict = (history, context, distance) => {
+  const width = way.width(context)
+  const len = way.len(context) + distance
+  const firstOrder = exports.firstOrderPatterns(history, len)
+
+  // For every event in the context, select the first order pattern.
+  // firstPatterns has dimensions of context.
+  // Each element is a pattern { values, mask }.
+  const firstPatterns = way.map(context, (q, c, t) => {
+    const v = Math.round(q) // To deal with fuzzy binary TODO not needed?
+    return Object.assign({
+      timeOffset: t
+    }, firstOrder[c][v])
+  })
+
+  // For each element in prediction we
+  // choose the corresponding value from
+  // the pattern that gave most information at this cell.
+  // maxMask = find pattern where the mask has max value
+  // includes area for the prediction.
+  const prediction = way.map(way.create(width, len, 0), (q, c, t) => {
+    // Find pattern that has the largest information gain for this cell.
+    let maxGain = 0
+    let valueOfMaxGain = 0 // TODO init from first
+    way.each(firstPatterns, (patt) => {
+      if (t - patt.timeOffset >= 0) {
+        const prob = patt.values[c][t - patt.timeOffset]
+        const gain = patt.mask[c][t - patt.timeOffset]
+
+        if (gain > maxGain) {
+          maxGain = gain
+          valueOfMaxGain = prob
+        }
+      }
+    })
+
+    return valueOfMaxGain
+  })
+
+  return prediction
+
+  // Merge the predictions of the patterns.
+  // The values without any support from the patterns should
+  // be predicted by the prior distribution.
+  // TODO How to mix prior with the predicted?
+  // Naive try: sum up the masks and invert the values.
+  // Add prior probabilities masked with these values to the result.
+
+  // // Add information gains together
+  // let mergedMask = way.create(width, len, 0)
+  // mergedMask = way.reduce(firstPatterns, (acc, patt, c, t) => {
+  //   return way.add(acc, patt.mask)
+  // }, mergedMask)
+  //
+  // const mergedMaskMax = way.max(mergedMask)
+  //
+  // // Add probabilities together
+  // let mergedValues = way.create(width, len, 0)
+  // mergedValues = way.reduce(firstPatterns, (acc, patt, c, t) => {
+  //   return way.add(acc, way.multiply(patt.values, patt.mask))
+  // }, mergedValues)
+  //
+  // // Normalise values
+  // // const scaledMergedValues = way.scale(mergedValues, 1 / mergedMaskMax)
+  //
+  // const mergedMaskNegative = way.map(mergedMask, q => mergedMaskMax - q)
+  //
+  // const prior = way.mean(history)
+  // const priorValues = way.map(mergedValues, (q, c) => prior[c][0])
+  // const priorValuesMasked = way.multiply(priorValues, mergedMaskNegative)
+  //
+  // const combinedValues = way.add(priorValuesMasked, mergedValues)
+  // const normCombValues = way.scale(combinedValues, 1 / mergedMaskMax)
+  //
+  //
+  //
+  // return normCombValues
+}

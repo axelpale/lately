@@ -13,6 +13,7 @@ const elements = [
   require('./createPredictionControls'),
   // require('./createAudioControls'),
   require('./historyEditor/render'),
+  require('./patternPredictionViewer/render'),
   require('./naivePredictionViewer/render'),
   require('./createAPrioriElem'),
   require('./patternBrowser/render')
