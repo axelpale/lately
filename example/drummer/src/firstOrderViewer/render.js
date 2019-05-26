@@ -14,14 +14,23 @@ module.exports = (model, dispatch) => {
   }
 
   way.map(firstOrder, (patt, c, t) => {
-    container.appendChild(renderWay(patt.values, {
-      label: '[' + c + '][' + t + '] prob',
+    const row = document.createElement('div');
+
+    row.appendChild(renderWay(patt.source.values, {
+      label: 'channel ' + c + '<br>value ' + t,
+      class: 'pattern',
+      mask: patt.source.mask
+    }));
+    row.appendChild(renderWay(patt.values, {
+      label: 'prob',
       class: 'pattern'
     }));
-    container.appendChild(renderWay(patt.mask, {
-      label: '[' + c + '][' + t + '] gain',
+    row.appendChild(renderWay(patt.mask, {
+      label: 'gain',
       class: 'pattern pattern-mask'
     }));
+
+    container.appendChild(row);
   });
 
   return container;

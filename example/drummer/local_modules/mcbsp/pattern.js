@@ -176,11 +176,19 @@ exports.firstOrderPatterns = (history, patternLen) => {
     return [
       // Pattern for 0
       {
+        source: {
+          values: zeros,
+          mask: mask
+        },
         values: avgZero,
         mask: depZero
       },
       // Pattern for 1
       {
+        source: {
+          values: ones,
+          mask: mask
+        },
         values: avgOne,
         mask: depOne
       }
