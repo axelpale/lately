@@ -11,9 +11,6 @@ module.exports = (model, dispatch) => {
   const avgContext = mcbsp.pattern.averageContext(hist, vals, mask);
   const dependent = mcbsp.pattern.dependent(hist, vals, mask);
 
-  const patternLen = model.contextDistance + model.predictionDistance
-  const firstOrder = mcbsp.pattern.firstOrderPatterns(model.history, patternLen)
-
   const container = document.createElement('div');
 
   {
@@ -67,18 +64,6 @@ module.exports = (model, dispatch) => {
     label: 'bits of information gained',
     class: 'pattern-mask'
   }));
-
-  way.map(firstOrder, (patt, c, t) => {
-
-    container.appendChild(renderWay(patt.values, {
-      label: '[' + c + '][' + t + '] prob',
-      class: 'pattern'
-    }))
-    container.appendChild(renderWay(patt.mask, {
-      label: '[' + c + '][' + t + '] gain',
-      class: 'pattern pattern-mask'
-    }))
-  })
 
   return container;
 };
