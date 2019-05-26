@@ -12,8 +12,8 @@ const elements = [
   require('./createDatasetControl'),
   require('./createPredictionControls'),
   // require('./createAudioControls'),
-  require('./createPredictedFutureElem'),
   require('./historyEditor/render'),
+  require('./naivePredictionViewer/render'),
   require('./createAPrioriElem'),
   require('./patternBrowser/render')
 ];
