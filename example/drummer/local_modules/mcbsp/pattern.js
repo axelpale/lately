@@ -98,6 +98,11 @@ exports.averageContext = (history, values, mask) => {
   return sliceAverage
 }
 
+// TODO
+// probability (history, pattern)
+// mutualInformation (history, patternA, patternB)
+// pointwiseMutualInformation (history, patternA, patternB)
+
 const informationGain = (prior, posterior) => {
   // Parameters:
   //   prior
