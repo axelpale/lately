@@ -12,8 +12,8 @@ const elements = [
   require('./createDatasetControl'),
   require('./createPredictionControls'),
   // require('./createAudioControls'),
-  require('./historyComponent/render'),
   require('./createPredictedFutureElem'),
+  require('./historyEditor/render'),
   require('./createAPrioriElem'),
   require('./patternBrowser/render')
 ];
@@ -22,7 +22,7 @@ const reducers = [
   require('./reduceSelectDataset'),
   require('./reduceSetContextDistance'),
   require('./reduceSetPredictionDistance'),
-  require('./historyComponent/reduce'),
+  require('./historyEditor/reduce'),
   require('./patternBrowser/reduce')
 ];
 
