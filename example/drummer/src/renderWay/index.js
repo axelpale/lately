@@ -79,7 +79,7 @@ module.exports = (way, opts) => {
       const cel = renderCellElem(t, c, val, way.length);
 
       if (typeof opts.mask === 'object') {
-        cel.style.opacity = '' + opts.mask[c][t]
+        cel.style.opacity = '' + Math.max(0.1, opts.mask[c][t])
       }
 
       if (typeof opts.setCell === 'function') {
