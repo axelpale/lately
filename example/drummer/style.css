@@ -1,6 +1,5 @@
 .container {
-  width: 20em;
-  margin: 2em auto 2em auto;
+  padding-left: 20em;
   font-family: Palatino, serif;
 }
 
@@ -81,6 +80,14 @@ h1 {
 
 .apriori {
   margin-top: 1em;
+}
+
+.pattern {
+  display: inline-block;
+  margin: 0 8em 1.6em 0;
+}
+.pattern-mask .cell {
+  outline: 1px solid gray;
 }
 
 .way {
