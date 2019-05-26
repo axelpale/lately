@@ -15,7 +15,7 @@ const elements = [
   require('./historyComponent/render'),
   require('./createPredictedFutureElem'),
   require('./createAPrioriElem'),
-  require('./patternComponent/render')
+  require('./patternBrowser/render')
 ];
 
 const reducers = [
@@ -23,7 +23,7 @@ const reducers = [
   require('./reduceSetContextDistance'),
   require('./reduceSetPredictionDistance'),
   require('./historyComponent/reduce'),
-  require('./patternComponent/reduce')
+  require('./patternBrowser/reduce')
 ];
 
 {
