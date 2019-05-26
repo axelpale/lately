@@ -98,7 +98,17 @@ exports.averageContext = (history, values, mask) => {
   return sliceAverage
 }
 
-const dependent = (history, averageContext) => {
+const informationGain = (prior, posterior) => {
+  // Parameters:
+  //   prior
+  //     Prior probabilities. Probs for a slice before knowledge about an event.
+  //   posterior
+  //     Posterior probabilities. Probs for a slice given the event.
+  //
+  // Returns:
+  //   a way, having same sizes as the posterior, where every element
+  //   equals the number of bits the event gave about the value of the element.
+  //
   // Each element in the average slice tells us the probability of value 1
   // happening on that same position next to where the pattern exists.
   // In other words, the average slice gives the probability distribution
@@ -114,13 +124,12 @@ const dependent = (history, averageContext) => {
   // we take into account their probability in general, a priori.
   // If the probability of an element in the avg slice differs from a priori,
   // then the pattern and the element are dependent.
-  const prior = way.mean(history)
   const priorSum = way.reduce(prior, (acc, q) => acc + q, 0)
 
-  const gain = way.map(averageContext, (pr, c) => {
+  const gain = way.map(posterior, (pr, c) => {
     // pr = probability of x given y, where y is our pattern
     // pri = probability of x in general
-    // NOTE little bias in prior caused by the edges.
+    // NOTE a little bias in prior caused by the edges.
     const pri = prior[c][0]
     // Kullback-Leibler divergence
     const x0 = (pr === 1) ? 0 : (1 - pr) * Math.log2((1 - pr) / (1 - pri))
@@ -128,11 +137,11 @@ const dependent = (history, averageContext) => {
     return x0 + x1
   });
 
-  // Weight the channels
   return gain
 }
 
 exports.dependent = (history, values, mask) => {
   const averageContext = exports.averageContext(history, values, mask)
-  return dependent(history, averageContext)
+  const prior = way.mean(history)
+  return informationGain(prior, averageContext)
 }
