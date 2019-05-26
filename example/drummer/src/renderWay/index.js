@@ -39,7 +39,10 @@ module.exports = (way, opts) => {
   }
 
   if (typeof opts.class === 'string') {
-    container.classList.add(opts.class);
+    const classes = opts.class.split(' ');
+    classes.forEach(className => {
+      container.classList.add(className);
+    });
   }
 
   // Channel controls
