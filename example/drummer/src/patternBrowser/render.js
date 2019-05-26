@@ -16,6 +16,12 @@ module.exports = (model, dispatch) => {
 
   const container = document.createElement('div');
 
+  {
+    const h2 = document.createElement('h2');
+    h2.innerHTML = 'Pattern Browser';
+    container.appendChild(h2);
+  }
+
   container.appendChild(renderWay(vals, {
     label: 'pattern values',
     numbers: false,
