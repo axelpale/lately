@@ -150,3 +150,40 @@ exports.dependent = (history, values, mask) => {
   const prior = way.mean(history)
   return informationGain(prior, averageContext)
 }
+
+exports.firstOrderPatterns = (history, patternLen) => {
+  const width = history.length
+  const prior = way.mean(history)
+  const zeros = way.create(width, patternLen, 0)
+  const ones = way.create(width, patternLen, 1)
+
+  // Precompute 1st order patterns.
+  // For every channel get a pattern for single zero
+  // and a pattern for single one.
+  return history.map((ch, c) => {
+    // Build mask by setting one cell to one.
+    // Note that t=0, thus we get the avgContext
+    // towards the future. TODO We might benefit
+    // from past context too when weighting how
+    // well the pattern matches the context.
+    const mask = way.set(zeros, c, 0, 1)
+
+    const avgZero = exports.averageContext(history, zeros, mask)
+    const depZero = informationGain(prior, avgZero)
+    const avgOne = exports.averageContext(history, ones, mask)
+    const depOne = informationGain(prior, avgOne)
+
+    return [
+      // Pattern for 0
+      {
+        values: avgZero,
+        mask: depZero
+      },
+      // Pattern for 1
+      {
+        values: avgOne,
+        mask: depOne
+      }
+    ]
+  })
+}
