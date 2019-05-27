@@ -17,7 +17,8 @@ const elements = [
   require('./naivePredictionViewer/render'),
   require('./createAPrioriElem'),
   require('./patternBrowser/render'),
-  require('./firstOrderViewer/render')
+  require('./firstOrderViewer/render'),
+  require('./secondOrderViewer/render')
 ];
 
 const reducers = [
