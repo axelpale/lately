@@ -48,6 +48,11 @@ test('after', (t) => {
   t.end()
 })
 
+test('average', (t) => {
+  t.deepEqual(way.average([ZEROS, TWOS]), ONES)
+  t.end()
+})
+
 test('before', (t) => {
   t.deepEqual(way.before(W1, 2), [
     [0, 0],

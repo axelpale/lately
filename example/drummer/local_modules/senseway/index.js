@@ -11,6 +11,16 @@ exports.after = (way, t, len) => {
   return way.map(ch => ch.slice(t, t + len))
 }
 
+exports.average = (ways) => {
+  // Average way in the given array of ways.
+  if (ways.length === 0) {
+    return []
+  }
+  const initAcc = exports.fill(ways[0], 0)
+  const waySum = ways.reduce((acc, w) => exports.add(acc, w), initAcc)
+  return exports.scale(waySum, 1 / ways.length)
+}
+
 exports.before = (way, t, len) => {
   if (typeof len === 'undefined') { len = t }
   len = Math.min(len, t)
@@ -213,6 +223,7 @@ exports.slice = (way, begin, end) => {
 }
 
 exports.sum = (way) => {
+  // Sum quanta together.
   return way.reduce((acc, ch) => ch.reduce((ac, q) => ac + q, acc), 0)
 }
 
