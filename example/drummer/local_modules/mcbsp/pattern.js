@@ -99,9 +99,19 @@ exports.averageContext = (history, values, mask) => {
 }
 
 // TODO
-// probability (history, pattern)
 // mutualInformation (history, patternA, patternB)
 // pointwiseMutualInformation (history, patternA, patternB)
+
+const occurrences = (history, pattern) => {
+  return [{
+    time:
+    context:
+  }]
+}
+
+const probability = (history, pattern) => {
+
+}
 
 const informationGain = (prior, posterior) => {
   // Parameters:
@@ -236,41 +246,43 @@ exports.firstOrderPredict = (history, context, distance) => {
   })
 
   return prediction
-
-  // Merge the predictions of the patterns.
+  // Alternative:
   // The values without any support from the patterns should
   // be predicted by the prior distribution.
-  // TODO How to mix prior with the predicted?
-  // Naive try: sum up the masks and invert the values.
-  // Add prior probabilities masked with these values to the result.
+  // How to mix prior with the predicted?
+  //   Try: sum up the masks and invert the values.
+  //   Add prior probabilities masked with these values to the result.
+}
 
-  // // Add information gains together
-  // let mergedMask = way.create(width, len, 0)
-  // mergedMask = way.reduce(firstPatterns, (acc, patt, c, t) => {
-  //   return way.add(acc, patt.mask)
-  // }, mergedMask)
-  //
-  // const mergedMaskMax = way.max(mergedMask)
-  //
-  // // Add probabilities together
-  // let mergedValues = way.create(width, len, 0)
-  // mergedValues = way.reduce(firstPatterns, (acc, patt, c, t) => {
-  //   return way.add(acc, way.multiply(patt.values, patt.mask))
-  // }, mergedValues)
-  //
-  // // Normalise values
-  // // const scaledMergedValues = way.scale(mergedValues, 1 / mergedMaskMax)
-  //
-  // const mergedMaskNegative = way.map(mergedMask, q => mergedMaskMax - q)
-  //
-  // const prior = way.mean(history)
-  // const priorValues = way.map(mergedValues, (q, c) => prior[c][0])
-  // const priorValuesMasked = way.multiply(priorValues, mergedMaskNegative)
-  //
-  // const combinedValues = way.add(priorValuesMasked, mergedValues)
-  // const normCombValues = way.scale(combinedValues, 1 / mergedMaskMax)
-  //
-  //
-  //
-  // return normCombValues
+exports.secondOrderPatterns = (history, context) => {
+  const width = way.width(history)
+  const prior = way.mean(history)
+  const len = way.len(context)
+  const zeros = way.create(width, patternLen, 0)
+  const ones = way.create(width, patternLen, 1)
+
+  // Find every 2nd-order pattern within the context.
+  // We only need to create masks, context provides the values.
+  const masks = []
+  for (let ca = 0; ca < width; ca += 1) {
+    for (let ta = 0; ta < len; ta += 1) {
+      for (let cb = ca; cb < width; cb += 1) {
+        for (let tb = ta; tb < len; tb += 1) {
+          let mask = way.create(width, len, 0)
+          mask[ca][ta] = 1
+          mask[cb][tb] = 1
+          masks.push(mask)
+        }
+      }
+    }
+  }
+
+  // For every found pattern, compute:
+  // - number of occurrences in the history (prior for the pattern)
+  // - average around the pattern
+  // - deviation from base prior probabilities (dependent)
+  // - how much the average differs from the context in general
+  // - how much the average of dependent differs from the context
+
+  return masks
 }
