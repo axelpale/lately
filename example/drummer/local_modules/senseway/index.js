@@ -216,6 +216,34 @@ exports.sum = (way) => {
   return way.reduce((acc, ch) => ch.reduce((ac, q) => ac + q, acc), 0)
 }
 
+exports.trim = (way, trimmee) => {
+  // Remove leading and trailing frames whose cells only contain the trimmee.
+  // For example way.trim(w, 1) trims:
+  //   [[1, 0, 1],   to   [[0],
+  //    [1, 1, 1]]         [1]]
+  //
+  trimmee = typeof trimmee === 'undefined' ? 0 : trimmee
+
+  let begin = 0
+  let end = 0
+
+  const len = way[0].length
+  for (let t = 0; t < len; t += 1) {
+    if (way.some(ch => ch[t] !== trimmee)) {
+      begin = t
+      break
+    }
+  }
+
+  for (let t = begin; t < len; t += 1) {
+    if (way.some(ch => ch[t] !== trimmee)) {
+      end = t + 1
+    }
+  }
+
+  return way.map(ch => ch.slice(begin, end))
+}
+
 exports.width = (way) => {
   return way.length
 }

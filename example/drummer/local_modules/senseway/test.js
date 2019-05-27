@@ -310,6 +310,12 @@ test('sum', (t) => {
   t.end()
 })
 
+test('trim', (t) => {
+  t.deepEqual(way.trim(ZEROS), [[], []])
+  t.deepEqual(way.trim(W0, 1), [[1, 0], [0, 1]])
+  t.end()
+})
+
 test('width', (t) => {
   t.equal(way.width(ONES), 2)
   t.end()
