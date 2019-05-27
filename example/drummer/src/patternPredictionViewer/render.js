@@ -8,7 +8,7 @@ module.exports = (model, dispatch) => {
   const predDist = model.predictionDistance;
 
   const context = way.last(hist, model.contextDistance);
-  const predicted = mcbsp.pattern.predict(hist, context, predDist);
+  const predicted = mcbsp.pattern.firstOrderPredict(hist, context, predDist);
   const future = way.last(predicted, predDist);
 
   const container = document.createElement('div');

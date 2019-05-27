@@ -196,7 +196,7 @@ exports.firstOrderPatterns = (history, patternLen) => {
   })
 }
 
-exports.predict = (history, context, distance) => {
+exports.firstOrderPredict = (history, context, distance) => {
   const width = way.width(context)
   const len = way.len(context) + distance
   const firstOrder = exports.firstOrderPatterns(history, len)
