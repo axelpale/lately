@@ -22,6 +22,11 @@ module.exports = (model, dispatch) => {
       mask: patt.source.mask
     }));
     row.appendChild(renderWay(patt.values, {
+      label: 'masked<br>prob',
+      class: 'pattern',
+      mask: patt.mask
+    }));
+    row.appendChild(renderWay(patt.values, {
       label: 'prob',
       class: 'pattern'
     }));
