@@ -18,7 +18,7 @@ exports.averageContext = (history, values, mask) => {
   const hlen = way.len(history)
 
   // Compute mask mass to compare later how perfectly a time slice matches.
-  const maskMass = way.reduce(mask, (acc, q) => acc + q, 0)
+  const maskMass = way.sum(mask)
 
   // We add up the matching parts of the history to see what
   // happens around the pattern. Let us init the sum with zeros.
