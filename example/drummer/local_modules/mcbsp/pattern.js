@@ -91,8 +91,8 @@ exports.averageContext = (history, values, mask) => {
   // Then we just need to use our best knowledge, a priori.
   if (supportSum === 0) {
     const prior = way.mean(history)
+    // Stretch the priori
     sliceAverage = way.map(sliceAverage, (zero, c) => prior[c][0])
-    // TODO way.repeat(way.mean(history), way.len(sliceAverage))
   }
 
   return sliceAverage
