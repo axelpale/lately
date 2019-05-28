@@ -218,9 +218,9 @@ exports.firstOrderPatterns = (history, patternLen) => {
     const mask = way.set(zeros, c, 0, 1)
 
     const avgZero = exports.averageContext(history, zeros, mask)
-    const depZero = informationGain(prior, avgZero)
+    const gainZero = informationGain(prior, avgZero)
     const avgOne = exports.averageContext(history, ones, mask)
-    const depOne = informationGain(prior, avgOne)
+    const gainOne = informationGain(prior, avgOne)
 
     return [
       // Pattern for 0
@@ -230,7 +230,7 @@ exports.firstOrderPatterns = (history, patternLen) => {
           mask: mask
         },
         values: avgZero,
-        mask: depZero
+        mask: gainZero
       },
       // Pattern for 1
       {
@@ -239,7 +239,7 @@ exports.firstOrderPatterns = (history, patternLen) => {
           mask: mask
         },
         values: avgOne,
-        mask: depOne
+        mask: gainOne
       }
     ]
   })
