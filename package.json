@@ -7,6 +7,14 @@
     "type": "git",
     "url": "git://github.com/axelpale/lately.git"
   },
+  "files": [
+    "/local_modules/mcbsp",
+    "/local_modules/senseway",
+    "index.js",
+    "LICENSE",
+    "package.json",
+    "README.md"
+  ],
   "scripts": {
     "test": "tape test.js"
   },
