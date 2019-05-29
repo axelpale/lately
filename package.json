@@ -1,6 +1,6 @@
 {
   "name": "lately",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "description": "Future estimator for binary multivariate data streams",
   "main": "index.js",
   "repository": {
