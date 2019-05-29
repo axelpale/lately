@@ -62,6 +62,11 @@ exports.predict = (history, context, distance) => {
     }, firstOrder[c][v])
   })
 
+  // How much the gain-predicted values resemble the context?
+  // We should not trust gains from prediction patterns which
+  // do not fit the context.
+  // TODO
+
   // If the patterns give no information about a cell, use its prior prob.
   // Comes into use for example when channel is only 0 or 1.
   const prior = way.mean(history)
