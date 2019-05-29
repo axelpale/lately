@@ -8,6 +8,7 @@
     "url": "git://github.com/axelpale/lately.git"
   },
   "scripts": {
+    "test": "tape test.js"
   },
   "keywords": [
     "sequence learning",
@@ -19,9 +20,10 @@
     "email": "akseli.palen@gmail.com"
   },
   "license": "MIT",
-  "devDependencies": {
-  },
+  "devDependencies": {},
   "dependencies": {
     "mcbsp": "file:./local_modules/mcbsp",
+    "senseway": "file:./local_modules/senseway",
+    "tape": "^4.10.2"
   }
 }

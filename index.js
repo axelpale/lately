@@ -1,4 +1,5 @@
 const mcbsp = require('mcbsp')
+const way = require('senseway')
 
 exports.predict = (history, distance) => {
   const context = way.last(history, distance)
