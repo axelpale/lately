@@ -62,28 +62,49 @@ exports.predict = (history, context, distance) => {
     }, firstOrder[c][v])
   })
 
-  // For each element in prediction we
-  // choose the corresponding value from
-  // the pattern that gave most information at this cell.
-  // maxMask = find pattern where the mask has max value
-  // includes area for the prediction.
+  // If the patterns give no information about a cell, use its prior prob.
+  // Comes into use for example when channel is only 0 or 1.
+  const prior = way.mean(history)
+
+  // For each element in prediction we choose a value for witch
+  // the average slices given by the first order patterns gave
+  // most information. Some vote for 0, others for 1, but the side
+  // that the patterns best predict will win.
   const prediction = way.map(way.create(width, len, 0), (q, c, t) => {
-    // Find pattern that has the largest information gain for this cell.
-    let maxGain = 0
-    let valueOfMaxGain = 0 // TODO init from first
+    let info = [0, 0] // Information for 0 and 1
     way.each(firstPatterns, (patt) => {
+      // Skip averages that begin later
       if (t - patt.timeOffset >= 0) {
         const prob = patt.values[c][t - patt.timeOffset]
         const gain = patt.mask[c][t - patt.timeOffset]
 
-        if (gain > maxGain) {
-          maxGain = gain
-          valueOfMaxGain = prob
-        }
+        // Try #1
+        // if (gain > maxGain) {
+        //   maxGain = gain
+        //   valueOfMaxGain = prob
+        //
+        // Try #2
+        // const p = Math.round(prob)
+        // info[p] += gain
+        //
+        // Try #3:
+        // info[0] += (1 - prob) * gain
+        // info[1] += prob * gain
+
+        // Try #4:
+        info[prob < prior[c][0] ? 0 : 1] += gain
       }
     })
 
-    return valueOfMaxGain
+    if (info[0] + info[1] === 0) {
+      // No information. Use prior.
+      return prior[c][0]
+    }
+
+    if (info[0] < info[1]) {
+      return 1
+    }
+    return 0
   })
 
   return prediction
