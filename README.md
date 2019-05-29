@@ -1,13 +1,11 @@
-# Lately.js
+# lately.js
 
-A `new Lately()` will deep learn for you a sequence, a sequence of `'strings'`. Feed it a stream of these named events, and Lately will predict for you the probable future events of the stream.
+Predicts future of a multi-channel binary data stream by using bayesian machine learning methods.
 
 **Table of Contents**
 
 - [Install](#install)
 - [Quick start](#quick-start)
-- [Testing](#testing)
-- [Technology stack](#technology-stack)
 - [Versioning](#versioning)
 - [Issues](#issues)
 - [License](#license)
@@ -23,56 +21,33 @@ First, install with [npm](https://www.npmjs.com/package/lately):
 
 ## Quick start
 
-    > var lately = require('lately');
-    > var l = new lately.Lately();
-    > l.feed(['hello', 'world', 'hello']);
-    > l.predict()
-    {
-      'world': 0.7,
-      'hello': 0.3
-    }
-
-
-## Testing
-
-First, we need to install development packages:
-
-    $ npm install
-
-After install, run tests by:
-
-    $ npm test
-
-See `package.json` for test suite details.
-
-
-
-## Technology stack
-
-- [mathjs](http://mathjs.org/): mathematics
-
-Development tools:
-
-- [ESLint](http://eslint.org/): linting
-- [Mocha](https://mochajs.org/): test runner
-- [Chai Assert](http://chaijs.com/api/assert/): assertions
+    > const lately = require('lately');
+    > const history = [
+      [1, 0, 1],
+      [0, 0, 0]
+    ]
+    > lately.predict(history, 2)
+    [
+      [0, 1],
+      [0, 0]
+    ]
 
 
 
 ## Versioning
 
-On the master branch, we use the [semantic versioning](http://semver.org/) scheme. The semantic version increments are bound to the operations you need to do when upgrading your TresDB instance:
+On the master branch, we use the [semantic versioning](http://semver.org/) scheme. The semantic version increments are bound to the operations you need to do when upgrading:
 
-- MAJOR (+1.0.0) denotes a new incompatible feature. A database migration might be required after upgrade. Hyperlinks of earlier versions might not work.
-- MINOR (+0.1.0) denotes a new backwards-compatible feature. Upgrading directly from the Git should not break anything.
-- PATCH (+0.0.1) denotes a backwards-compatible bug fix. Upgrading or downgrading directly from the Git should not break anything.
+- MAJOR (+1.0.0) denotes backwards-incompatibility. API has changed so that code using an earlier version might not work.
+- MINOR (+0.1.0) denotes a new feature. Code using an old version should work with the new version, but code using the new might not work with the old.
+- PATCH (+0.0.1) denotes a backwards-compatible bug fix. Code using an old version should work with the new and code using the new version should also work with the old.
+
 
 
 ## Issues
 
 Report bugs and features to [GitHub issues](https://github.com/axelpale/lately/issues).
 
-The issue labels follow [Drupal's issue priority levels](https://www.drupal.org/core/issue-priority): critical, major, normal, and minor.
 
 
 ## License

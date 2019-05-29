@@ -1,8 +1,8 @@
+const mcbsp = require('mcbsp')
 
-exports.Lately = require('./src/Lately');
-
-exports.Categorical = require('./src/Categorical');
-exports.Decaying = require('./src/Decaying');
-exports.Hypos = require('./src/Hypos');
-exports.Layer = require('./src/Layer');
-exports.Windows = require('./src/Windows');
+exports.predict = (history, distance) => {
+  const context = way.last(history, distance)
+  const predicted = mcbsp.pattern.firstOrderPredict(history, context, distance)
+  const future = way.last(predicted, distance)
+  return future
+}

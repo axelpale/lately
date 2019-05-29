@@ -1,0 +1,40 @@
+{
+  "name": "markov-trees",
+  "version": "0.2.0",
+  "description": "Discrete online sequence learner and predictor",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/axelpale/lately.git"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha test/*.test.js",
+    "lint": "eslint . && echo 'Lint successful.'",
+    "perf": "node perf/run.js"
+  },
+  "keywords": [
+    "sequence learning",
+    "bayesian",
+    "machine learning"
+  ],
+  "author": {
+    "name": "Akseli Palén",
+    "email": "akseli.palen@gmail.com"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "async": "^2.4.1",
+    "chai": "^3.5.0",
+    "csv-parse": "^1.2.0",
+    "eslint": "^3.19.0",
+    "jquery": "^3.2.1",
+    "mocha": "^3.3.0"
+  },
+  "dependencies": {
+    "mathjs": "^3.13.0",
+    "redis-sorted-set": "^2.0.0"
+  }
+}
