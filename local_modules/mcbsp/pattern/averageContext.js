@@ -27,8 +27,8 @@ module.exports = (history, values, mask) => {
 
   for (let t = -len; t < hlen; t += 1) {
     // Take a slice of history at time t.
-    let tslice = way.slice(history, Math.max(0, t), t + len)
-    let tsliceLen = way.len(tslice)
+    let tslice = way.slice(history, t, t + len)
+    let tsliceLen = len
 
     // A mask for this t.
     let tmask = mask
@@ -47,26 +47,24 @@ module.exports = (history, values, mask) => {
     // We also keep track of normalising factor for every cell.
     if (t < 0) {
       // Pad at begin
-      tslice = way.padLeft(tslice, len, 0)
-      tmask = way.padLeft(way.slice(tmask, -t, len), len, 0)
+      tmask = way.slice(tmask, -t, len)
       // For example, with mask length 4:
-      //   t = -4: padLeft(slice(tmask, 4, 4), 4, 0)
-      //   t = -2: padLeft(slice(tmask, 2, 4), 4, 0)
-      //   t = 0: padLeft(slice(tmask, 0, 4), 4, 0)
-      supportMask = way.padLeft(way.slice(supportMask, -t, len), len, 0)
+      //   t = -4: slice(tmask, 4, 4)
+      //   t = -2: slice(tmask, 2, 4)
+      //   t = 0: slice(tmask, 0, 4)
+      supportMask = way.slice(supportMask, -t, len)
     } else if (t > hlen - len) {
       // For example, len = 4, hlen = 8:
       //   t = 4: 4 > 8 - 4 === false
       //   t = 5: 5 > 8 - 4 === true
 
       // Pad at end
-      tslice = way.padRight(tslice, len, 0)
-      tmask = way.padRight(way.slice(tmask, 0, hlen - t), len, 0)
+      tmask = way.slice(tmask, 0, hlen - t)
       // For example, len = 4, hlen = 8:
-      //   t = 5: padRight(slice(tmask, 0, 3), 4, 0)
-      //   t = 7: padRight(slice(tmask, 0, 1), 4, 0)
-      //   t = 8: padRight(slice(tmask, 0, 0), 4, 0)
-      supportMask = way.padRight(way.slice(supportMask, 0, hlen - t), len, 0)
+      //   t = 5: slice(tmask, 0, 3)
+      //   t = 7: slice(tmask, 0, 1)
+      //   t = 8: slice(tmask, 0, 0)
+      supportMask = way.slice(supportMask, 0, hlen - t)
     }
 
     // Compute how much the slice resembles the pattern.
