@@ -46,7 +46,7 @@ exports.similarity = (a, b, apriori) => {
 };
 
 exports.predict = (hist, context, distance) => {
-  // Assert hist.length === context.length
+  // Assert way.width(hist) === way.width(context)
 
   const channels = context.length;
   const historySize = hist[0].length;
