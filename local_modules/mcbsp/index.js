@@ -49,9 +49,12 @@ exports.predict = (hist, context, distance) => {
   // Assert hist.length === context.length
 
   const channels = context.length;
-  const contextSize = context[0].length;
   const historySize = hist[0].length;
-  const futureSize = distance;
+  const contextSize = Math.min(historySize, context[0].length);
+  const futureSize = Math.min(historySize, distance);
+
+  // Trim context to history size
+  context = way.last(context, contextSize)
 
   // No reason to include moments where the future is about to be predicted.
   // We match the context, so the begin can be partial. It might be the best.
