@@ -54,7 +54,9 @@ exports.predict = (hist, context, distance) => {
   const futureSize = distance;
 
   // No reason to include moments where the future is about to be predicted.
-  const times = lib.range(Math.max(0, historySize - futureSize + 1));
+  // We match the context, so the begin can be partial. It might be the best.
+  // Range begin = 0 => first moment has only zeros.
+  const times = lib.range(0, historySize - futureSize);
   var moments = times.map(t => {
     return exports.moment(hist, t, contextSize, futureSize);
   });

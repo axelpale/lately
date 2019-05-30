@@ -2,9 +2,10 @@ exports.zeros = (n) => {
   return new Array(n).fill(0);
 }
 
-exports.range = (n) => {
+exports.range = (a, b) => {
   // See https://stackoverflow.com/a/10050831/638546
-  return Array.apply(null, Array(n)).map(function (_, i) {return i;});
+  const n = b - a
+  return Array.apply(null, Array(n)).map(function (_, i) {return i + a;});
 }
 
 exports.arrayScale = (arr, mult) => {
