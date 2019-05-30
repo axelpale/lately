@@ -106,5 +106,8 @@ module.exports = (history, values, mask) => {
     sliceAverage = way.map(sliceAverage, (zero, c) => prior[c][0])
   }
 
-  return sliceAverage
+  return {
+    values: sliceAverage,
+    mask: supportSum
+  }
 }

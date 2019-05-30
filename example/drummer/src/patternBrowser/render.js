@@ -57,12 +57,15 @@ module.exports = (model, dispatch) => {
     })
   }));
 
-  container.appendChild(renderWay(avgContext, {
+  container.appendChild(renderWay(avgContext.values, {
     label: 'average around the pattern'
   }));
   container.appendChild(renderWay(dependent, {
     label: 'bits of surprise away from prior',
     class: 'pattern-mask'
+  }));
+  container.appendChild(renderWay(avgContext.mask, {
+    label: 'bias mask'
   }));
 
   return container;

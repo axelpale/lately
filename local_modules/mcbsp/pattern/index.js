@@ -13,7 +13,7 @@ exports.secondOrderPredict = secondOrder.predict
 exports.dependent = (history, values, mask) => {
   const averageContext = exports.averageContext(history, values, mask)
   const prior = way.mean(history)
-  return informationGain(prior, averageContext)
+  return informationGain(prior, averageContext.values)
 }
 
 // TODO
