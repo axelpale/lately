@@ -7,8 +7,7 @@ exports.add = (wayA, wayB) => {
 
 exports.after = (way, t, len) => {
   if (typeof len === 'undefined') { len = way[0].length - t }
-  len = Math.min(len, way[0].length - t)
-  return way.map(ch => ch.slice(t, t + len))
+  return exports.slice(way, t, t + len)
 }
 
 exports.average = (ways) => {
@@ -22,9 +21,10 @@ exports.average = (ways) => {
 }
 
 exports.before = (way, t, len) => {
-  if (typeof len === 'undefined') { len = t }
-  len = Math.min(len, t)
-  return way.map(ch => ch.slice(t - len, t))
+  // Pick %len frames immediately before t, exclude frame t.
+  //
+  if (typeof len === 'undefined') { len = Math.max(0, t) }
+  return exports.slice(way, t - len, t)
 }
 
 exports.channel = (way, c) => {
@@ -219,7 +219,49 @@ exports.set = (way, c, t, value) => {
 }
 
 exports.slice = (way, begin, end) => {
-  return way.map(ch => ch.slice(begin, end))
+  // Get a part of the way.
+  //
+  // Fill frames outside of way with zeros:
+  //
+  //   Example t=-1, e=1:
+  //                          [w0] [w1] [w2]
+  //                     [ 0] [ 0]
+  //                     [ 0] [w0]
+  //   -----------------b---------e---------------------
+  //         -3   -2   -1    0    1    2    3    4
+  //
+  //   Example b=2, e=4:
+  //                          [w0] [w1] [w2]
+  //                                    [ 0] [ 0]
+  //                                    [w2] [ 0]
+  //   --------------------------------b---------e------
+  //         -3   -2   -1    0    1    2    3    4
+  //
+  //   Example b=-1, e=4:
+  //                          [w0] [w1] [w2]
+  //                     [ 0] [ 0] [ 0] [ 0] [ 0]
+  //                     [ 0] [w0] [w1] [w2] [ 0]
+  //   -----------------b------------------------e------
+  //         -3   -2   -1    0    1    2    3    4
+  //                    |
+  //                 t - len
+  //
+  const len = end - begin
+  const width = exports.width(way)
+  const wayLen = way[0].length
+
+  const filler = 0
+  const leftPadLen = Math.min(len, Math.max(0, -begin))
+  const leftPad = exports.create(width, leftPadLen, filler)
+  const rightPadLen = Math.min(len, Math.max(0, end - wayLen))
+  const rightPad = exports.create(width,rightPadLen, filler)
+
+  const a = Math.min(wayLen, Math.max(0, begin))
+  const b = Math.min(wayLen, Math.max(0, end))
+  const wayPart = way.map(ch => ch.slice(a, b))
+
+  const leftPadded = exports.join(leftPad, wayPart)
+  return exports.join(leftPadded, rightPad)
 }
 
 exports.sum = (way) => {

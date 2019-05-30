@@ -41,9 +41,21 @@ test('add', (t) => {
 })
 
 test('after', (t) => {
-  t.deepEqual(way.after(ONES, 2), [
+  t.deepEqual(way.after(V, 2), [
     [1],
-    [1]
+    [0]
+  ])
+  t.deepEqual(way.after(V, 2, 2), [
+    [1, 0],
+    [0, 0]
+  ])
+  t.deepEqual(way.after(V, -3, 2), [
+    [0, 0],
+    [0, 0]
+  ])
+  t.deepEqual(way.after(V, -1, 4), [
+    [0, 1, 0, 1],
+    [0, 0, 1, 0]
   ])
   t.end()
 })
@@ -54,9 +66,21 @@ test('average', (t) => {
 })
 
 test('before', (t) => {
-  t.deepEqual(way.before(W1, 2), [
+  t.deepEqual(way.before(V, 2), [
+    [1, 0],
+    [0, 1]
+  ])
+  t.deepEqual(way.before(V, 0), [
+    [],
+    []
+  ])
+  t.deepEqual(way.before(V, 0, 2), [
     [0, 0],
-    [1, 0]
+    [0, 0]
+  ])
+  t.deepEqual(way.before(V, 4, 5), [
+    [0, 1, 0, 1, 0],
+    [0, 0, 1, 0, 0]
   ])
   t.end()
 })
@@ -293,17 +317,25 @@ test('set', (t) => {
 })
 
 test('slice', (t) => {
-  t.deepEqual(way.slice(W0, 1, 3), [
+  t.deepEqual(way.slice(V, 1, 3), [
     [0, 1],
-    [1, 1]
+    [1, 0]
   ])
-  t.deepEqual(way.slice(W0, 1, 50), [
-    [0, 1],
-    [1, 1]
+  t.deepEqual(way.slice(V, 1, 5), [
+    [0, 1, 0, 0],
+    [1, 0, 0, 0]
   ])
-  t.deepEqual(way.slice(W0, 0, 0), [
+  t.deepEqual(way.slice(V, 0, 0), [
     [],
     []
+  ])
+  t.deepEqual(way.slice(V, -3, -1), [
+    [0, 0],
+    [0, 0]
+  ])
+  t.deepEqual(way.slice(V, -3, 1), [
+    [0, 0, 0, 1],
+    [0, 0, 0, 0]
   ])
   t.end()
 })
