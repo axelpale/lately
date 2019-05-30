@@ -59,7 +59,7 @@ exports.predict = (hist, context, distance) => {
   // No reason to include moments where the future is about to be predicted.
   // We match the context, so the begin can be partial. It might be the best.
   // Range begin = 0 => first moment has only zeros.
-  const times = lib.range(0, historySize - futureSize);
+  const times = lib.range(-contextSize + 1, historySize - futureSize);
   var moments = times.map(t => {
     return exports.moment(hist, t, contextSize, futureSize);
   });
@@ -68,8 +68,13 @@ exports.predict = (hist, context, distance) => {
 
   // Compute weights for each moment based on how well they matched the context
   moments = moments.map(m => {
+    const a = Math.max(0, m.t)
+    const b = Math.max(0, m.t + contextSize)
+    const l = b - a
+    const validPast = way.last(m.past, l)
+    const validContext = way.last(context, l)
     return Object.assign({
-      weight: exports.similarity(m.past, context, apriori)
+      weight: exports.similarity(validPast, validContext, apriori)
     }, m)
   });
 
