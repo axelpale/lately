@@ -1,4 +1,5 @@
 const datasets = require('../datasets');
+const way = require('senseway');
 
 module.exports = (model, dispatch) => {
   const control = document.createElement('div');
@@ -17,7 +18,11 @@ module.exports = (model, dispatch) => {
     const opt = document.createElement('option');
     opt.value = key;
     if (model.historyKey === key) { opt.selected = 'selected'; }
-    opt.innerHTML = key;
+
+    const datasetWidth = way.width(datasets[key]);
+    const datasetLen = way.len(datasets[key]);
+    opt.innerHTML = key + ' - ' + datasetWidth + 'x' + datasetLen;
+
     input.appendChild(opt);
   });
 
