@@ -76,11 +76,11 @@ const secondOrderMasks = (width, len) => {
   return masks
 }
 
-exports.patterns = (history) => {
+exports.patterns = (history, patternLen) => {
 
   const width = way.width(history)
   const hlen = way.len(history)
-  const len = 2 // TODO
+  const len = patternLen
   const context = way.last(history, len)
   const prior = way.mean(history)
 

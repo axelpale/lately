@@ -3,7 +3,7 @@ const mcbsp = require('mcbsp');
 const way = require('senseway');
 
 module.exports = (model, dispatch) => {
-  const patternLen = model.contextDistance + model.predictionDistance
+  const patternLen = model.contextDistance
   const secondOrder = mcbsp.pattern.secondOrderPatterns(model.history, patternLen)
   const container = document.createElement('div');
 
