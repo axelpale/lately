@@ -6,6 +6,7 @@
 // - cell: a state of a channel at a given time
 const datasets = require('./datasets');
 const clearElem = require('./clearElem');
+const way = require('senseway');
 
 const elements = [
   require('./datasetSelector/render'),
@@ -32,8 +33,8 @@ const reducers = [
   const defaultModel = {
     historyKey: 'FLOWER',
     history: datasets.FLOWER,
-    contextDistance: datasets.FLOWER.length,
-    predictionDistance: datasets.FLOWER.length
+    contextDistance: way.width(datasets.FLOWER),
+    predictionDistance: way.width(datasets.FLOWER)
   };
 
   let initialModel;
