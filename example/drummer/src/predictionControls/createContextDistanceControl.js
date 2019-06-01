@@ -1,4 +1,4 @@
-const renderSlider = require('./renderSlider');
+const renderSlider = require('../renderSlider');
 
 module.exports = (model, dispatch) => {
   return renderSlider({

@@ -9,6 +9,12 @@ module.exports = (model, ev) => {
       });
     }
 
+    case 'SET_PREDICTION_DISTANCE': {
+      return Object.assign({}, model, {
+        predictionDistance: Math.min(ev.value, way.len(model.history))
+      });
+    }
+
     default:
       return model;
   }

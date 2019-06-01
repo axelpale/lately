@@ -1,4 +1,9 @@
 module.exports = (opts) => {
+  // Options:
+  //   class
+  //   name
+  //   label
+  //
   const control = document.createElement('div');
   control.classList.add(opts.class);
 
