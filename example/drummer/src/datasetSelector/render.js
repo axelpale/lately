@@ -1,4 +1,4 @@
-const datasets = require('./datasets');
+const datasets = require('../datasets');
 
 module.exports = (model, dispatch) => {
   const control = document.createElement('div');

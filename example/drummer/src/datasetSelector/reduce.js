@@ -1,4 +1,4 @@
-const datasets = require('./datasets');
+const datasets = require('../datasets');
 const way = require('senseway')
 
 module.exports = (model, ev) => {

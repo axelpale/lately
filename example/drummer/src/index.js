@@ -9,7 +9,7 @@ const clearElem = require('./clearElem');
 const predict = require('./predict');
 
 const elements = [
-  require('./createDatasetControl'),
+  require('./datasetSelector/render'),
   require('./createPredictionControls'),
   // require('./createAudioControls'),
   require('./historyEditor/render'),
@@ -23,7 +23,7 @@ const elements = [
 ];
 
 const reducers = [
-  require('./reduceSelectDataset'),
+  require('./datasetSelector/reduce'),
   require('./reduceSetContextDistance'),
   require('./reduceSetPredictionDistance'),
   require('./historyEditor/reduce'),
