@@ -16,22 +16,10 @@ console.log('moment', mcbsp.moment(history, 3, 2, 2));
 
 {
   console.log('');
-  let a = way.before(history, 3, 2);
-  let b = way.before(history, 9, 2);
-  let sim = mcbsp.similarity(a, b);
-  console.log('similarity(a, b) =', sim + ', where');
-  console.log('a');
-  printSlice(a);
-  console.log('b');
-  printSlice(b);
-}
-
-{
-  console.log('');
   let t = history[0].length
   let distance = 2
   let context = way.last(history, 3)
-  let pred = mcbsp.predict(history, context, distance);
+  let pred = mcbsp.naive.predict(history, context, distance);
   console.log('predict', distance);
   console.log('  in context', JSON.stringify(context));
   pred.moments.forEach((mom, index) => {

@@ -6,6 +6,6 @@ module.exports = (model) => {
   let distance = model.predictionDistance;
   let t = model.history[0].length;
   let context = way.before(model.history, t, contextDistance);
-  let pred = mcbsp.predict(model.history, context, distance);
+  let pred = mcbsp.naive.predict(model.history, context, distance);
   return pred.probabilities;
 };
