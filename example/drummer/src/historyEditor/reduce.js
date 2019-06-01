@@ -12,11 +12,12 @@ module.exports = (model, ev) => {
     }
 
     case 'DELETE_HISTORY_FRAME': {
-      const len = way.len(model.history)
+      const newHist = way.dropAt(model.history, ev.time)
+      const newHistLen = way.len(newHist)
       return Object.assign({}, model, {
-        history: way.dropAt(model.history, ev.time),
-        contextDistance: way.min(model.contextDistance, len),
-        predictionDistance: way.min(model.predictionDistance, len)
+        history: newHist,
+        contextDistance: Math.min(model.contextDistance, newHistLen),
+        predictionDistance: Math.min(model.predictionDistance, newHistLen)
       });
     }
 
