@@ -6,7 +6,6 @@
 // - cell: a state of a channel at a given time
 const datasets = require('./datasets');
 const clearElem = require('./clearElem');
-const predict = require('./predict');
 
 const elements = [
   require('./datasetSelector/render'),

@@ -1,5 +1,5 @@
 const renderWay = require('../renderWay');
-const predict = require('../predict');
+const predict = require('./predict');
 
 module.exports = (model, dispatch) => {
   const prediction = predict(model);
