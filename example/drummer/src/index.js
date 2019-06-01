@@ -14,6 +14,7 @@ const elements = [
   // require('./createAudioControls'),
   require('./historyEditor/render'),
   require('./patternPredictionViewer/render'),
+  require('./contextViewer/render'),
   require('./naivePredictionViewer/render'),
   require('./createAPrioriElem'),
   require('./patternBrowser/render'),
