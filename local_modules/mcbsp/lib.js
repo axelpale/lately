@@ -4,7 +4,10 @@ exports.zeros = (n) => {
 
 exports.range = (a, b) => {
   // See https://stackoverflow.com/a/10050831/638546
-  const n = b - a
+  let n = b - a
+  if (n < 1) {
+    n = 1
+  }
   return Array.apply(null, Array(n)).map(function (_, i) {return i + a;});
 }
 
