@@ -43,9 +43,8 @@ exports.predict = (hist, context, distance) => {
   // Trim context to history size
   context = way.last(context, contextSize)
 
-  // No reason to include moments where the future is about to be predicted.
   // We match the context, so the begin can be partial. It might be the best.
-  // Range begin = 0 => first moment has only zeros.
+  // No reason to include moments where the future is about to be predicted.
   const times = lib.range(-contextSize + 1, historySize - futureSize);
   var moments = times.map(t => {
     return createMoment(hist, t, contextSize, futureSize);
@@ -72,9 +71,14 @@ exports.predict = (hist, context, distance) => {
   const middleAt = Math.floor(sorted.length / 2);
   const median = sorted[middleAt];
 
-  const weightMedian = (sorted.length % 2 === 0) ?
-    (sorted[middleAt - 1].weight + sorted[middleAt].weight) / 2 :
-    median.weight;
+  let weightMedian
+  if (sorted.length === 0) {
+    weightMedian = 0
+  } else if (sorted.length % 2 === 0) {
+    weightMedian = (sorted[middleAt - 1].weight + sorted[middleAt].weight) / 2
+  } else {
+    weightMedian = median.weight;
+  }
 
   // Pick weights above median weight. NOTE modifies moments.
   moments.forEach(m => {
