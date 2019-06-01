@@ -16,7 +16,7 @@ const elements = [
   require('./patternPredictionViewer/render'),
   require('./contextViewer/render'),
   require('./naivePredictionViewer/render'),
-  require('./createAPrioriElem'),
+  require('./meanViewer/render'),
   require('./patternBrowser/render'),
   require('./firstOrderViewer/render'),
   require('./secondOrderViewer/render')
