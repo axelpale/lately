@@ -132,7 +132,7 @@ exports.map2 = (wayA, wayB, fn) => {
 }
 
 exports.max = (way) => {
-  // Largest value in the way.
+  // Largest value in the way. Returns scalar.
   return way.reduce((acc, ch) => {
     return ch.reduce((ac, q) => {
       return q > ac ? q : ac
