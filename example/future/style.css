@@ -4,5 +4,40 @@
 }
 
 h1 {
-  font-size: 2.4rem;
+  font-size: 4.2rem;
+}
+
+.row {
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  line-height: 0;
+}
+
+.cells {
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+  line-height: 0;
+}
+
+.cell {
+  display: inline-block;
+  margin: 0;
+
+  width: 4.2rem;
+  height: 4.2rem;
+  padding: 0.2rem;
+
+  background: url('img/spine.png') center repeat-y
+}
+
+.cell .cell-event {
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+}
+
+.cell-empty .cell-event {
+  visibility: hidden;
 }
