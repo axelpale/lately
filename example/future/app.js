@@ -1,3 +1,7 @@
 const main = require('./src/index.js');
 
-main({});
+main({
+  defaultModel: {
+    hello: 'world'
+  }
+});
