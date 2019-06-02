@@ -1,0 +1,23 @@
+{
+  "name": "lately-future",
+  "version": "0.0.0",
+  "description": "Example app",
+  "main": "app.js",
+  "scripts": {
+    "build": "webpack",
+    "deploy": "rsync --recursive ../drummer/ xeli@xeli.webfactional.com:~/webapps/demos/lately/1",
+    "start": "nodemon --watch src --watch ../../local_modules --exec 'npm run build'",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Akseli Palén",
+  "license": "MIT",
+  "devDependencies": {
+    "webpack-cli": "^3.3.2",
+    "webpack": "^4.31.0",
+    "nodemon": "^1.19.0"
+  },
+  "dependencies": {
+    "mcbsp": "file:../../local_modules/mcbsp",
+    "senseway": "file:../../local_modules/senseway"
+  }
+}
