@@ -4,8 +4,14 @@ module.exports = (model, ev) => {
   switch (ev.type) {
 
     case 'DELETE_HISTORY_CHANNEL': {
+      const historyCandidate = way.dropChannel(model.history, ev.channel)
+
+      if (way.width(historyCandidate) < 1) {
+        return model
+      }
+
       return Object.assign({}, model, {
-        history: way.dropChannel(model.history, ev.channel),
+        history: historyCandidate,
         patternValues: way.dropChannel(model.patternValues, ev.channel),
         patternMask: way.dropChannel(model.patternValues, ev.channel)
       });
@@ -14,6 +20,11 @@ module.exports = (model, ev) => {
     case 'DELETE_HISTORY_FRAME': {
       const newHist = way.dropAt(model.history, ev.time)
       const newHistLen = way.len(newHist)
+
+      if (newHistLen < 1) {
+        return model
+      }
+
       return Object.assign({}, model, {
         history: newHist,
         contextDistance: Math.min(model.contextDistance, newHistLen),
