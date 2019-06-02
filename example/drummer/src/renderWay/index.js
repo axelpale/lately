@@ -1,3 +1,4 @@
+const senseway = require('senseway');
 const renderFrameElem = require('./renderFrameElem');
 const renderCellRowElem = require('./renderCellRowElem');
 const renderCellElem = require('./renderCellElem');
@@ -73,10 +74,13 @@ module.exports = (way, opts) => {
 
     const fr = renderFrameElem(lab);
     const cr = renderCellRowElem(t);
+    const maxValue = senseway.max(way); // For normalisation to color scale.
 
     for (let c = 0; c < way.length; c += 1) {
-      const val = way[c][t];
-      const cel = renderCellElem(t, c, val, way.length);
+      // Normalise value for gray scale.
+      const val = (maxValue === 0) ? 0 : way[c][t] / maxValue;
+      const label = '' + way[c][t];
+      const cel = renderCellElem(c, t, val, label);
 
       if (typeof opts.mask === 'object') {
         cel.style.opacity = '' + Math.max(0.1, opts.mask[c][t])
