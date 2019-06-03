@@ -27,13 +27,13 @@ module.exports = () => {
         [0, 0, 0, u, u, u, u],
       ],
       frames: [
-        { title: '2019-06-01' },
-        { title: '2019-06-02' },
-        { title: '2019-06-03' },
-        { title: '2019-06-04' },
-        { title: '2019-06-05' },
-        { title: '2019-06-06' },
-        { title: '2019-06-07' }
+        { title: '1.6.' },
+        { title: '2.6.' },
+        { title: '3.6.' },
+        { title: '4.6.' },
+        { title: '5.6.' },
+        { title: '6.6.' },
+        { title: '7.6.' }
       ],
       channels: [ // Dimensions
         {
