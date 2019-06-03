@@ -29,6 +29,10 @@ h1 {
   height: 4.2rem;
   padding: 0.2rem;
 
+  position: relative;
+}
+
+.cell.cell-event {
   background: url('img/spine.png') center repeat-y;
 }
 
@@ -36,16 +40,27 @@ h1 {
   background: url('img/spine-unknown.png') center repeat-y;
 }
 
-
-.cell .cell-event {
+.cell .cell-label {
   display: inline-block;
+  line-height: 1;
   width: 100%;
   height: 100%;
 }
 
-.cell-unknown .cell-event {
+.cell.cell-unknown .cell-label {
   opacity: 0.6;
 }
-.cell-empty .cell-event {
+.cell.cell-empty .cell-label {
   visibility: hidden;
+}
+
+.cell.cell-title {
+
+}
+.cell.cell-title .cell-label {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: auto;
 }

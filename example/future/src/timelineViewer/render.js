@@ -6,6 +6,29 @@ module.exports = (model, dispatch) => {
   const W = way.width(model.timeline)
   const LEN = way.len(model.timeline)
 
+  // Channel titles
+  {
+    const row = document.createElement('div');
+    row.classList.add('row');
+
+    const cells = document.createElement('div');
+    cells.classList.add('cells');
+
+    for (let c = 0; c < W; c += 1) {
+      const cell = document.createElement('div');
+      cell.classList.add('cell');
+      cell.classList.add('cell-title');
+      const val = model.channels[c].title;
+      cell.innerHTML = '<div class="cell-label">' + val + '</div>';
+
+      cells.appendChild(cell);
+    }
+
+    row.appendChild(cells);
+    root.appendChild(row);
+  }
+
+  // Timeline events
   for (let t = LEN - 1; t >= 0; t -= 1) {
     const row = document.createElement('div');
     row.classList.add('row');
@@ -16,6 +39,7 @@ module.exports = (model, dispatch) => {
     for (let c = 0; c < W; c += 1) {
       const cell = document.createElement('div');
       cell.classList.add('cell');
+      cell.classList.add('cell-event');
 
       const val = model.timeline[c][t];
 
@@ -30,7 +54,7 @@ module.exports = (model, dispatch) => {
       }
 
       const img = document.createElement('div');
-      img.classList.add('cell-event');
+      img.classList.add('cell-label');
       img.style.backgroundColor = model.channels[c].backgroundColor;
       cell.appendChild(img);
 
