@@ -11,9 +11,16 @@ module.exports = (model, dispatch) => {
   for (let t = LEN - 1; t >= 0; t -= 1) {
     const row = document.createElement('div');
     row.classList.add('row');
+    root.appendChild(row);
+
+    const frameTitle = document.createElement('div');
+    frameTitle.classList.add('row-title');
+    frameTitle.innerHTML = model.frames[t].title;
+    row.appendChild(frameTitle);
 
     const cells = document.createElement('div');
     cells.classList.add('cells');
+    row.appendChild(cells);
 
     for (let c = 0; c < W; c += 1) {
       const cell = document.createElement('div');
@@ -39,9 +46,6 @@ module.exports = (model, dispatch) => {
 
       cells.appendChild(cell);
     }
-
-    row.appendChild(cells);
-    root.appendChild(row);
   }
 
   return root;

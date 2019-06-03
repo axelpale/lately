@@ -23,6 +23,17 @@ h1 {
   line-height: 1;
 }
 
+.row .row-title {
+  display: inline-block;
+  position: relative;
+  top: -1.8em;
+  width: 10em;
+  margin-left: -11em;
+  padding-right: 1em;
+  text-align: right;
+  line-height: 1;
+}
+
 .cells {
   display: inline-block;
   margin: 0;
