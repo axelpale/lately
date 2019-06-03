@@ -2,6 +2,7 @@ const reduxish = require('./lib/reduxish');
 const way = require('senseway');
 
 const renderers = [
+  require('./channelTitles/render'),
   require('./timelineViewer/render')
 ];
 
