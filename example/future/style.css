@@ -14,6 +14,15 @@ h1 {
   line-height: 0;
 }
 
+.row-future h1 {
+  margin: 1em 0 0.3em 0;
+  line-height: 1;
+}
+.row-past h1 {
+  margin: 1em 0 0.3em 0;
+  line-height: 1;
+}
+
 .cells {
   display: inline-block;
   margin: 0;
