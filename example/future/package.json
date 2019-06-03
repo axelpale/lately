@@ -17,6 +17,7 @@
     "nodemon": "^1.19.0"
   },
   "dependencies": {
+    "deep-equal": "^1.0.1",
     "mcbsp": "file:../../local_modules/mcbsp",
     "senseway": "file:../../local_modules/senseway"
   }

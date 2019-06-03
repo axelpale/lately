@@ -1,16 +1,24 @@
 const clearElem = require('./clearElem');
+const deepEqual = require('deep-equal');
 
 module.exports = (opts) => {
 
-  const defaultModel = opts.defaultModel;
-
   // Persistence
   let initialModel;
-  const storedModel = window.localStorage.getItem(opts.storageName);
-  if (storedModel) {
-    initialModel = JSON.parse(storedModel);
+  const storedModelJson = window.localStorage.getItem(opts.storageName);
+  if (storedModelJson) {
+    const storedModel = JSON.parse(storedModelJson);
+    if (deepEqual(storedModel.defaultModel, opts.defaultModel, { strict: true })) {
+      initialModel = storedModel;
+    } else {
+      // Default model changed due to a source update.
+      // Replace the old values with new data. Keep unchanged data.
+      initialModel = Object.assign({}, storedModel, opts.defaultModel, {
+        defaultModel: opts.defaultModel
+      });
+    }
   } else {
-    initialModel = defaultModel;
+    initialModel = opts.defaultModel;
   }
 
   const reducer = (model, ev) => {
