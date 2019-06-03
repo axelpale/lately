@@ -36,7 +36,7 @@ h1 {
   background: url('img/spine.png') center repeat-y;
 }
 
-.cell-unknown {
+.cell.cell-unknown {
   background: url('img/spine-unknown.png') center repeat-y;
 }
 
