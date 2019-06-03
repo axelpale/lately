@@ -18,11 +18,31 @@ module.exports = (model, dispatch) => {
   const text = document.createElement('input');
   text.type = 'text';
   text.value = title;
-
   form.appendChild(text);
 
   const okBtn = document.createElement('button');
+  okBtn.type = 'button';
   okBtn.innerHTML = 'OK';
+  form.appendChild(okBtn);
+
+  row.appendChild(form);
+  root.appendChild(row);
+
+  // Events
+
+  setTimeout(() => {
+    text.focus();
+  }, 200);
+
+  form.addEventListener('submit', ev => {
+    ev.preventDefault();
+    dispatch({
+      type: 'EDIT_CHANNEL_TITLE',
+      channel: c,
+      title: text.value
+    });
+  });
+
   okBtn.addEventListener('click', ev => {
     dispatch({
       type: 'EDIT_CHANNEL_TITLE',
@@ -30,10 +50,6 @@ module.exports = (model, dispatch) => {
       title: text.value
     });
   });
-  form.appendChild(okBtn);
-
-  row.appendChild(form);
-  root.appendChild(row);
 
   return root;
 }
