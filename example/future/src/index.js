@@ -2,11 +2,14 @@ const reduxish = require('./lib/reduxish');
 const way = require('senseway');
 
 const renderers = [
+  require('./channelTitleEditor/render'),
   require('./channelTitles/render'),
   require('./timelineViewer/render')
 ];
 
 const reducers = [
+  require('./channelTitleEditor/reduce'),
+  require('./channelTitles/reduce'),
   require('./timelineViewer/reduce')
 ];
 
@@ -57,7 +60,8 @@ module.exports = () => {
           title: 'Uiminen',
           backgroundColor: '#223E85'
         }
-      ]
+      ],
+      channelOnEdit: null
     },
     storageName: 'future-model',
     rootElementId: 'content',

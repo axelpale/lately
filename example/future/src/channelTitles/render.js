@@ -3,11 +3,6 @@ const clearElem = require('../lib/clearElem');
 module.exports = (model, dispatch) => {
   const root = document.createElement('div');
 
-  const rowInput = document.createElement('div');
-  rowInput.classList.add('row');
-  rowInput.classList.add('row-input');
-  root.appendChild(rowInput);
-
   const row = document.createElement('div');
   row.classList.add('row');
 
@@ -22,9 +17,10 @@ module.exports = (model, dispatch) => {
     cell.innerHTML = '<div class="cell-label">' + val + '</div>';
 
     cell.addEventListener('click', ev => {
-      clearElem(rowInput);
-      const t = model.channels[c].title;
-      rowInput.innerHTML = '<input type="text" value="' + t + '">';
+      dispatch({
+        type: 'OPEN_CHANNEL_TITLE_EDITOR',
+        channel: c
+      });
     });
 
     cells.appendChild(cell);
