@@ -29,8 +29,13 @@ h1 {
   height: 4.2rem;
   padding: 0.2rem;
 
-  background: url('img/spine.png') center repeat-y
+  background: url('img/spine.png') center repeat-y;
 }
+
+.cell-unknown {
+  background: url('img/spine-unknown.png') center repeat-y;
+}
+
 
 .cell .cell-event {
   display: inline-block;
@@ -38,6 +43,9 @@ h1 {
   height: 100%;
 }
 
+.cell-unknown .cell-event {
+  opacity: 0.6;
+}
 .cell-empty .cell-event {
   visibility: hidden;
 }

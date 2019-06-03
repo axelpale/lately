@@ -18,10 +18,15 @@ module.exports = (model, dispatch) => {
       cell.classList.add('cell');
 
       const val = model.timeline[c][t];
-      if (val < 0.5) {
-        cell.classList.add('cell-empty');
+
+      if (val === null) {
+        cell.classList.add('cell-unknown');
       } else {
-        cell.classList.add('cell-full');
+        if (val < 0.5) {
+          cell.classList.add('cell-empty');
+        } else {
+          cell.classList.add('cell-full');
+        }
       }
 
       const img = document.createElement('div');
