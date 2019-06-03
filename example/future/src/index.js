@@ -18,7 +18,9 @@ module.exports = () => {
         [1, 1, 1, u, u, u, u],
         [u, 1, 1, u, u, u, u],
         [u, 1, 1, u, u, u, u],
-        [u, 1, 1, u, u, u, u]
+        [u, 1, 1, u, u, u, u],
+        [0, 1, 0, u, u, u, u],
+        [0, 0, 0, u, u, u, u],
       ],
       frames: [
         { title: '2019-06-01' },
@@ -44,6 +46,14 @@ module.exports = () => {
         },
         {
           title: 'Kasvien kastelu',
+          backgroundColor: '#223E85'
+        },
+        {
+          title: 'Kiipeily',
+          backgroundColor: '#223E85'
+        },
+        {
+          title: 'Uiminen',
           backgroundColor: '#223E85'
         }
       ]
