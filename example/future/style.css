@@ -66,7 +66,7 @@ h1 {
 }
 
 .cell.cell-unknown .cell-label {
-  opacity: 0.6;
+  opacity: 0.4;
 }
 .cell.cell-empty .cell-label {
   visibility: hidden;
