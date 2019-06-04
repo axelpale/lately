@@ -14,7 +14,7 @@ module.exports = (model, dispatch) => {
     cell.classList.add('cell');
     cell.classList.add('cell-title');
     const val = model.channels[c].title;
-    cell.innerHTML = '<div class="cell-label">' + val + '</div>';
+    cell.innerHTML = '<div class="cell-text">' + val + '</div>';
 
     cell.addEventListener('click', ev => {
       dispatch({

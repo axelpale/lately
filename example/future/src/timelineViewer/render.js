@@ -1,6 +1,7 @@
 const way = require('senseway');
 const frameTitle = require('./frameTitle');
 const clearElem = require('../lib/clearElem');
+const predict = require('../lib/predict');
 
 module.exports = (model, dispatch) => {
   const root = document.createElement('div');
@@ -25,6 +26,19 @@ module.exports = (model, dispatch) => {
       cell.classList.add('cell');
       cell.classList.add('cell-event');
 
+      const spine = document.createElement('div');
+      spine.classList.add('cell-spine');
+      cell.appendChild(spine);
+
+      const icon = document.createElement('div');
+      icon.classList.add('cell-icon');
+      icon.style.backgroundColor = model.channels[c].backgroundColor;
+      cell.appendChild(icon);
+
+      const text = document.createElement('div');
+      text.classList.add('cell-text');
+      cell.appendChild(text);
+
       const val = model.timeline[c][t];
 
       if (val === null) {
@@ -37,10 +51,15 @@ module.exports = (model, dispatch) => {
         }
       }
 
-      const img = document.createElement('div');
-      img.classList.add('cell-label');
-      img.style.backgroundColor = model.channels[c].backgroundColor;
-      cell.appendChild(img);
+      if (val === null) {
+        const value = model.timeline;
+        const mass = way.map(model.timeline, q => q === null ? 0 : 1);
+        const prob = predict(value, mass, c, t);
+        if (prob < 0.5) {
+          icon.style.visibility = 'hidden';
+        }
+        text.innerHTML = '<span>' + Math.floor(100 * prob) + '%</span>';
+      }
 
       cells.appendChild(cell);
     }

@@ -38,7 +38,7 @@ module.exports = () => {
       ],
       channels: [ // Dimensions
         {
-          title: 'Aamiainen',
+          title: 'Aamiai&shy;nen',
           backgroundColor: '#8A1C82'
         },
         {
