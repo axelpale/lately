@@ -25,6 +25,7 @@ module.exports = () => {
         [u, 1, 1, 1, u, u, u],
         [0, 1, 0, 0, u, u, u],
         [0, 0, 0, 0, u, u, u],
+        [u, 0, 1, 1, u, u, u],
       ],
       frames: [
         { title: '1.6.' },
@@ -54,11 +55,15 @@ module.exports = () => {
         },
         {
           title: 'Kiipeily',
-          backgroundColor: '#223E85'
+          backgroundColor: '#4f92a6'
         },
         {
           title: 'Uiminen',
-          backgroundColor: '#223E85'
+          backgroundColor: '#38ab73'
+        },
+        {
+          title: 'Hyvä fiilis',
+          backgroundColor: '#f0c432'
         }
       ],
       channelOnEdit: null,
