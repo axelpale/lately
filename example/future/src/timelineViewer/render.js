@@ -61,6 +61,14 @@ module.exports = (model, dispatch) => {
         text.innerHTML = '<span>' + Math.floor(100 * prob) + '%</span>';
       }
 
+      cell.addEventListener('click', ev => {
+        dispatch({
+          type: 'EDIT_CELL',
+          channel: c,
+          time: t
+        })
+      });
+
       cells.appendChild(cell);
     }
   }
