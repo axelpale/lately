@@ -26,6 +26,7 @@ module.exports = () => {
         [0, 1, 0, 0, u, u, u],
         [0, 0, 0, 0, u, u, u],
         [u, 0, 1, 1, u, u, u],
+        [1, 1, 1, 1, u, u, u],
       ],
       frames: [
         { title: '1.6.' },
@@ -64,6 +65,10 @@ module.exports = () => {
         {
           title: 'Hyvä fiilis',
           backgroundColor: '#f0c432'
+        },
+        {
+          title: 'Ohjel&shy;moin&shy;ti',
+          backgroundColor: '#ffa23e'
         }
       ],
       channelOnEdit: null,
