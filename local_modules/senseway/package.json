@@ -7,7 +7,7 @@
     "start": "nodemon test.js",
     "test": "tape test.js"
   },
-  "author": "",
+  "author": "Akseli Palén",
   "license": "MIT",
   "devDependencies": {
     "nodemon": "^1.19.0"
