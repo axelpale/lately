@@ -1,4 +1,5 @@
 const way = require('senseway');
+const frameTitle = require('./frameTitle');
 const clearElem = require('../lib/clearElem');
 
 module.exports = (model, dispatch) => {
@@ -13,10 +14,7 @@ module.exports = (model, dispatch) => {
     row.classList.add('row');
     root.appendChild(row);
 
-    const frameTitle = document.createElement('div');
-    frameTitle.classList.add('row-title');
-    frameTitle.innerHTML = model.frames[t].title;
-    row.appendChild(frameTitle);
+    row.appendChild(frameTitle(model, dispatch, t))
 
     const cells = document.createElement('div');
     cells.classList.add('cells');
