@@ -61,7 +61,8 @@ module.exports = () => {
           backgroundColor: '#223E85'
         }
       ],
-      channelOnEdit: null
+      channelOnEdit: null,
+      frameOnEdit: null
     },
     storageName: 'future-model',
     rootElementId: 'content',
