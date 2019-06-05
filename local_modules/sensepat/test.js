@@ -79,9 +79,26 @@ test('equalSize', (t) => {
 
   const VS = {
     value: [[1, 0], [0, 1]],
-    mass: [[1, 1], [1, 1]],
+    mass: [[1, 1], [1, 1]]
   }
   t.equal(pat.equalSize(V, VS), false)
+  t.end()
+})
+
+test('infoGain', (t) => {
+  const prior = {
+    value: [[0.5]],
+    mass: [[1]]
+  }
+  const posterior = {
+    value: [[1]],
+    mass: [[1]]
+  }
+  const gain = {
+    value: [[1]],
+    mass: [[1]]
+  }
+  t.deepEqual(pat.infoGain(prior, posterior), gain)
   t.end()
 })
 
