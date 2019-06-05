@@ -254,6 +254,15 @@ test('multiply', (t) => {
   t.end()
 })
 
+test('normalize', (t) => {
+  t.deepEqual(way.normalize([
+    [-2, 0, 2]
+  ]), [
+    [0, 0.5, 1]
+  ])
+  t.end()
+})
+
 test('padLeft', (t) => {
   t.deepEqual(way.padLeft(ONES, 5, 2), [
     [2, 2, 1, 1, 1],

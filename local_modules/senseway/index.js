@@ -167,6 +167,23 @@ exports.multiply = (wayA, wayB) => {
   return wayA.map((ch, c) => ch.map((q, t) => q * wayB[c][t]))
 }
 
+exports.normalize = (way) => {
+  // Scale values within 0..1
+  const minq = exports.min(way)
+  const maxq = exports.max(way)
+  if (minq === maxq) {
+    if (minq === 0) {
+      // All zeros
+      return way
+    }
+    if (minq < 0) {
+      return exports.map(way, q => 0)
+    }
+    return exports.map(way, q => 1)
+  }
+  return exports.map(way, q => (q - minq) / (maxq - minq))
+}
+
 exports.padLeft = (way, len, filler) => {
   if (way[0].length >= len) {
     return way
