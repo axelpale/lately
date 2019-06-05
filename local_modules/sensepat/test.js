@@ -25,6 +25,55 @@ const ONESHALF = {
   ]
 }
 
+test('contextMean', (t) => {
+  // Trivial
+  const hist = {
+    value: [[1]],
+    mass: [[1]]
+  }
+  const patt = {
+    value: [[1]],
+    mass: [[1]]
+  }
+  const ctx = pat.contextMean(hist, patt)
+  t.deepEqual(ctx, {
+    value: [[1]],
+    mass: [[1]]
+  })
+
+  // Simple. Two matches.
+  const h2 = {
+    value: [[1, 1, 0]],
+    mass: [[1, 1, 1]]
+  }
+  const p2 = {
+    value: [[1, 0]],
+    mass: [[1, 0]]
+  }
+  const ctx2 = pat.contextMean(h2, p2)
+  t.deepEqual(ctx2, {
+    value: [[1, 0.5]],
+    mass: [[2, 2]]
+  })
+
+  // Three matches, last on the edge.
+  const h3 = {
+    value: [[1, 1, 0, 1]],
+    mass: [[1, 1, 1, 1]]
+  }
+  const p3 = {
+    value: [[1, 0]],
+    mass: [[1, 0]]
+  }
+  const ctx3 = pat.contextMean(h3, p3)
+  t.deepEqual(ctx3, {
+    value: [[1, 0.5]],
+    mass: [[3, 2]]
+  })
+
+  t.end()
+})
+
 test('len', (t) => {
   t.equal(pat.len(V), 3)
   t.end()

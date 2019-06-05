@@ -6,6 +6,8 @@
 //   mass: a matrix of how meaninful each value is
 // }
 
+exports.contextMean = require('./lib/contextMean')
+
 exports.len = (pat) => {
   return pat.value[0].length
 }
