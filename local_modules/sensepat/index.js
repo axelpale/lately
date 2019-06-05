@@ -38,9 +38,8 @@ exports.mean = (pat) => {
   return result
 }
 
-exports.pattern = (time, value, mass) => {
+exports.pattern = (value, mass) => {
   return {
-    time: time,
     value: value,
     mass: mass
   }

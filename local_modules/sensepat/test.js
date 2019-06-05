@@ -4,7 +4,6 @@ const pat = require('./index')
 const test = require('tape')
 
 const V = {
-  time: 0,
   value: [
     [1, 0, 1],
     [0, 1, 0]
@@ -16,7 +15,6 @@ const V = {
 }
 
 const ONESHALF = {
-  time: 0,
   value: [
     [1, 1, 1],
     [1, 1, 1]

@@ -18,9 +18,10 @@ module.exports = (historyValues, historyMask, channel, time) => {
   // Find prior probability for each pattern.
   // Find prior probability for the position.
 
-  const hist = pat.pattern(0, historyValues, historyMask)
-  const prior = pat.mean(hist)
+  // Make into a sensepat
+  const hist = pat.pattern(historyValues, historyMask)
 
   // 0th order prediction: channel expectance
+  const prior = pat.mean(hist)
   return prior[channel]
 }
