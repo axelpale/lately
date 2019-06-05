@@ -1,4 +1,5 @@
 const way = require('senseway')
+const patmean = require('./mean')
 
 module.exports = (history, pattern) => {
   // Sum over history
@@ -71,9 +72,9 @@ module.exports = (history, pattern) => {
   // If sum of support is 0, there is absolutely no matching pattern.
   // Then we just need to use our best knowledge, channel means.
   if (way.sum(supportSum) === 0) {
-    const prior = way.mean(history)
+    const prior = patmean(history)
     // Stretch the prior
-    contextAverage = way.map(contextAverage, (zero, c) => prior[c][0])
+    contextAverage = way.map(contextAverage, (zero, c) => prior[c])
   }
 
   return {
