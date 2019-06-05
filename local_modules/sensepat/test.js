@@ -113,6 +113,15 @@ test('mean', (t) => {
   t.end()
 })
 
+test('sum', (t) => {
+  const a = {
+    value: [[0, 1, 1], [1, 1, 0]],
+    mass: [[1, 1, 0], [1, 1, 0]]
+  }
+  t.equal(pat.sum(a), 3)
+  t.end()
+})
+
 test('width', (t) => {
   t.equal(pat.width(V), 2)
   t.end()
