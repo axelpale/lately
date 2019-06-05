@@ -74,6 +74,17 @@ test('contextMean', (t) => {
   t.end()
 })
 
+test('equalSize', (t) => {
+  t.equal(pat.equalSize(V, ONESHALF), true)
+
+  const VS = {
+    value: [[1, 0], [0, 1]],
+    mass: [[1, 1], [1, 1]],
+  }
+  t.equal(pat.equalSize(V, VS), false)
+  t.end()
+})
+
 test('len', (t) => {
   t.equal(pat.len(V), 3)
   t.end()

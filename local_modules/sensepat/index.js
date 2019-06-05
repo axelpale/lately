@@ -8,6 +8,8 @@
 
 exports.contextMean = require('./lib/contextMean')
 
+exports.equalSize = require('./lib/equalSize')
+
 exports.len = (pat) => {
   return pat.value[0].length
 }
