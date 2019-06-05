@@ -36,7 +36,7 @@ module.exports = (history, values, mask) => {
     // To deal with the edges: a mask for support;
     // did cell participate to to sliceSum.
     // Cell-wise normalisation.
-    supportMask = way.map(mask, q => 1)
+    let supportMask = way.map(mask, q => 1)
 
     // We do not want bias near the edges.
     // Deal with the edges by padding the slice so that size matches the mask.
