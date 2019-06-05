@@ -10,9 +10,9 @@
   "author": "Akseli Palén",
   "license": "MIT",
   "devDependencies": {
-    "nodemon": "^1.19.0"
+    "nodemon": "^1.19.0",
+    "tape": "^4.10.1"
   },
   "dependencies": {
-    "tape": "^4.10.1"
   }
 }
