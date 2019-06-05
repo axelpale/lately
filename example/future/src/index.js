@@ -19,14 +19,14 @@ module.exports = () => {
   reduxish({
     defaultModel: {
       timeline: [
-        [1, 1, 1, 1, u, u, u],
+        [1, 1, 1, 1, 1, u, u],
         [u, 1, 1, 1, u, u, u],
         [u, 1, 1, u, u, u, u],
-        [u, 1, 1, 1, u, u, u],
+        [u, 1, 1, 1, 1, u, u],
         [0, 1, 0, 0, u, u, u],
         [0, 0, 0, 0, u, u, u],
         [u, 0, 1, 1, u, u, u],
-        [1, 1, 1, 1, u, u, u],
+        [1, 1, 1, 1, 1, u, u],
       ],
       frames: [
         { title: '1.6.' },
