@@ -16,5 +16,6 @@
     "tape": "^4.10.1"
   },
   "dependencies": {
+    "senseway": "file:../senseway"
   }
 }
