@@ -103,6 +103,52 @@ exports.frame = (way, t) => {
   return way.map(ch => [ch[t]]) // frame is an array of arrays
 }
 
+exports.html = (way, opts) => {
+  const rev = opts.reversed ? true : false
+
+  const len = exports.len(way)
+  const width = exports.width(way)
+
+  let tbegin = 0
+  let tend = len
+  let dt = 1
+  if (rev) {
+    tbegin = len - 1
+    tend = -1
+    dt = -1
+  }
+
+  let str = '<div class="way" style="width:' + width + 'em">'
+  for (let t = tbegin; (rev ? t > tend : t < tend); t += dt) {
+    str += '<div class="way-frame" style="display:flex">'
+    for (let c = 0; c < width; c += 1) {
+      const q = way[c][t]
+      const title = q + ' @[' + c + '][' + t + ']'
+      str += '<div class="way-cell" '
+      str += 'title="' + title + '" '
+      str += 'data-channel="' + c + '" '
+      str += 'data-time="' + t + '" '
+
+      let style = 'flex:1;width:1em;height:1em;'
+
+      if (typeof q === 'number') {
+        const h = q * 10 // degrees
+        const s = '50%' // saturation
+        const l = Math.round((1 - q) * 100) + '%' // lightness
+        style += 'background-color: hsl(' + h + ',' + s + ',' + l + ')";'
+      }
+
+      str += 'style="' + style + '" '
+
+      str += '>'
+      str += '</div>'
+    }
+    str += '</div>'
+  }
+  str += '</div>'
+  return str
+}
+
 exports.increase = (way, addition) => {
   return way.map(ch => ch.map(quantum => quantum + addition))
 }
