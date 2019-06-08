@@ -4,7 +4,8 @@ const way = require('senseway');
 const renderers = [
   require('./channelTitleEditor/render'),
   require('./channelTitles/render'),
-  require('./timelineViewer/render')
+  require('./timelineViewer/render'),
+  require('./howViewer/render')
 ];
 
 const reducers = [
