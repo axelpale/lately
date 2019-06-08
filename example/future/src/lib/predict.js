@@ -7,6 +7,7 @@ module.exports = (historyValues, historyMask, channel, time) => {
   //
   // Params
   //   ...
+  //   time, time in history
   //
   // Returns
   //   probability for 1
@@ -57,6 +58,8 @@ module.exports = (historyValues, historyMask, channel, time) => {
   ctx0.mass = way.normalize(ctx0.mass)
   ctx1.mass = way.normalize(ctx1.mass)
 
+  // Gains tell us which positions and values are meaningful
+  // If summed, they give mutual information?
   const gain0 = pat.infoGain(pattPrior, ctx0)
   const gain1 = pat.infoGain(pattPrior, ctx1)
 
