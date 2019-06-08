@@ -32,7 +32,6 @@ module.exports = (model, dispatch) => {
 
       const icon = document.createElement('div');
       icon.classList.add('cell-icon');
-      icon.style.backgroundColor = model.channels[c].backgroundColor;
       cell.appendChild(icon);
 
       const text = document.createElement('div');
@@ -48,6 +47,7 @@ module.exports = (model, dispatch) => {
           cell.classList.add('cell-empty');
         } else {
           cell.classList.add('cell-full');
+          icon.style.backgroundColor = model.channels[c].backgroundColor;
         }
       }
 

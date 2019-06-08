@@ -84,6 +84,8 @@ h1 {
 }
 
 .cell.cell-unknown .cell-icon {
+  background-color: transparent;
+  border: 1px dashed black;
   opacity: 0.6;
 }
 
