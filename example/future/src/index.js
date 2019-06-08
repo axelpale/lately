@@ -20,14 +20,17 @@ module.exports = () => {
   reduxish({
     defaultModel: {
       timeline: [
-        [1, 1, 1, 1, 1, u, u],
-        [u, 1, 1, 1, 1, u, u],
-        [u, 1, 1, 1, 1, u, u],
-        [u, 1, 1, 1, 1, u, u],
-        [0, 1, 0, 0, 1, u, u],
-        [0, 0, 0, 0, 0, u, u],
-        [u, 0, 1, 1, 1, u, u],
-        [1, 1, 1, 1, 1, u, u],
+        [1, 1, 1, 1, 1, 1, 1, 1, u, u],
+        [u, 1, 1, 1, 1, 0, 0, 1, u, u],
+        [u, 1, 1, 1, 1, 0, 0, 1, u, u],
+        [u, 1, 1, 1, 1, 1, 0, 0, u, u],
+        [0, 1, 0, 0, 1, 0, 0, 0, u, u],
+        [0, 0, 0, 0, 0, 0, 0, 0, u, u],
+        [u, 0, 1, 1, 1, 1, 1, 1, u, u],
+        [1, 1, 1, 1, 1, 0, 0, 1, u, u],
+        [1, 1, 1, 1, 1, 0, 0, 0, u, u],
+        [0, 0, 0, 0, 0, 1, 0, 0, u, u],
+        [0, 0, 0, 0, 0, 0, 1, 1, u, u]
       ],
       frames: [
         { title: '1.6.' },
@@ -36,7 +39,10 @@ module.exports = () => {
         { title: '4.6.' },
         { title: '5.6.' },
         { title: '6.6.' },
-        { title: '7.6.' }
+        { title: '7.6.' },
+        { title: '8.6.' },
+        { title: '9.6.' },
+        { title: '10.6.' }
       ],
       channels: [ // Dimensions
         {
@@ -69,6 +75,18 @@ module.exports = () => {
         },
         {
           title: 'Ohjel&shy;moin&shy;ti',
+          backgroundColor: '#ffa23e'
+        },
+        {
+          title: 'Koti-ilta',
+          backgroundColor: '#ffa23e'
+        },
+        {
+          title: 'Ilokivi-ilta',
+          backgroundColor: '#ffa23e'
+        },
+        {
+          title: 'Kiltailta',
           backgroundColor: '#ffa23e'
         }
       ],
