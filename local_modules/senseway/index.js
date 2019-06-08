@@ -105,6 +105,8 @@ exports.frame = (way, t) => {
 
 exports.html = (way, opts) => {
   const rev = opts.reversed ? true : false
+  const heading = opts.heading ? opts.heading : ''
+  const caption = opts.caption ? opts.caption : ''
 
   const len = exports.len(way)
   const width = exports.width(way)
@@ -119,6 +121,10 @@ exports.html = (way, opts) => {
   }
 
   let str = '<div class="way" style="width:' + width + 'em">'
+  str += '<div class="way-heading" '
+  str += 'style="width:' + width + 'em;" '
+  str += '>' + heading + '</div>'
+
   for (let t = tbegin; (rev ? t > tend : t < tend); t += dt) {
     str += '<div class="way-frame" style="display:flex">'
     for (let c = 0; c < width; c += 1) {
@@ -145,6 +151,10 @@ exports.html = (way, opts) => {
     }
     str += '</div>'
   }
+
+  str += '<div class="way-caption" '
+  str += 'style="width:' + width + 'em;" '
+  str += '>' + caption + '</div>'
   str += '</div>'
   return str
 }
