@@ -20,6 +20,11 @@ module.exports = (historyValues, historyMask, channel, time) => {
   // Find prior probability for each pattern.
   // Find prior probability for the position.
 
+  // TODO make into a parameter
+  const CTXLEN = 5
+  const CTXC = channel
+  const CTXT = Math.floor((CTXLEN - 1) / 2) // 1 => 0, 5 => 2, 8 => 3
+
   // Make into a sensepat
   const hist = pat.pattern(historyValues, historyMask)
   const W = pat.width(hist)
@@ -34,8 +39,8 @@ module.exports = (historyValues, historyMask, channel, time) => {
   // to the channel mean.
   // Find patterns
 
-  const zero = way.create(W, 5, 0)
-  const one = way.set(zero, channel, 2, 1)
+  const zero = way.create(W, CTXLEN, 0)
+  const one = way.set(zero, CTXC, CTXT, 1)
 
   const pattZero = {
     value: zero,
@@ -63,15 +68,27 @@ module.exports = (historyValues, historyMask, channel, time) => {
   const gain0 = pat.infoGain(pattPrior, ctx0)
   const gain1 = pat.infoGain(pattPrior, ctx1)
 
+  // Now we need to decide which one matches the context the best.
+  const context = way.slice(hist.value, time - CTXT, time - CTXT + CTXLEN)
+  const contextMass = way.slice(hist.mass, time - CTXT, time - CTXT + CTXLEN)
+
   // Without delicate theoretical background let us treat gains
   // as weights for now.
   const g0 = pat.sum(gain0)
   const g1 = pat.sum(gain1)
 
+  let prob // prob for 1
   if (g0 + g1 === 0) {
-    return 0
+    prob = 0
+  } else {
+    prob = g1 / (g0 + g1)
   }
 
-  // prob for 1
-  return g1 / (g0 + g1)
+  // Prediction
+  return {
+    channel: channel,
+    context: context,
+    prob: prob,
+    time: time
+  }
 }

@@ -54,11 +54,11 @@ module.exports = (model, dispatch) => {
       if (val === null) {
         const value = model.timeline;
         const mass = way.map(model.timeline, q => q === null ? 0 : 1);
-        const prob = predict(value, mass, c, t);
-        if (prob < 0.5) {
+        const pred = predict(value, mass, c, t);
+        if (pred.prob < 0.5) {
           icon.style.visibility = 'hidden';
         }
-        text.innerHTML = '<span>' + Math.floor(100 * prob) + '%</span>';
+        text.innerHTML = '<span>' + Math.floor(100 * pred.prob) + '%</span>';
       }
 
       cell.addEventListener('click', ev => {
