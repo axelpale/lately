@@ -111,8 +111,13 @@ h1 {
   height: unset;
 }
 
-.how-timeline {
+.how-container {
+  margin-top: 5em;
+}
 
+.how-timeline .how-way-container {
+  float: left;
+  padding: 2em;
 }
 
 .how-timeline .way-cell {

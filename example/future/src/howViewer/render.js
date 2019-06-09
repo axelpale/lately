@@ -3,12 +3,14 @@ const howTitle = require('./howTitle/render')
 
 const wayel = (wa, opts) => {
   const el = document.createElement('div')
+  el.classList.add('how-way-container')
   el.innerHTML = way.html(wa, opts)
   return el
 }
 
 module.exports = (model, dispatch) => {
   const root = document.createElement('div')
+  root.classList.add('how-container')
 
   root.appendChild(howTitle(model, dispatch))
 
@@ -18,7 +20,14 @@ module.exports = (model, dispatch) => {
   timeline.appendChild(wayel(model.timeline, {
     reversed: true,
     heading: 'Timeline',
-    caption: 'This is the timeline - our training data set'
+    caption: 'Here is the timeline - our training data set'
+  }))
+
+  const timelineMass = way.map(model.timeline, q => q === null ? 0 : 1)
+  timeline.appendChild(wayel(timelineMass, {
+    reversed: true,
+    heading: 'Timeline Mass',
+    caption: 'Mass shows which atomic events we know and which we do not know. Here are masses for each timeslot.'
   }))
 
   root.appendChild(timeline)
