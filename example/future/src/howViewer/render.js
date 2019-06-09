@@ -20,14 +20,23 @@ module.exports = (model, dispatch) => {
   timeline.appendChild(wayel(model.timeline, {
     reversed: true,
     heading: 'Timeline',
-    caption: 'Here is the timeline - our training data set'
+    caption: 'Here is the timeline - our training data set.'
   }))
 
   const timelineMass = way.map(model.timeline, q => q === null ? 0 : 1)
   timeline.appendChild(wayel(timelineMass, {
     reversed: true,
     heading: 'Timeline Mass',
-    caption: 'Mass shows which atomic events we know and which we do not know. Here are masses for each timeslot.'
+    caption: 'Mass shows which atomic events we know and which we '
+      + 'do not know. Here are masses for each timeslot. White = 0, Black = 1.'
+  }))
+
+  const unknownEvents = way.map(timelineMass, q => 1 - q)
+  timeline.appendChild(wayel(unknownEvents, {
+    reversed: true,
+    heading: 'Unknown Data',
+    caption: 'These atomic events we do not know. Our goal is to predict '
+      + 'their value from the training data.'
   }))
 
   root.appendChild(timeline)
