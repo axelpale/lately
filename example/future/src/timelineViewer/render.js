@@ -52,7 +52,7 @@ module.exports = (model, dispatch) => {
       }
 
       if (val === null) {
-        const value = model.timeline;
+        const value = way.map(model.timeline, q => q === null ? 0 : q);
         const mass = way.map(model.timeline, q => q === null ? 0 : 1);
         const pred = predict(value, mass, c, t);
         if (pred.prob < 0.5) {
