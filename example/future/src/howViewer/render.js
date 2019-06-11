@@ -28,7 +28,7 @@ module.exports = (model, dispatch) => {
     reversed: true,
     heading: 'Timeline Mass',
     caption: 'Mass shows which atomic events we know and which we '
-      + 'do not know. Here are masses for each timeslot. White = 0, Black = 1.'
+      + 'do not know. Here are masses for each. White = 0, Black = 1.'
   }))
 
   const unknownEvents = way.map(timelineMass, q => 1 - q)
