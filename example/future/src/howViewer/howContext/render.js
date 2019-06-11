@@ -13,6 +13,6 @@ module.exports = (model, dispatch) => {
     reversed: true,
     heading: 'Context Window',
     caption: 'Context represents the neighborhood of the event. '
-      + 'We are interested what happens around the event in general.'
+      + 'We are interested what happened in this neighborhood in the past.'
   })
 }

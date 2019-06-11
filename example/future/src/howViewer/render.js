@@ -4,6 +4,7 @@ const howChannels = require('./howChannels/render')
 const howFrames = require('./howFrames/render')
 const howSelected = require('./howSelected/render')
 const howContext = require('./howContext/render')
+const howPrior = require('./howPrior/render')
 const wayel = require('../lib/wayElem')
 
 module.exports = (model, dispatch) => {
@@ -58,6 +59,7 @@ module.exports = (model, dispatch) => {
 
   timeline.appendChild(howSelected(model, dispatch))
   timeline.appendChild(howContext(model, dispatch))
+  timeline.appendChild(howPrior(model, dispatch))
 
   root.appendChild(timeline)
 
