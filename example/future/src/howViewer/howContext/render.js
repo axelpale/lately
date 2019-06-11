@@ -3,15 +3,19 @@ const wayElem = require('../../lib/wayElem')
 
 module.exports = (model, dispatch) => {
   const c = model.how.select.channel
-  const canvas = way.first(model.timeline, 5)
-  const ones = way.fill(canvas, 1)
-  const ctxWindow = way.set(ones, c, 2, 0)
+  const t = model.how.select.time
+  const ctxlen = model.contextLength
 
-  return wayElem(ctxWindow, {
+  const beg = t - Math.floor(ctxlen / 2)
+  const end = t + Math.ceil(ctxlen / 2)
+
+  const context = way.slice(model.timeline, beg, end)
+
+  return wayElem(context, {
     reversed: true,
-    heading: 'Context Window',
-    caption: 'Context represents the neighborhood of the event. '
-      + 'We are interested what happened in this neighborhood during '
-      + 'the past events.'
+    heading: 'Context of the Selected',
+    caption: 'This is how it looks around the event we selected. '
+      + 'We are interested what happened within the window during '
+      + 'past events.'
   })
 }

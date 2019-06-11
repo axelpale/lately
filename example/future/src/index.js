@@ -95,6 +95,7 @@ module.exports = () => {
         }
       ],
       channelOnEdit: null,
+      contextLength: 5,
       frameOnEdit: null,
       how: {
         select: {
