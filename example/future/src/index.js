@@ -97,7 +97,10 @@ module.exports = () => {
       channelOnEdit: null,
       frameOnEdit: null,
       how: {
-        selected: null
+        select: {
+          channel: 0,
+          time: 0
+        }
       }
     },
     storageName: 'future-model',
