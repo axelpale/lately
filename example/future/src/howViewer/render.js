@@ -1,5 +1,7 @@
 const way = require('senseway')
 const howTitle = require('./howTitle/render')
+const howChannels = require('./howChannels/render')
+const howFrames = require('./howFrames/render')
 const wayel = require('../lib/wayElem')
 
 module.exports = (model, dispatch) => {
@@ -16,6 +18,9 @@ module.exports = (model, dispatch) => {
     heading: 'Timeline',
     caption: 'Here is the timeline - our training data set.'
   }))
+
+  timeline.appendChild(howChannels(model, dispatch))
+  timeline.appendChild(howFrames(model, dispatch))
 
   const timelineMass = way.map(model.timeline, q => q === null ? 0 : 1)
   timeline.appendChild(wayel(timelineMass, {
