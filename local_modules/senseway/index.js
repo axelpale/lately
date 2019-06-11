@@ -158,8 +158,8 @@ exports.html = (way, opts) => {
       let style = 'flex:1;width:1em;height:1em;'
 
       if (typeof q === 'number') {
-        const h = q * 10 // degrees
-        const s = '50%' // saturation
+        const h = '0' // degrees
+        const s = '0%' // saturation
         const l = Math.round((1 - q) * 100) + '%' // lightness
         style += 'background-color: hsl(' + h + ',' + s + ',' + l + ')";'
       }
