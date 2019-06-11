@@ -19,7 +19,9 @@ module.exports = (model, dispatch) => {
   timeline.appendChild(wayel(model.timeline, {
     reversed: true,
     heading: 'Timeline',
-    caption: 'Here is the timeline - our training data set.'
+    caption: 'Here is the timeline - our training data set. '
+      + 'Black represents an activity happening. White represents '
+      + 'an activity not happening. They both we call <em>atomic events</em>.'
   }))
 
   timeline.appendChild(howChannels(model, dispatch))
