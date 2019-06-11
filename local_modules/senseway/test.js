@@ -150,6 +150,15 @@ test('fill', (t) => {
   t.end()
 })
 
+test('find', (t) => {
+  t.deepEqual(way.find(SEQ, (q, c, t) => q === 4 - t + c), {
+    value: 2,
+    channel: 0,
+    time: 2
+  })
+  t.end()
+})
+
 test('first', (t) => {
   t.deepEqual(way.first(W0, 2), [
     [1, 0],

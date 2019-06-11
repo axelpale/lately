@@ -94,6 +94,20 @@ exports.fill = (way, filler) => {
   return way.map(ch => ch.map(q => filler))
 }
 
+exports.find = (way, iteratee) => {
+  for (let c = 0; c < way.length; c += 1) {
+    for (let t = 0; t < way[0].length; t += 1) {
+      if (iteratee(way[c][t], c, t, way)) {
+        return {
+          value: way[c][t],
+          channel: c,
+          time: t
+        }
+      }
+    }
+  }
+}
+
 exports.first = (way, n) => {
   // First n frames; the oldest
   return way.map(ch => ch.slice(0, n))
