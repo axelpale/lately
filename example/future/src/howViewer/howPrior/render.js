@@ -16,7 +16,7 @@ module.exports = (model, dispatch) => {
   return wayElem(priorHood, {
     reversed: true,
     heading: 'Prior Probabilities',
-    caption: 'We already know what to expect in the neighborhood in general '
+    caption: 'We already know what to expect in general '
       + 'from the average of each channel.'
   })
 }
