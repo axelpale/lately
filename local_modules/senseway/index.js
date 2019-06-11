@@ -121,6 +121,7 @@ exports.html = (way, opts) => {
   const rev = opts.reversed ? true : false
   const heading = opts.heading ? opts.heading : ''
   const caption = opts.caption ? opts.caption : ''
+  const selected = opts.selected ? opts.selected : exports.fill(way, 0)
 
   const len = exports.len(way)
   const width = exports.width(way)
@@ -143,8 +144,13 @@ exports.html = (way, opts) => {
     str += '<div class="way-frame" style="display:flex">'
     for (let c = 0; c < width; c += 1) {
       const q = way[c][t]
+      str += '<div '
+
+      let classStr = 'way-cell'
+      if (selected[c][t] === 1) classStr += ' way-selected'
+      str += 'class="' + classStr + '" '
+
       const title = q + ' @[' + c + '][' + t + ']'
-      str += '<div class="way-cell" '
       str += 'title="' + title + '" '
       str += 'data-channel="' + c + '" '
       str += 'data-time="' + t + '" '
