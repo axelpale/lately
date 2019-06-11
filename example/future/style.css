@@ -123,3 +123,9 @@ h1 {
 .how-timeline .way-cell {
   border: 1px solid black;
 }
+
+.how-timeline .way-cell.way-selected {
+  border: 3px solid red;
+  margin: -2px;
+  z-index: 2;
+}

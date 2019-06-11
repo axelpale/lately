@@ -11,7 +11,8 @@ const renderers = [
 const reducers = [
   require('./channelTitleEditor/reduce'),
   require('./channelTitles/reduce'),
-  require('./timelineViewer/reduce')
+  require('./timelineViewer/reduce'),
+  require('./howViewer/reduce')
 ];
 
 const u = null;
@@ -94,7 +95,10 @@ module.exports = () => {
         }
       ],
       channelOnEdit: null,
-      frameOnEdit: null
+      frameOnEdit: null,
+      how: {
+        selected: null
+      }
     },
     storageName: 'future-model',
     rootElementId: 'content',

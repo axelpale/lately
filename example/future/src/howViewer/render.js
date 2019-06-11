@@ -39,6 +39,22 @@ module.exports = (model, dispatch) => {
       + 'their value from the training data.'
   }))
 
+  const eventSelector = wayel(unknownEvents, {
+    reversed: true,
+    heading: 'Event to Predict',
+    caption: 'We predict the events one by one. Select an event to see '
+      + 'how we form its probability.',
+    selected: model.how.selected
+  })
+  eventSelector.addEventListener('click', (ev) => {
+    dispatch({
+      type: 'HOW_EDIT_SELECTED',
+      channel: parseInt(ev.target.dataset.channel),
+      time: parseInt(ev.target.dataset.time)
+    })
+  })
+  timeline.appendChild(eventSelector)
+
   root.appendChild(timeline)
 
   return root
