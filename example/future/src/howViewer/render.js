@@ -1,12 +1,6 @@
 const way = require('senseway')
 const howTitle = require('./howTitle/render')
-
-const wayel = (wa, opts) => {
-  const el = document.createElement('div')
-  el.classList.add('how-way-container')
-  el.innerHTML = way.html(wa, opts)
-  return el
-}
+const wayel = require('../lib/wayElem')
 
 module.exports = (model, dispatch) => {
   const root = document.createElement('div')
