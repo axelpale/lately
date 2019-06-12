@@ -25,6 +25,13 @@ module.exports = (model, dispatch) => {
   okBtn.innerHTML = 'OK';
   form.appendChild(okBtn);
 
+  const newline = document.createElement('div')
+  const delBtn = document.createElement('button');
+  delBtn.type = 'button';
+  delBtn.innerHTML = 'DEL';
+  newline.appendChild(delBtn)
+  form.appendChild(newline)
+
   row.appendChild(form);
   root.appendChild(row);
 
@@ -48,6 +55,13 @@ module.exports = (model, dispatch) => {
       type: 'EDIT_CHANNEL_TITLE',
       channel: c,
       title: text.value
+    });
+  });
+
+  delBtn.addEventListener('click', ev => {
+    dispatch({
+      type: 'REMOVE_CHANNEL',
+      channel: c
     });
   });
 

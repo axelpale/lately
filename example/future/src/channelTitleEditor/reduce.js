@@ -17,6 +17,17 @@ module.exports = (model, ev) => {
       });
     }
 
+    case 'REMOVE_CHANNEL': {
+      const copy = model.channels.slice()
+      copy.splice(ev.channel, 1)
+
+      return Object.assign({}, model, {
+        timeline: way.dropChannel(model.timeline, ev.channel),
+        channels: copy,
+        channelOnEdit: null
+      })
+    }
+
     default:
       return model;
   }
