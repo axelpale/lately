@@ -3,11 +3,7 @@ const pat = require('sensepat')
 const wayElem = require('../../lib/wayElem')
 
 module.exports = (model, dispatch) => {
-  const timelinePattern = {
-    value: way.map(model.timeline, q => q === null ? 0 : q),
-    mass: way.map(model.timeline, q => q === null ? 0 : 1)
-  }
-
+  const timelinePattern = pat.mixedToPattern(model.timeline)
   const avg = pat.mean(timelinePattern)
   const priorPred = way.map(model.timeline, (q, c) => q === null ? avg[c] : q)
 
