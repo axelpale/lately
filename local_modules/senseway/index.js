@@ -69,6 +69,7 @@ exports.dropAt = (way, t) => {
   })
   return w
 }
+exports.dropFrame = exports.dropAt
 
 exports.dropChannel = (way, channel) => {
   return way.filter((ch, c) => c !== channel)
