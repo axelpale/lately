@@ -19,10 +19,18 @@ module.exports = (model, dispatch) => {
   })
 
   eventSelector.addEventListener('click', (ev) => {
+    const c = parseInt(ev.target.dataset.channel)
+    const t = parseInt(ev.target.dataset.time)
+
+    // NaN in case where non-cell was clicked
+    if (isNaN(c) || isNaN(t)) {
+      return
+    }
+
     dispatch({
       type: 'HOW_EDIT_SELECTED',
-      channel: parseInt(ev.target.dataset.channel),
-      time: parseInt(ev.target.dataset.time)
+      channel: c,
+      time: t
     })
   })
 
