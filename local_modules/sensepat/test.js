@@ -133,6 +133,15 @@ test('single', (t) => {
   t.end()
 })
 
+test('slice', (t) => {
+  const a = {
+    value: [[0, 1, 0], [1, 0, 0]],
+    mass: [[1, 1, 0], [1, 1, 0]]
+  }
+  t.deepEqual(pat.slice(V, 1, 4), a)
+  t.end()
+})
+
 test('sum', (t) => {
   const a = {
     value: [[0, 1, 1], [1, 1, 0]],

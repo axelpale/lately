@@ -27,6 +27,8 @@ exports.pattern = (value, mass) => {
 
 exports.single = require('./lib/single')
 
+exports.slice = require('./lib/slice')
+
 exports.sum = require('./lib/sum')
 
 exports.width = require('./lib/width')
