@@ -7,6 +7,7 @@ const howSelected = require('./howSelected/render')
 const howContextMask = require('./howContextMask/render')
 const howContext = require('./howContext/render')
 const howPrior = require('./howPrior/render')
+const howPriorPrediction = require('./howPriorPrediction/render')
 const wayel = require('../lib/wayElem')
 
 module.exports = (model, dispatch) => {
@@ -50,6 +51,7 @@ module.exports = (model, dispatch) => {
   timeline.appendChild(howContextMask(model, dispatch))
   timeline.appendChild(howContext(model, dispatch))
   timeline.appendChild(howPrior(model, dispatch))
+  timeline.appendChild(howPriorPrediction(model, dispatch))
 
   root.appendChild(timeline)
 
