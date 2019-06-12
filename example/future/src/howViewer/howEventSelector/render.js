@@ -12,7 +12,7 @@ module.exports = (model, dispatch) => {
   const eventSelector = wayElem(model.timeline, {
     reversed: true,
     heading: 'Event to Predict',
-    caption: 'We predict the events one by one. '
+    caption: 'We predict the unknown events one by one. '
       + '<strong>Select</strong> an event to see '
       + 'how we form its probability.',
     selected: waySelected

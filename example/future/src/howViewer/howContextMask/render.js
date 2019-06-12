@@ -1,11 +1,13 @@
 const way = require('senseway')
+const pat = require('sensepat')
 const wayElem = require('../../lib/wayElem')
 
 module.exports = (model, dispatch) => {
+  const w = way.width(model.timeline)
+  const ctxlen = model.contextLength
   const c = model.how.select.channel
-  const canvas = way.first(model.timeline, 5)
-  const ones = way.fill(canvas, 1)
-  const ctxWindow = way.set(ones, c, 2, 0)
+  const single = pat.single(w, ctxlen, c, 1)
+  const ctxWindow = way.negate(single.mass)
 
   return wayElem(ctxWindow, {
     reversed: true,
