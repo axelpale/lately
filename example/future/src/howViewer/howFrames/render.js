@@ -5,7 +5,7 @@ module.exports = (model, dispatch) => {
   const tline = wayElem(model.timeline, {
     reversed: true,
     heading: 'Frames',
-    caption: '...and frames. Each frame represents a moment in time.'
+    caption: '...or frames. Each frame represents a moment in time.'
   })
 
   // Allow special margin to reveal channels.

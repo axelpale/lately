@@ -5,7 +5,7 @@ module.exports = (model, dispatch) => {
   const tline = wayElem(model.timeline, {
     reversed: true,
     heading: 'Channels',
-    caption: 'The data consists of channels...'
+    caption: 'The data can be split into channels...'
   })
 
   // Allow special margin to reveal channels.
