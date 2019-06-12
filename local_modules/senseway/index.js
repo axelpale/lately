@@ -2,6 +2,7 @@
 //
 
 exports.add = (wayA, wayB) => {
+  // a plus b
   return wayA.map((ch, c) => ch.map((q, t) => q + wayB[c][t]))
 }
 
@@ -184,6 +185,7 @@ exports.increase = (way, addition) => {
 }
 
 exports.join = (wayA, wayB) => {
+  // Add in series: constant number of channels, increased length
   if (wayA.length !== wayB.length) {
     throw new Error('Number of channels must match.')
   }
@@ -233,6 +235,7 @@ exports.min = (way) => {
 }
 
 exports.mix = (wayA, wayB) => {
+  // Combine parallel. Length does not change, number of channels does.
   if (wayA[0].length !== wayB[0].length) {
     throw new Error('Length of channels must match.')
   }
