@@ -113,6 +113,18 @@ test('mean', (t) => {
   t.end()
 })
 
+test('single', (t) => {
+  t.deepEqual(pat.single(2, 3, 1, 1), {
+    value: [[1, 1, 1], [1, 1, 1]],
+    mass: [[0, 0, 0], [0, 1, 0]]
+  })
+  t.deepEqual(pat.single(2, 2, 1, 0), {
+    value: [[0, 0], [0, 0]],
+    mass: [[0, 0], [1, 0]]
+  })
+  t.end()
+})
+
 test('sum', (t) => {
   const a = {
     value: [[0, 1, 1], [1, 1, 0]],

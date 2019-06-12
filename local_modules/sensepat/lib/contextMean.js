@@ -2,7 +2,7 @@ const way = require('senseway')
 const patmean = require('./mean')
 
 module.exports = (history, pattern) => {
-  // Sum over history
+  // Sum over places in history where the pattern exists.
   //
   // Params:
   //   history, a pat. Full history where to search the pattern.
