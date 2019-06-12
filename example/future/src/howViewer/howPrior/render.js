@@ -17,6 +17,6 @@ module.exports = (model, dispatch) => {
     reversed: true,
     heading: 'Prior Probabilities',
     caption: 'We already know what to expect in general '
-      + 'from the average of each channel.'
+      + 'by looking the average of each channel.'
   })
 }

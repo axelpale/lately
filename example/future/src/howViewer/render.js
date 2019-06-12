@@ -1,6 +1,7 @@
 const way = require('senseway')
 const howTitle = require('./howTitle/render')
 const howChannels = require('./howChannels/render')
+const howEventSelector = require('./howEventSelector/render')
 const howFrames = require('./howFrames/render')
 const howSelected = require('./howSelected/render')
 const howContextMask = require('./howContextMask/render')
@@ -44,27 +45,7 @@ module.exports = (model, dispatch) => {
       + 'their value from the training data.'
   }))
 
-  const waySelected = (() => {
-    const c = model.how.select.channel
-    const t = model.how.select.time
-    return way.set(way.fill(model.timeline, 0), c, t, 1)
-  })()
-  const eventSelector = wayel(unknownEvents, {
-    reversed: true,
-    heading: 'Event to Predict',
-    caption: 'We predict the events one by one. Select an event to see '
-      + 'how we form its probability.',
-    selected: waySelected
-  })
-  eventSelector.addEventListener('click', (ev) => {
-    dispatch({
-      type: 'HOW_EDIT_SELECTED',
-      channel: parseInt(ev.target.dataset.channel),
-      time: parseInt(ev.target.dataset.time)
-    })
-  })
-  timeline.appendChild(eventSelector)
-
+  timeline.appendChild(howEventSelector(model, dispatch))
   timeline.appendChild(howSelected(model, dispatch))
   timeline.appendChild(howContextMask(model, dispatch))
   timeline.appendChild(howContext(model, dispatch))
