@@ -113,6 +113,14 @@ test('mean', (t) => {
   t.end()
 })
 
+test('mixedToPattern', (t) => {
+  t.deepEqual(pat.mixedToPattern([[null, 1], [0, null]]), {
+    value: [[0, 1], [0, 0]],
+    mass: [[0, 1], [1, 0]]
+  })
+  t.end()
+})
+
 test('single', (t) => {
   t.deepEqual(pat.single(2, 3, 1, 1), {
     value: [[1, 1, 1], [1, 1, 1]],

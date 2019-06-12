@@ -16,6 +16,8 @@ exports.len = require('./lib/len')
 
 exports.mean = require('./lib/mean')
 
+exports.mixedToPattern = require('./lib/mixedToPattern')
+
 exports.pattern = (value, mass) => {
   return {
     value: value,
