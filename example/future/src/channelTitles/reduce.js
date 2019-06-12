@@ -22,6 +22,19 @@ module.exports = (model, ev) => {
       })
     }
 
+    case 'CREATE_FRAME': {
+      const sizeReference = way.frame(model.timeline, 0)
+      const newFrame = way.fill(sizeReference, null)
+      return Object.assign({}, model, {
+        timeline: way.join(model.timeline, newFrame),
+        frames: [].concat(model.frames, [{
+          title: '?'
+        }]),
+        // Open name edit input
+        frameOnEdit: way.len(model.timeline)
+      })
+    }
+
     default:
       return model
   }
