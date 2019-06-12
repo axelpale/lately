@@ -111,6 +111,30 @@ h1 {
   height: unset;
 }
 
+.create-channel, .create-frame {
+  display: inline-block;
+  width: 2.6rem;
+  height: 2.6rem;
+  border: 1px solid black;
+  border-radius: 1.3rem;
+  text-align: center;
+  overflow: hidden;
+  font-size: 0.9rem;
+}
+.create-channel {
+  box-sizing: border-box;
+  padding-top: 0.5rem;
+  padding-bottom: 0;
+}
+.create-frame {
+  box-sizing: border-box;
+  padding-top: 0.7rem;
+  padding-bottom: 0;
+  position: relative;
+  top: 2rem;
+  left: 0.6rem;
+}
+
 .how-container {
   margin-top: 5em;
 }

@@ -2,13 +2,15 @@ module.exports = (model, dispatch) => {
   const root = document.createElement('div')
   root.classList.add('row-title')
 
-  const chan = document.createElement('div')
-  chan.innerHTML = 'Abc |'
-  root.appendChild(chan)
-
   const fram = document.createElement('div')
-  fram.innerHTML = 'Abc –'
+  fram.classList.add('create-frame')
+  fram.innerHTML = 'Abc&middot;&middot;'
   root.appendChild(fram)
+
+  const chan = document.createElement('div')
+  chan.classList.add('create-channel')
+  chan.innerHTML = 'Abc<br>:'
+  root.appendChild(chan)
 
   chan.addEventListener('click', ev => {
     dispatch({
