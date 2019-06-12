@@ -263,6 +263,14 @@ test('multiply', (t) => {
   t.end()
 })
 
+test('negate', (t) => {
+  t.deepEqual(way.negate(V), [
+    [0, 1, 0],
+    [1, 0, 1]
+  ])
+  t.end()
+})
+
 test('normalize', (t) => {
   t.deepEqual(way.normalize([
     [-2, 0, 2]

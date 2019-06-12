@@ -243,6 +243,10 @@ exports.multiply = (wayA, wayB) => {
   return wayA.map((ch, c) => ch.map((q, t) => q * wayB[c][t]))
 }
 
+exports.negate = (way) => {
+  return way.map(ch => ch.map(q => 1 - q))
+}
+
 exports.normalize = (way) => {
   // Scale values within 0..1
   const minq = exports.min(way)
