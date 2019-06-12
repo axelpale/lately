@@ -36,6 +36,17 @@ module.exports = (model, ev) => {
       });
     }
 
+    case 'REMOVE_FRAME': {
+      const copy = model.frames.slice()
+      copy.splice(ev.time, 1)
+
+      return Object.assign({}, model, {
+        timeline: way.dropFrame(model.timeline, ev.time),
+        frames: copy,
+        frameOnEdit: null
+      })
+    }
+
     default:
       return model;
   }

@@ -15,6 +15,11 @@ module.exports = (model, dispatch) => {
   okBtn.innerHTML = 'OK';
   form.appendChild(okBtn);
 
+  const delBtn = document.createElement('button');
+  delBtn.type = 'button';
+  delBtn.innerHTML = 'DEL';
+  form.appendChild(delBtn);
+
   // Events
 
   setTimeout(() => {
@@ -35,6 +40,13 @@ module.exports = (model, dispatch) => {
       type: 'EDIT_FRAME_TITLE',
       time: t,
       title: text.value
+    });
+  });
+
+  delBtn.addEventListener('click', ev => {
+    dispatch({
+      type: 'REMOVE_FRAME',
+      time: t
     });
   });
 
