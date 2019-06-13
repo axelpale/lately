@@ -31,22 +31,24 @@ module.exports = () => {
         [1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 1, 1, u], // ohje
         [1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, u], // koti
         [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, u], // ilok
-        [0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, u]  // kilt
+        [0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, u], // kilt
+        [u, u, u, u, u, 1, 1, 0, 0, 1, 0, 0, u],  // musa
+        [u, u, u, u, u, 0, 0, 0, 0, 0, 0, 0, u]  // soit
       ],
       frames: [
-        { title: '1.6.' },
-        { title: '2.6.' },
-        { title: '3.6.' },
-        { title: '4.6.' },
-        { title: '5.6.' },
-        { title: '6.6.' },
-        { title: '7.6.' },
-        { title: '8.6.' },
-        { title: '9.6.' },
-        { title: '10.6.' },
-        { title: '11.6.' },
-        { title: '12.6.' },
-        { title: '13.6.' }
+        { title: 'la 1.6.' },
+        { title: 'su 2.6.' },
+        { title: 'ma 3.6.' },
+        { title: 'ti 4.6.' },
+        { title: 'ke 5.6.' },
+        { title: 'to 6.6.' },
+        { title: 'pe 7.6.' },
+        { title: 'la 8.6.' },
+        { title: 'su 9.6.' },
+        { title: 'ma 10.6.' },
+        { title: 'ti 11.6.' },
+        { title: 'ke 12.6.' },
+        { title: 'to 13.6.' }
       ],
       channels: [ // Dimensions
         {
@@ -91,6 +93,14 @@ module.exports = () => {
         },
         {
           title: 'Kiltailta',
+          backgroundColor: '#ffa23e'
+        },
+        {
+          title: 'Kuun&shy;telu',
+          backgroundColor: '#ffa23e'
+        },
+        {
+          title: 'Soittelu',
           backgroundColor: '#ffa23e'
         }
       ],
