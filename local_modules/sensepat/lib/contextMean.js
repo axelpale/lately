@@ -21,6 +21,9 @@ module.exports = (history, pattern) => {
   const len = way.len(P.value)
   const hlen = way.len(H.value)
 
+  // Channel means
+  const prior = patmean(history)
+
   // Compute mass sum to compare later how perfectly a time slice matches.
   const massSum = way.sum(P.mass)
 
@@ -33,6 +36,12 @@ module.exports = (history, pattern) => {
     // Take a slice of history at time t.
     let tHistValue = way.slice(H.value, t, t + len)
     let tHistMass = way.slice(H.mass, t, t + len)
+
+    // Fill with mean TODO works?
+    tHistValue = way.map2(tHistValue, tHistMass, (v, m, c) => {
+      return m === 0 ? prior[c] : v
+    })
+    tHistMass = way.map(tHistMass, q => 1)
 
     // We do not want bias near the edges.
     // A pattern mask for this t. Only these values of the pattern
@@ -52,15 +61,21 @@ module.exports = (history, pattern) => {
     // Measure how much the slice resembles the pattern
     // by summing up the matches after masking.
     // If the pattern exists in the slice, support is high.
-    // To make things more crispier, we use only perfect matches.
     let tSupport = way.sum(masked)
-    if (tSupport === massSum) {
-      // Probability sum.
-      const maskedTHistValue = way.map2(tHistValue, tHistMass, (v, m) => v * m)
-      contextSum = way.add(contextSum, maskedTHistValue)
-      // Weight sum
-      supportSum = way.add(supportSum, tHistMass)
+
+    // To make things more crispier, we use only nearly perfect matches.
+    let matchWeight = 0
+    if (massSum > 0) {
+      matchWeight = tSupport * tSupport / massSum * massSum
     }
+
+    tHistMass = way.map(tHistMass, q => q * matchWeight)
+
+    // Probability sum.
+    const maskedTHistValue = way.map2(tHistValue, tHistMass, (v, m) => v * m)
+    contextSum = way.add(contextSum, maskedTHistValue)
+    // Weight sum
+    supportSum = way.add(supportSum, tHistMass)
   }
 
   // Normalise to get the weighted average.
@@ -72,7 +87,6 @@ module.exports = (history, pattern) => {
   // If sum of support is 0, there is absolutely no matching pattern.
   // Then we just need to use our best knowledge, channel means.
   if (way.sum(supportSum) === 0) {
-    const prior = patmean(history)
     // Stretch the prior
     contextAverage = way.map(contextAverage, (zero, c) => prior[c])
   }
