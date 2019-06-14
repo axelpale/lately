@@ -10,6 +10,7 @@ const howPrior = require('./howPrior/render')
 const howPriorPrediction = require('./howPriorPrediction/render')
 const howContextMean0 = require('./howContextMean0/render')
 const howContextMean1 = require('./howContextMean1/render')
+const howPrediction = require('./howPrediction/render')
 const wayel = require('../lib/wayElem')
 
 module.exports = (model, dispatch) => {
@@ -56,6 +57,7 @@ module.exports = (model, dispatch) => {
   timeline.appendChild(howPriorPrediction(model, dispatch))
   timeline.appendChild(howContextMean0(model, dispatch))
   timeline.appendChild(howContextMean1(model, dispatch))
+  timeline.appendChild(howPrediction(model, dispatch))
 
   root.appendChild(timeline)
 
