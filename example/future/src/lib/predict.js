@@ -1,7 +1,7 @@
 const way = require('senseway')
 const pat = require('sensepat')
 
-module.exports = (historyValues, historyMask, channel, time) => {
+module.exports = (model, channel, time) => {
   // Find probability for 1 in the given cell position,
   // given the history.
   //
@@ -11,83 +11,73 @@ module.exports = (historyValues, historyMask, channel, time) => {
   //
   // Returns
   //   probability for 1
-  //
+  const timelinePat = pat.mixedToPattern(model.timeline)
+  const prior = pat.mean(timelinePat)
 
-  // Algorithm:
-  //
-  // Find informative patterns from neighborhood
-  // Find how each pattern affected similar position in history.
-  // Find prior probability for each pattern.
-  // Find prior probability for the position.
+  const c = channel
+  const t = time
+  const w = way.width(model.timeline)
+  const ctxlen = model.contextLength
 
-  // TODO make into a parameter
-  const CTXLEN = 5
-  const CTXC = channel
-  const CTXT = Math.floor((CTXLEN - 1) / 2) // 1 => 0, 5 => 2, 8 => 3
+  const onePat = pat.single(w, ctxlen, c, 1)
+  const ctxMean = pat.contextMean(timelinePat, onePat)
 
-  // Make into a sensepat
-  const hist = pat.pattern(historyValues, historyMask)
-  const W = pat.width(hist)
-  const L = pat.len(hist)
+  // Now, ctxMean gives probability for 1 at context, given 1 at same
+  // relative position.
 
-  // 0th order prediction: channel expectance
-  const prior = pat.mean(hist)
-  // return prior[channel]
+  const beg = t - Math.max(0, Math.floor((ctxlen - 1) / 2))
+  const end = beg + ctxlen
+  const ctxCurr = pat.slice(timelinePat, beg, end)
 
-  // 1st order prediction: what does each of the neighboring cells predict?
-  // I.e. how much information each neighboring cell gives when compared
-  // to the channel mean.
-  // Find patterns
+  const probField = way.map(ctxMean.value, (q, qc, qt) => {
+    const mv = q // P(B=1|A=1)
+    const mm = ctxMean.mass[qc][qt]
+    const cv = ctxCurr.value[qc][qt] // B
+    const cm = ctxCurr.mass[qc][qt]
+    const pr = prior[qc] // P(B=1)
 
-  const zero = way.create(W, CTXLEN, 0)
-  const one = way.set(zero, CTXC, CTXT, 1)
+    if (mm * cm < 0.0001) {
+      // No mass, no effect
+      return 1
+    }
 
-  const pattZero = {
-    value: zero,
-    mass: one
-  }
-  const pattOne = {
-    value: one,
-    mass: one
-  }
+    if (qc === c && qt === t) {
+      // No autoeffect P(A|A) = P(A)
+      return 1
+    }
 
-  const pattPrior = {
-    value: way.map(zero, (q, c) => prior[c]),
-    mass: way.fill(zero, 1)
-  }
+    // Assume masses to one TODO Right?
 
-  const ctx0 = pat.contextMean(hist, pattZero)
-  const ctx1 = pat.contextMean(hist, pattOne)
+    if (cv < 0.5) {
+      // B=0
+      // P(B=0) = 1 - P(B=1)
+      if (1 - pr < 0.0001) {
+        // Should not happen. 100% prior but still B=0
+        console.error('should not happen')
+        return 0
+      }
+      return (1 - mv) / (1 - pr)
+    } // else
 
-  // Normalize masses
-  ctx0.mass = way.normalize(ctx0.mass)
-  ctx1.mass = way.normalize(ctx1.mass)
+    // B=1
+    if (pr < 0.0001) {
+      // Should not happen. 0% prior but still B=1
+      console.error('should not happen')
+      return 0
+    }
+    return mv / pr
+  }) // P(A)
 
-  // Gains tell us which positions and values are meaningful
-  // If summed, they give mutual information?
-  const gain0 = pat.infoGain(pattPrior, ctx0)
-  const gain1 = pat.infoGain(pattPrior, ctx1)
-
-  // Now we need to decide which one matches the context the best.
-  const context = way.slice(hist.value, time - CTXT, time - CTXT + CTXLEN)
-  const contextMass = way.slice(hist.mass, time - CTXT, time - CTXT + CTXLEN)
-
-  // Without delicate theoretical background let us treat gains
-  // as weights for now.
-  const g0 = pat.sum(gain0)
-  const g1 = pat.sum(gain1)
-
-  let prob // prob for 1
-  if (g0 + g1 === 0) {
-    prob = 0
-  } else {
-    prob = g1 / (g0 + g1)
-  }
+  const prob = way.reduce(probField, (acc, p) => {
+    return acc * p
+  }, prior[c])
 
   // Prediction
   return {
     channel: channel,
-    context: context,
+    context: ctxCurr,
+    contextMean: ctxMean,
+    probField: probField,
     prob: prob,
     time: time
   }
