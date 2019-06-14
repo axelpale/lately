@@ -109,7 +109,7 @@ module.exports = () => {
         }
       ],
       channelOnEdit: null,
-      contextLength: 5,
+      contextLength: 7,
       frameOnEdit: null,
       how: {
         select: {
