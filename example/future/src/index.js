@@ -2,6 +2,7 @@ const reduxish = require('./lib/reduxish');
 const way = require('senseway');
 
 const renderers = [
+  require('./importExportTools/render'),
   require('./channelTitleEditor/render'),
   require('./channelTitles/render'),
   require('./timelineViewer/render'),
@@ -9,6 +10,7 @@ const renderers = [
 ];
 
 const reducers = [
+  require('./importExportTools/reduce'),
   require('./channelTitleEditor/reduce'),
   require('./channelTitles/reduce'),
   require('./timelineViewer/reduce'),
