@@ -116,7 +116,8 @@ module.exports = () => {
           channel: 0,
           time: 0
         }
-      }
+      },
+      version: 0 // data model version
     },
     storageName: 'future-model',
     rootElementId: 'content',
