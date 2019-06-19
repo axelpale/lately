@@ -13,14 +13,20 @@ module.exports = (model, channel, time) => {
   //   probability for 1
   const timelinePat = pat.mixedToPattern(model.timeline)
   const prior = pat.mean(timelinePat)
-
-  const c = channel
-  const t = time
   const w = way.width(model.timeline)
   const ctxlen = model.contextLength
 
+  const c = channel
+  const t = time
+
   const onePat = pat.single(w, ctxlen, c, 1)
   const ctxMean = pat.contextMean(timelinePat, onePat)
+  ctxMean.mass = way.map(ctxMean.mass, q => q > 1 ? 1 : q)
+  const ctxPrior = {
+    value: way.map(ctxMean.value, (q, c) => prior[c]),
+    mass: ctxMean.mass
+  }
+  const ctxGain = pat.infoGain(ctxPrior, ctxMean)
 
   // Now, ctxMean gives probability for 1 at context, given 1 at same
   // relative position.
@@ -77,6 +83,8 @@ module.exports = (model, channel, time) => {
     channel: channel,
     context: ctxCurr,
     contextMean: ctxMean,
+    contextPrior: ctxPrior,
+    contextGain: ctxGain,
     probField: probField,
     prob: prob,
     time: time
