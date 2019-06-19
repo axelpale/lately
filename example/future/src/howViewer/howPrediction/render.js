@@ -35,6 +35,29 @@ module.exports = (model, dispatch) => {
     caption: ''
   }))
 
+  root.appendChild(wayElem(pred.contextPrior.value, {
+    reversed: true,
+    heading: 'Pred Context Prior Value',
+    caption: ''
+  }))
+
+  root.appendChild(wayElem(pred.contextPrior.mass, {
+    reversed: true,
+    heading: 'Pred Context Prior Mass',
+    caption: ''
+  }))
+
+  root.appendChild(wayElem(pred.contextGain.value, {
+    reversed: true,
+    heading: 'Pred Context Gain Value',
+    caption: ''
+  }))
+  root.appendChild(wayElem(pred.contextGain.mass, {
+    reversed: true,
+    heading: 'Pred Context Gain Mass',
+    caption: ''
+  }))
+
   root.appendChild(wayElem(pred.probField, {
     reversed: true,
     heading: 'Pred Prob Field',
