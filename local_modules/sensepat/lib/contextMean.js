@@ -37,12 +37,6 @@ module.exports = (history, pattern) => {
     let tHistValue = way.slice(H.value, t, t + len)
     let tHistMass = way.slice(H.mass, t, t + len)
 
-    // Fill with mean TODO works?
-    tHistValue = way.map2(tHistValue, tHistMass, (v, m, c) => {
-      return m === 0 ? prior[c] : v
-    })
-    tHistMass = way.map(tHistMass, q => 1)
-
     // We do not want bias near the edges.
     // A pattern mask for this t. Only these values of the pattern
     // can be taken into account.
@@ -63,19 +57,14 @@ module.exports = (history, pattern) => {
     // If the pattern exists in the slice, support is high.
     let tSupport = way.sum(masked)
 
-    // To make things more crispier, we use only nearly perfect matches.
-    let matchWeight = 0
-    if (massSum > 0) {
-      matchWeight = tSupport * tSupport / massSum * massSum
+    // To make things more crispier, we use only perfect matches.
+    if (tSupport === massSum) {
+      // Probability sum.
+      const maskedTHistValue = way.map2(tHistValue, tHistMass, (v, m) => v * m)
+      contextSum = way.add(contextSum, maskedTHistValue)
+      // Weight sum
+      supportSum = way.add(supportSum, tHistMass)
     }
-
-    tHistMass = way.map(tHistMass, q => q * matchWeight)
-
-    // Probability sum.
-    const maskedTHistValue = way.map2(tHistValue, tHistMass, (v, m) => v * m)
-    contextSum = way.add(contextSum, maskedTHistValue)
-    // Weight sum
-    supportSum = way.add(supportSum, tHistMass)
   }
 
   // Normalise to get the weighted average.
