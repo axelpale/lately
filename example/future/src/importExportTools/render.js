@@ -36,7 +36,6 @@ module.exports = (model, dispatch) => {
     var reader = new FileReader();
     reader.onload = (evt) => {
       const parsedModel = JSON.parse(evt.target.result);
-      console.log(parsedModel)
       dispatch({
         type: 'IMPORT_MODEL',
         model: parsedModel
