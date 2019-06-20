@@ -58,56 +58,43 @@ module.exports = () => {
       ],
       channels: [ // Dimensions
         {
-          title: 'Aamiai&shy;nen',
-          backgroundColor: '#8A1C82'
+          title: 'Aamiai&shy;nen'
         },
         {
-          title: 'Ulkoilu',
-          backgroundColor: '#BF0F73'
+          title: 'Ulkoilu'
         },
         {
-          title: 'Sarjan katselu',
-          backgroundColor: '#201969'
+          title: 'Sarjan katselu'
         },
         {
-          title: 'Kasvien kastelu',
-          backgroundColor: '#223E85'
+          title: 'Kasvien kastelu'
         },
         {
-          title: 'Kiipeily',
-          backgroundColor: '#4f92a6'
+          title: 'Kiipeily'
         },
         {
-          title: 'Uiminen',
-          backgroundColor: '#38ab73'
+          title: 'Uiminen'
         },
         {
-          title: 'Hyvä fiilis',
-          backgroundColor: '#f0c432'
+          title: 'Hyvä fiilis'
         },
         {
-          title: 'Ohjel&shy;moin&shy;ti',
-          backgroundColor: '#ffa23e'
+          title: 'Ohjel&shy;moin&shy;ti'
         },
         {
-          title: 'Koti-ilta',
-          backgroundColor: '#ffa23e'
+          title: 'Koti-ilta'
         },
         {
-          title: 'Ilokivi-ilta',
-          backgroundColor: '#ffa23e'
+          title: 'Ilokivi-ilta'
         },
         {
-          title: 'Kiltailta',
-          backgroundColor: '#ffa23e'
+          title: 'Kiltailta'
         },
         {
-          title: 'Kuun&shy;telu',
-          backgroundColor: '#ffa23e'
+          title: 'Kuun&shy;telu'
         },
         {
-          title: 'Soittelu',
-          backgroundColor: '#ffa23e'
+          title: 'Soittelu'
         }
       ],
       channelOnEdit: null,

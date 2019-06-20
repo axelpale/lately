@@ -3,6 +3,16 @@ const frameTitle = require('./frameTitle');
 const clearElem = require('../lib/clearElem');
 const predict = require('../lib/predict');
 
+const color = (model, channel) => {
+  const c = channel
+  const N = model.channels.length
+  const hue = '' + (360 * (1 - c / N))
+  const sat = '100'
+  const lig = '40'
+  const hsl = 'hsl(' + hue + ',' + sat + '%,' + lig + '%)'
+  return hsl
+}
+
 module.exports = (model, dispatch) => {
   const root = document.createElement('div');
 
@@ -47,7 +57,7 @@ module.exports = (model, dispatch) => {
           cell.classList.add('cell-empty');
         } else {
           cell.classList.add('cell-full');
-          icon.style.backgroundColor = model.channels[c].backgroundColor;
+          icon.style.backgroundColor = color(model, c);
         }
       }
 
