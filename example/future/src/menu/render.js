@@ -7,6 +7,11 @@ module.exports = (model, dispatch) => {
   row.classList.add('row');
   row.classList.add('row-input');
 
+  const createBtn = document.createElement('input');
+  createBtn.type = 'button';
+  createBtn.value = 'Create new';
+  row.appendChild(createBtn);
+
   const exportBtn = document.createElement('input');
   exportBtn.type = 'button';
   exportBtn.value = 'Export file';
@@ -19,6 +24,12 @@ module.exports = (model, dispatch) => {
   root.appendChild(row);
 
   // Events
+
+  createBtn.addEventListener('click', ev => {
+    dispatch({
+      type: 'CREATE_NEW_TIMELINE'
+    })
+  });
 
   exportBtn.addEventListener('click', ev => {
     const ex = {
