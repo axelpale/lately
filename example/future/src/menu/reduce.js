@@ -19,12 +19,10 @@ module.exports = (model, ev) => {
         ],
         channelOnEdit: null,
         frameOnEdit: null,
-        how: Object.assign({}, model.how, {
-          select: {
-            channel: 0,
-            time: 0
-          }
-        })
+        select: {
+          channel: 0,
+          time: 0
+        }
       });
     }
 
@@ -35,12 +33,10 @@ module.exports = (model, ev) => {
         timeline: ev.model.timeline,
         channelOnEdit: null,
         frameOnEdit: null,
-        how: Object.assign({}, model.how, {
-          select: {
-            channel: 0,
-            time: 0
-          }
-        })
+        select: {
+          channel: 0,
+          time: 0
+        }
       });
     }
 

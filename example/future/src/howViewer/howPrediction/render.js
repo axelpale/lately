@@ -6,8 +6,8 @@ const predict = require('../../lib/predict')
 module.exports = (model, dispatch) => {
   const root = document.createElement('div')
 
-  const c = model.how.select.channel
-  const t = model.how.select.time
+  const c = model.select.channel
+  const t = model.select.time
   const pred = predict(model, c, t)
   const predWay = way.set(model.timeline, c, t, pred.prob)
 
@@ -66,8 +66,8 @@ module.exports = (model, dispatch) => {
 
   // Single-cell prediction viewer & cell selector
   const waySelected = (() => {
-    const c = model.how.select.channel
-    const t = model.how.select.time
+    const c = model.select.channel
+    const t = model.select.time
     return way.set(way.fill(model.timeline, 0), c, t, 1)
   })()
   const predElem = wayElem(predWay, {

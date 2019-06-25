@@ -100,11 +100,9 @@ module.exports = () => {
       channelOnEdit: null,
       contextLength: 7,
       frameOnEdit: null,
-      how: {
-        select: {
-          channel: 0,
-          time: 0
-        }
+      select: {
+        channel: 0,
+        time: 0
       },
       version: 0 // data model version
     },

@@ -4,8 +4,8 @@ const wayElem = require('../../lib/wayElem')
 module.exports = (model, dispatch) => {
 
   const waySelected = (() => {
-    const c = model.how.select.channel
-    const t = model.how.select.time
+    const c = model.select.channel
+    const t = model.select.time
     return way.set(way.fill(model.timeline, 0), c, t, 1)
   })()
 

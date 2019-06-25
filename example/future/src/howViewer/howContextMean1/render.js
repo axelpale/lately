@@ -3,7 +3,7 @@ const pat = require('sensepat')
 const wayElem = require('../../lib/wayElem')
 
 module.exports = (model, dispatch) => {
-  const c = model.how.select.channel
+  const c = model.select.channel
   const w = way.width(model.timeline)
   const ctxlen = model.contextLength
 

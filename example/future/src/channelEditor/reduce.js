@@ -24,7 +24,13 @@ module.exports = (model, ev) => {
       return Object.assign({}, model, {
         timeline: way.dropChannel(model.timeline, ev.channel),
         channels: copy,
-        channelOnEdit: null
+        channelOnEdit: null,
+        select: {
+          channel: model.select.channel >= ev.channel ?
+            model.select.channel - 1 :
+            model.select.channel,
+          time: 0
+        }
       })
     }
 
