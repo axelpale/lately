@@ -69,7 +69,7 @@ module.exports = () => {
           title: 'Watered plants'
         },
         {
-          title: 'Climbed somewhere'
+          title: 'Climbed some&shy;whe&shy;re'
         },
         {
           title: 'Swam a bit'

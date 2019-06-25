@@ -68,7 +68,9 @@ module.exports = (model, dispatch) => {
       if (val === null) {
         const pred = predict(model, c, t);
         if (pred.prob < 0.5) {
-          icon.style.visibility = 'hidden';
+          cell.classList.add('cell-improbable');
+        } else {
+          cell.classList.add('cell-probable');
         }
         text.innerHTML = '<span>' + Math.floor(100 * pred.prob) + '%</span>';
       }
