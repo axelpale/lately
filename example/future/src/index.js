@@ -4,6 +4,7 @@ const way = require('senseway');
 const renderers = [
   require('./menu/render'),
   require('./channelEditor/render'),
+  require('./channelStars/render'),
   require('./channelTitles/render'),
   require('./timelineViewer/render'),
   require('./howViewer/render')
@@ -12,6 +13,7 @@ const renderers = [
 const reducers = [
   require('./menu/reduce'),
   require('./channelEditor/reduce'),
+  require('./channelStars/reduce'),
   require('./channelTitles/reduce'),
   require('./timelineViewer/reduce'),
   require('./howViewer/reduce')
