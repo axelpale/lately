@@ -26,19 +26,15 @@ module.exports = () => {
     defaultModel: {
       timeline: [
         //                                   13.6.
-        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, u, u, u], // aami
+        [u, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, u, u, u], // fiil
         [u, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, u, u, u], // ulko
         [u, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, u, u, u], // sarj
         [u, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, u, u, u], // kast
         [0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, u, u, u], // kiip
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, u, u, u], // uimi
-        [u, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, u, u, u], // fiil
-        [1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 1, 1, 1, u, u, u], // ohje
         [1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, u, u, u], // koti
-        [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, u, u, u], // ilok
-        [0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, u, u, u], // kilt
-        [u, u, u, u, u, 1, 1, 0, 0, 1, 0, 0, 1, u, u, u], // musa
-        [u, u, u, u, u, 0, 0, 0, 0, 0, 0, 0, 0, u, u, u]  // soit
+        [0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, u, u, u], // friends
+        [u, u, u, u, u, 1, 1, 0, 0, 1, 0, 0, 1, u, u, u] // musa
       ],
       frames: [
         { title: 'la 1.6.' },
@@ -60,43 +56,32 @@ module.exports = () => {
       ],
       channels: [ // Dimensions
         {
-          title: 'Aamiai&shy;nen'
+          title: 'Good feels',
+          star: true
         },
         {
-          title: 'Ulkoilu'
+          title: 'Went outside'
         },
         {
-          title: 'Sarjan katselu'
+          title: 'Watched movie'
         },
         {
-          title: 'Kasvien kastelu'
+          title: 'Watered plants'
         },
         {
-          title: 'Kiipeily'
+          title: 'Climbed somewhere'
         },
         {
-          title: 'Uiminen'
+          title: 'Swam a bit'
         },
         {
-          title: 'Hyvä fiilis'
+          title: 'Stayed at home'
         },
         {
-          title: 'Ohjel&shy;moin&shy;ti'
+          title: 'Friends'
         },
         {
-          title: 'Koti-ilta'
-        },
-        {
-          title: 'Ilokivi-ilta'
-        },
-        {
-          title: 'Kiltailta'
-        },
-        {
-          title: 'Kuun&shy;telu'
-        },
-        {
-          title: 'Soittelu'
+          title: 'Played music'
         }
       ],
       channelOnEdit: null,
