@@ -4,15 +4,24 @@ module.exports = (model, ev) => {
   switch (ev.type) {
 
     case 'EDIT_CELL': {
+      const sel = model.select
+
       const curval = model.timeline[ev.channel][ev.time];
       const nextval = (() => {
-        if (curval === null) return 1
-        if (curval === 1) return 0
-        if (curval === 0) return null
+        if (sel.channel === ev.channel && sel.time === ev.time) {
+          if (curval === null) return 1
+          if (curval === 1) return 0
+          if (curval === 0) return null
+        } // else
+        return curval
       })();
 
       return Object.assign({}, model, {
-        timeline: way.set(model.timeline, ev.channel, ev.time, nextval)
+        timeline: way.set(model.timeline, ev.channel, ev.time, nextval),
+        select: {
+          channel: ev.channel,
+          time: ev.time
+        }
       });
     }
 
