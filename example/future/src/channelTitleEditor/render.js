@@ -26,10 +26,22 @@ module.exports = (model, dispatch) => {
   form.appendChild(okBtn);
 
   const newline = document.createElement('div')
+
   const delBtn = document.createElement('button');
   delBtn.type = 'button';
   delBtn.innerHTML = 'DEL';
   newline.appendChild(delBtn)
+
+  const leftBtn = document.createElement('button');
+  leftBtn.type = 'button';
+  leftBtn.innerHTML = 'Move left';
+  newline.appendChild(leftBtn)
+
+  const rightBtn = document.createElement('button');
+  rightBtn.type = 'button';
+  rightBtn.innerHTML = 'Move right';
+  newline.appendChild(rightBtn)
+
   form.appendChild(newline)
 
   row.appendChild(form);
@@ -62,6 +74,22 @@ module.exports = (model, dispatch) => {
     dispatch({
       type: 'REMOVE_CHANNEL',
       channel: c
+    });
+  });
+
+  leftBtn.addEventListener('click', ev => {
+    dispatch({
+      type: 'MOVE_CHANNEL',
+      channel: c,
+      offset: -1
+    });
+  });
+
+  rightBtn.addEventListener('click', ev => {
+    dispatch({
+      type: 'MOVE_CHANNEL',
+      channel: c,
+      offset: 1
     });
   });
 

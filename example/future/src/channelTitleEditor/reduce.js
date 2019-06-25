@@ -28,6 +28,27 @@ module.exports = (model, ev) => {
       })
     }
 
+    case 'MOVE_CHANNEL': {
+      const channelsCopy = model.channels.slice()
+      const W = way.width(model.timeline)
+      const source = ev.channel
+      const target = (W + ev.channel + ev.offset) % W
+
+      const removedChannelConf = channelsCopy[source]
+      channelsCopy.splice(source, 1)
+      channelsCopy.splice(target, 0, removedChannelConf)
+
+      const removedChannel = model.timeline[source]
+      const afterDrop = way.dropChannel(model.timeline, source)
+      const afterInsert = way.insertChannel(afterDrop, target, removedChannel)
+
+      return Object.assign({}, model, {
+        timeline: afterInsert,
+        channels: channelsCopy,
+        channelOnEdit: target
+      })
+    }
+
     default:
       return model;
   }
