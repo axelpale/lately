@@ -3,6 +3,7 @@ const way = require('senseway');
 
 const renderers = [
   require('./menu/render'),
+  require('./cellViewer/render'),
   require('./channelEditor/render'),
   require('./channelStars/render'),
   require('./channelTitles/render'),
