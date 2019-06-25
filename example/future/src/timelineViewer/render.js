@@ -36,6 +36,10 @@ module.exports = (model, dispatch) => {
       cell.classList.add('cell');
       cell.classList.add('cell-event');
 
+      if (model.select.channel === c && model.select.time === t) {
+        cell.classList.add('cell-selected');
+      }
+
       const spine = document.createElement('div');
       spine.classList.add('cell-spine');
       cell.appendChild(spine);
