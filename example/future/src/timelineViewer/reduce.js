@@ -36,6 +36,27 @@ module.exports = (model, ev) => {
       });
     }
 
+    case 'MOVE_FRAME': {
+      const LEN = way.len(model.timeline)
+      const source = ev.time
+      const target = (LEN + ev.time + ev.offset) % LEN
+      const copy = model.frames.slice()
+
+      const frameConf = copy[source]
+      copy.splice(source, 1)
+      copy.splice(target, 0, frameConf)
+
+      const frame = way.frame(model.timeline, source)
+      const afterDrop = way.dropFrame(model.timeline, source)
+      const afterInsert = way.insert(afterDrop, target, frame)
+
+      return Object.assign({}, model, {
+        timeline: afterInsert,
+        frames: copy,
+        frameOnEdit: target
+      })
+    }
+
     case 'REMOVE_FRAME': {
       const copy = model.frames.slice()
       copy.splice(ev.time, 1)

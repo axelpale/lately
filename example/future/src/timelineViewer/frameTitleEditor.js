@@ -20,6 +20,16 @@ module.exports = (model, dispatch) => {
   delBtn.innerHTML = 'DEL';
   form.appendChild(delBtn);
 
+  const upBtn = document.createElement('button');
+  upBtn.type = 'button';
+  upBtn.innerHTML = 'Move up';
+  form.appendChild(upBtn);
+
+  const downBtn = document.createElement('button');
+  downBtn.type = 'button';
+  downBtn.innerHTML = 'Move down';
+  form.appendChild(downBtn);
+
   // Events
 
   setTimeout(() => {
@@ -47,6 +57,22 @@ module.exports = (model, dispatch) => {
     dispatch({
       type: 'REMOVE_FRAME',
       time: t
+    });
+  });
+
+  upBtn.addEventListener('click', ev => {
+    dispatch({
+      type: 'MOVE_FRAME',
+      time: t,
+      offset: 1
+    });
+  });
+
+  downBtn.addEventListener('click', ev => {
+    dispatch({
+      type: 'MOVE_FRAME',
+      time: t,
+      offset: -1
     });
   });
 
