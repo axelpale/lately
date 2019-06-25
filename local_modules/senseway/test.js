@@ -183,6 +183,18 @@ test('increase', (t) => {
   t.end()
 })
 
+test('insert', (t) => {
+  t.deepEqual(way.insert(ONES, 1, TWOS), [
+    [1, 2, 2, 2, 1, 1],
+    [1, 2, 2, 2, 1, 1]
+  ])
+  t.deepEqual(way.insert(ONES, 5, TWOS), [
+    [1, 1, 1, 2, 2, 2],
+    [1, 1, 1, 2, 2, 2]
+  ], 'over range ok')
+  t.end()
+})
+
 test('insertChannel', (t) => {
   t.deepEqual(way.insertChannel(ONES, 1, [2, 2, 2]), [
     [1, 1, 1],

@@ -69,6 +69,7 @@ exports.dropAt = (way, t) => {
   })
   return w
 }
+exports.drop = exports.dropAt
 exports.dropFrame = exports.dropAt
 
 exports.dropChannel = (way, channel) => {
@@ -183,6 +184,13 @@ exports.html = (way, opts) => {
 
 exports.increase = (way, addition) => {
   return way.map(ch => ch.map(quantum => quantum + addition))
+}
+
+exports.insert = (wayA, t, wayB) => {
+  // Insert frames of wayB at t. Length of the way increases.
+  return wayA.map((ch, c) => {
+    return ch.slice(0, t).concat(wayB[c], ch.slice(t))
+  })
 }
 
 exports.insertChannel = (way, c, channel) => {
