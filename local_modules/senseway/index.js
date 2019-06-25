@@ -185,6 +185,16 @@ exports.increase = (way, addition) => {
   return way.map(ch => ch.map(quantum => quantum + addition))
 }
 
+exports.insertChannel = (way, c, channel) => {
+  if (way.length > 0 && way[0].length !== channel.length) {
+    throw new Error('Channel lengths must match.')
+  }
+
+  const copy = way.slice()
+  copy.splice(c, 0, channel)
+  return copy
+}
+
 exports.join = (wayA, wayB) => {
   // Add in series: constant number of channels, increased length
   if (wayA.length !== wayB.length) {

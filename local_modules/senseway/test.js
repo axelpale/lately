@@ -183,6 +183,23 @@ test('increase', (t) => {
   t.end()
 })
 
+test('insertChannel', (t) => {
+  t.deepEqual(way.insertChannel(ONES, 1, [2, 2, 2]), [
+    [1, 1, 1],
+    [2, 2, 2],
+    [1, 1, 1]
+  ])
+  t.deepEqual(way.insertChannel(ONES, 2, [2, 2, 2]), [
+    [1, 1, 1],
+    [1, 1, 1],
+    [2, 2, 2]
+  ])
+  t.throws(() => {
+    way.insertChannel(ONES, 2, [2, 2])
+  }, /must match/)
+  t.end()
+})
+
 test('join', (t) => {
   t.deepEqual(way.join(ZEROS, ONES), [
     [0, 0, 0, 1, 1, 1],
