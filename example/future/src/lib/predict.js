@@ -145,6 +145,7 @@ module.exports = (model, channel, time) => {
     contextGain: oneGain,
     probField: oneField,
     prob: prob,
+    priorProb: prior[c],
     time: time
   }
 }
