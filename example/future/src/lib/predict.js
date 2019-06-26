@@ -143,9 +143,18 @@ module.exports = (model, channel, time) => {
     contextMean: oneMean,
     contextPrior: priorMean,
     contextGain: oneGain,
+    oneField: oneField,
+    oneGain: oneGain,
+    oneLikelihood: oneLikelihood,
+    oneMean: oneMean,
     probField: oneField,
     prob: prob,
+    priorMean: priorMean,
     priorProb: prior[c],
-    time: time
+    time: time,
+    zeroField: zeroField,
+    zeroGain: zeroGain,
+    zeroLikelihood: zeroLikelihood,
+    zeroMean: zeroMean
   }
 }
