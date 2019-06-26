@@ -388,6 +388,17 @@ exports.sum = (way) => {
   return way.reduce((acc, ch) => ch.reduce((ac, q) => ac + q, acc), 0)
 }
 
+exports.toArray = (way) => {
+  return way.reduce((acc, ch, c) => ch.reduce((ac, q, t) => {
+    ac.push({
+      channel: c,
+      time: t,
+      value: q
+    })
+    return ac
+  }, acc), [])
+}
+
 exports.trim = (way, trimmee) => {
   // Remove leading and trailing frames whose cells only contain the trimmee.
   // For example way.trim(w, 1) trims:

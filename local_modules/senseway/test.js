@@ -402,6 +402,33 @@ test('sum', (t) => {
   t.end()
 })
 
+test('toArray', (t) => {
+  t.deepEqual(way.toArray([[1, 1],[0, 1]]), [
+    {
+      channel: 0,
+      time: 0,
+      value: 1
+    },
+    {
+      channel: 0,
+      time: 1,
+      value: 1
+    },
+    {
+      channel: 1,
+      time: 0,
+      value: 0
+    },
+    {
+      channel: 1,
+      time: 1,
+      value: 1
+    }
+  ])
+  t.deepEqual(way.toArray([]), [])
+  t.end()
+})
+
 test('trim', (t) => {
   t.deepEqual(way.trim(ZEROS), [[], []])
   t.deepEqual(way.trim(W0, 1), [[1, 0], [0, 1]])
