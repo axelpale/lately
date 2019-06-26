@@ -25,15 +25,17 @@ module.exports = (model, dispatch) => {
   const ctxMean = (pred.prob < 0.5) ? pred.zeroMean : pred.oneMean;
   const ctxGain = (pred.prob < 0.5) ? pred.zeroGain : pred.oneGain;
   const cells = way.toArray(ctxGain.value).map(cell => {
+    cell.gain = cell.value
     cell.mass = ctxGain.mass[cell.channel][cell.time]
     cell.mean = ctxMean.value[cell.channel][cell.time]
+    cell.weight = cell.gain * Math.sqrt(cell.mass)
     return cell
   })
-  cells.sort((a, b) => b.value - a.value)
+  cells.sort((a, b) => b.weight - a.weight)
   cells.forEach(cell => {
     const chTitle = model.channels[cell.channel].title
     html += chTitle + ' t' + cell.time + ' a' + cell.mean + ' '
-    html += 'g' + cell.value + ' m' + cell.mass + '<br>'
+    html += 'g' + cell.value + ' m' + cell.mass + ' w' + cell.weight + '<br>'
   })
 
   row.innerHTML = html;
