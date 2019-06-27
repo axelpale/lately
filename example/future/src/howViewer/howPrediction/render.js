@@ -23,18 +23,6 @@ module.exports = (model, dispatch) => {
     caption: ''
   }))
 
-  root.appendChild(wayElem(pred.contextMean.value, {
-    reversed: true,
-    heading: 'Pred Context Mean Value',
-    caption: ''
-  }))
-
-  root.appendChild(wayElem(pred.contextMean.mass, {
-    reversed: true,
-    heading: 'Pred Context Mean Mass',
-    caption: ''
-  }))
-
   root.appendChild(wayElem(pred.contextPrior.value, {
     reversed: true,
     heading: 'Pred Context Prior Value',
@@ -47,20 +35,59 @@ module.exports = (model, dispatch) => {
     caption: ''
   }))
 
-  root.appendChild(wayElem(pred.contextGain.value, {
+  root.appendChild(wayElem(pred.zeroMean.value, {
     reversed: true,
-    heading: 'Pred Context Gain Value',
+    heading: 'Pred 0 Mean Value',
     caption: ''
   }))
-  root.appendChild(wayElem(pred.contextGain.mass, {
+  root.appendChild(wayElem(pred.zeroMean.mass, {
     reversed: true,
-    heading: 'Pred Context Gain Mass',
+    heading: 'Pred 0 Mean Mass',
     caption: ''
   }))
 
-  root.appendChild(wayElem(pred.probField, {
+  root.appendChild(wayElem(pred.oneMean.value, {
     reversed: true,
-    heading: 'Pred Prob Field',
+    heading: 'Pred 1 Mean Value',
+    caption: ''
+  }))
+  root.appendChild(wayElem(pred.oneMean.mass, {
+    reversed: true,
+    heading: 'Pred 1 Mean Mass',
+    caption: ''
+  }))
+
+  root.appendChild(wayElem(pred.zeroGain.value, {
+    reversed: true,
+    heading: 'Pred 0 Gain Value',
+    caption: ''
+  }))
+  root.appendChild(wayElem(pred.zeroGain.mass, {
+    reversed: true,
+    heading: 'Pred 0 Gain Mass',
+    caption: ''
+  }))
+
+  root.appendChild(wayElem(pred.oneGain.value, {
+    reversed: true,
+    heading: 'Pred 1 Gain Value',
+    caption: ''
+  }))
+  root.appendChild(wayElem(pred.oneGain.mass, {
+    reversed: true,
+    heading: 'Pred 1 Gain Mass',
+    caption: ''
+  }))
+
+  root.appendChild(wayElem(pred.zeroField, {
+    reversed: true,
+    heading: 'Pred 0 Field',
+    caption: ''
+  }))
+
+  root.appendChild(wayElem(pred.oneField, {
+    reversed: true,
+    heading: 'Pred 1 Field',
     caption: ''
   }))
 
