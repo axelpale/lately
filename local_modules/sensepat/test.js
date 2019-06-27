@@ -108,8 +108,14 @@ test('len', (t) => {
 })
 
 test('mean', (t) => {
-  t.deepEqual(pat.mean(ONESHALF), [1, 0])
-  t.deepEqual(pat.mean(V), [2 / 3, 1 / 3])
+  t.deepEqual(pat.mean(ONESHALF), {
+    value: [[1, 0]],
+    mass: [[3, 0]]
+  })
+  t.deepEqual(pat.mean(V), {
+    value: [[2 / 3, 1 / 3]],
+    mass: [[3, 3]]
+  })
   t.end()
 })
 
