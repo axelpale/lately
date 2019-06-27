@@ -41,10 +41,10 @@ test('contextMean', (t) => {
     mass: [[1]]
   })
 
-  // Simple. Two matches.
+  // Simple. Two matches. One frame with no mass.
   const h2 = {
-    value: [[1, 1, 0]],
-    mass: [[1, 1, 1]]
+    value: [[1, 1, 0, 1]],
+    mass: [[1, 1, 1, 0]]
   }
   const p2 = {
     value: [[1, 0]],
