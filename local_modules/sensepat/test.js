@@ -181,6 +181,18 @@ test('sum', (t) => {
   t.end()
 })
 
+test('toArray', (t) => {
+  t.deepEqual(pat.toArray(V), [
+    { channel: 0, time: 0, value: 1, mass: 1 },
+    { channel: 0, time: 1, value: 0, mass: 1 },
+    { channel: 0, time: 2, value: 1, mass: 1 },
+    { channel: 1, time: 0, value: 0, mass: 1 },
+    { channel: 1, time: 1, value: 1, mass: 1 },
+    { channel: 1, time: 2, value: 0, mass: 1 }
+  ])
+  t.end()
+})
+
 test('width', (t) => {
   t.equal(pat.width(V), 2)
   t.end()
