@@ -4,7 +4,7 @@ const wayElem = require('../../lib/wayElem')
 
 module.exports = (model, dispatch) => {
   const timelinePattern = pat.mixedToPattern(model.timeline)
-  const avg = pat.mean(timelinePattern)
+  const avg = pat.mean(timelinePattern).value[0]
   const priorPred = way.map(model.timeline, (q, c) => q === null ? avg[c] : q)
 
   return wayElem(priorPred, {
