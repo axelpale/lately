@@ -41,7 +41,9 @@ module.exports = (model, channel, time) => {
   const end = beg + ctxlen
   const ctxCurr = pat.slice(timelinePat, beg, end)
 
-  const cellProb = (mv, mm, cv, cm, pr, qc, qt) => {
+  const cellFactor = (mv, mm, cv, cm, pr, qc, qt) => {
+    // Returns a likelihood multiplier
+    //
     // mv, mean value
     // mm, mean mass i.e. sample size
     // cv, current value
@@ -106,8 +108,8 @@ module.exports = (model, channel, time) => {
     const cm = ctxCurr.mass[qc][qt]
     const pri = prior[qc] // P(B=1)
 
-    const prob = cellProb(mv, mm, cv, cm, pri, qc, qt)
-    return prob
+    const factor = cellFactor(mv, mm, cv, cm, pri, qc, qt)
+    return factor
   })
   const oneField = way.map(oneMean.value, (q, qc, qt) => {
     const mv = q // P(B=1|A=1)
@@ -116,8 +118,8 @@ module.exports = (model, channel, time) => {
     const cm = ctxCurr.mass[qc][qt]
     const pri = prior[qc] // P(B=1)
 
-    const prob = cellProb(mv, mm, cv, cm, pri, qc, qt)
-    return prob
+    const factor = cellFactor(mv, mm, cv, cm, pri, qc, qt)
+    return factor
   })
 
   const zeroLikelihood = way.reduce(zeroField, (acc, p) => {
