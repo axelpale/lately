@@ -70,10 +70,17 @@ module.exports = (model, ev) => {
       const copy = model.frames.slice()
       copy.splice(ev.time, 1)
 
+      const sc = model.select.channel
+      const st = model.select.time
+
       return Object.assign({}, model, {
         timeline: way.dropFrame(model.timeline, ev.time),
         frames: copy,
-        frameOnEdit: null
+        frameOnEdit: null,
+        select: {
+          channel: sc,
+          time: st >= ev.time ? st - 1 : st
+        }
       })
     }
 
