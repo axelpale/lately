@@ -10,6 +10,8 @@ exports.contextMean = require('./lib/contextMean')
 
 exports.equalSize = require('./lib/equalSize')
 
+exports.findMatches = require('./lib/findMatches')
+
 exports.infoGain = require('./lib/infoGain')
 
 exports.len = require('./lib/len')

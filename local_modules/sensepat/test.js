@@ -85,6 +85,30 @@ test('equalSize', (t) => {
   t.end()
 })
 
+test('findMatches', (t) => {
+  const history = {
+    value: [[1, 1, 0, 1, 0]],
+    mass: [[0, 1, 1, 1, 1]]
+  }
+  const pattern = {
+    value: [[1, 1, 1]],
+    mass: [[0, 1, 0]]
+  }
+  t.deepEqual(pat.findMatches(history, pattern), [
+    {
+      time: 0,
+      value: [[1, 1, 0]],
+      mass: [[0, 1, 1]]
+    },
+    {
+      time: 2,
+      value: [[0, 1, 0]],
+      mass: [[1, 1, 1]]
+    }
+  ])
+  t.end()
+})
+
 test('infoGain', (t) => {
   const prior = {
     value: [[0.5]],
