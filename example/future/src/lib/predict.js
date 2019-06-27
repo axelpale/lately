@@ -48,7 +48,7 @@ module.exports = (model, channel, time) => {
     // mm, mean mass i.e. sample size
     // cv, current value
     // cm, current mass, q in range [0, 1]
-    // pr, prior probability for the cell being 1
+    // pr, prior probability for the cell (qc, qt) being 1
     // qc, channel of the cell
     // qt, time of the cell
     //
@@ -65,7 +65,7 @@ module.exports = (model, channel, time) => {
     let pri
     let prob
     if (cv < 0.5) {
-      // B=0
+      // 0 in context at this point. B=0
       // P(B=0) = 1 - P(B=1)
       if (1 - pr < 0.0001) {
         // Should not happen. 100% prior but still B=0
