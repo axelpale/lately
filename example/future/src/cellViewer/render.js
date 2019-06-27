@@ -34,8 +34,12 @@ module.exports = (model, dispatch) => {
   cells.sort((a, b) => b.weight - a.weight)
   cells.forEach(cell => {
     const chTitle = model.channels[cell.channel].title
-    html += chTitle + ' t' + cell.time + ' a' + cell.mean + ' '
-    html += 'g' + cell.value + ' m' + cell.mass + ' w' + cell.weight + '<br>'
+    html += chTitle + ' '
+    html += 't' + cell.time + ' '
+    html += 'a' + cell.mean.toFixed(3) + ' '
+    html += 'g' + cell.value.toFixed(3) + ' '
+    html += 'm' + cell.mass.toFixed(3) + ' '
+    html += 'w' + cell.weight.toFixed(3) + '<br>'
   })
 
   row.innerHTML = html;
