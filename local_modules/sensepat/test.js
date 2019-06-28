@@ -158,7 +158,7 @@ test('single', (t) => {
   })
   t.deepEqual(pat.single(2, 2, 1, 0), {
     value: [[0, 0], [0, 0]],
-    mass: [[0, 0], [1, 0]]
+    mass: [[0, 0], [0, 1]]
   })
   t.end()
 })
