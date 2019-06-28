@@ -25,6 +25,8 @@ module.exports = (model, channel, time) => {
 
   const zeroMean = pat.contextMean(timelinePat, zeroPat)
   const oneMean = pat.contextMean(timelinePat, onePat)
+  // Now, oneMean gives probability for 1 at context, given 1 at same
+  // relative position.
 
   const priorMean = {
     value: way.map(zeroMean.value, (q, c) => prior[c]),
@@ -34,12 +36,7 @@ module.exports = (model, channel, time) => {
   const zeroGain = pat.infoGain(priorMean, zeroMean)
   const oneGain = pat.infoGain(priorMean, oneMean)
 
-  // Now, oneMean gives probability for 1 at context, given 1 at same
-  // relative position.
-
-  const beg = t - Math.max(0, Math.floor((ctxlen - 1) / 2))
-  const end = beg + ctxlen
-  const ctxCurr = pat.slice(timelinePat, beg, end)
+  const ctxCurr = pat.sliceAround(timelinePat, ctxlen, t)
 
   const cellFactor = (mv, mm, cv, cm, pr, qc, qt) => {
     // Returns a likelihood multiplier
