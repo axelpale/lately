@@ -172,6 +172,26 @@ test('slice', (t) => {
   t.end()
 })
 
+test('sliceAround', (t) => {
+  const A = {
+    value: [[0, 1, 1], [1, 0, 0]],
+    mass: [[1, 1, 0], [1, 1, 1]]
+  }
+  t.deepEqual(pat.sliceAround(A, 4, 2), {
+    value: [[0, 1, 1, 0], [1, 0, 0, 0]],
+    mass: [[1, 1, 0, 0], [1, 1, 1, 0]]
+  })
+  t.deepEqual(pat.sliceAround(A, 2, 0), {
+    value: [[0, 0], [0, 1]],
+    mass: [[0, 1], [0, 1]]
+  })
+  t.deepEqual(pat.sliceAround(A, 3, 0), {
+    value: [[0, 0, 1], [0, 1, 0]],
+    mass: [[0, 1, 1], [0, 1, 1]]
+  })
+  t.end()
+})
+
 test('sum', (t) => {
   const a = {
     value: [[0, 1, 1], [1, 1, 0]],

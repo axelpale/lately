@@ -31,6 +31,8 @@ exports.single = require('./lib/single')
 
 exports.slice = require('./lib/slice')
 
+exports.sliceAround = require('./lib/sliceAround')
+
 exports.sum = require('./lib/sum')
 
 exports.toArray = require('./lib/toArray')
