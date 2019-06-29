@@ -9,8 +9,8 @@ module.exports = (pat) => {
   const width = patwidth(pat)
   const len = patlen(pat)
   const result = {
-    value: [[]],
-    mass: [[]]
+    value: [],
+    mass: []
   }
 
   for (let c = 0; c < width; c += 1) {
@@ -23,11 +23,11 @@ module.exports = (pat) => {
     }
 
     if (masssum === 0) {
-      result.value[0].push(0)
+      result.value.push([0])
     } else {
-      result.value[0].push(valuesum / masssum)
+      result.value.push([valuesum / masssum])
     }
-    result.mass[0].push(masssum)
+    result.mass.push([masssum])
   }
 
   return result

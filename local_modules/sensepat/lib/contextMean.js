@@ -28,7 +28,7 @@ module.exports = (history, pattern) => {
   let ctxAverage = way.map2(ctxValueSum, ctxMassSum, (v, m, c) => {
     // Take care of possible division by zero.
     // These cells have no evidence from matches.
-    return m > 0 ? v / m : prior.value[0][c]
+    return m > 0 ? v / m : prior.value[c][0]
   })
 
   return {
