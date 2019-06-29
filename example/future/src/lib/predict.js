@@ -60,7 +60,7 @@ module.exports = (model, channel, time) => {
     }
 
     let pri
-    let prob
+    let factor
     if (cv < 0.5) {
       // 0 in context at this point. B=0
       // P(B=0) = 1 - P(B=1)
@@ -69,7 +69,14 @@ module.exports = (model, channel, time) => {
         console.error('should not happen')
         return 0
       }
-      prob = (1 - mv) / (1 - pr)
+      // In average here is 1 at probability pr.
+      // In other words, here is 0 at 1-pr.
+      // In average given Pat, here is 1 at probability of mv.
+      // In other words, here is 0 at probability 1-mv given Pat.
+      // If the conditional prob for B=0 is greater than prior for B=0,
+      // there is some dependency between Pat and B that supports B=0.
+      // If P(B=0|A=x) < P(B=0) then it is less likely that A=x.
+      factor = (1 - mv) / (1 - pr)
     } else {
       // B=1
       if (pr < 0.0001) {
@@ -77,8 +84,11 @@ module.exports = (model, channel, time) => {
         console.error('should not happen')
         return 0
       }
-      prob = mv / pr
+      // P(B=1|A=x) = P(B=1) => A and B are independent. No change.
+      factor = mv / pr
     }
+
+    return factor
 
     // Take sample size into consideration.
     // Error of the sample mean is propotional to pop_mean / sqrt(sample_size)
@@ -93,7 +103,7 @@ module.exports = (model, channel, time) => {
 
     // Tryout #2
     const priorPower = 1 - power
-    const weightedProb = power * prob + priorPower * (cv < 0.5 ? 1 - pr : pr)
+    const weightedProb = power * factor + priorPower * (cv < 0.5 ? 1 - pr : pr)
 
     return Math.pow(weightedProb, power)
   }
