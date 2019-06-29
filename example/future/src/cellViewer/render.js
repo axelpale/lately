@@ -19,7 +19,6 @@ module.exports = (model, dispatch) => {
   html += 'Frame ' + t + ': ' + model.frames[t].title + '<br>'
   html += 'Probability: ' + pred.prob.toFixed(2) + '<br>'
   html += 'Channel Mean: ' + pred.priorProb.toFixed(2) + '<br>'
-  html += 'Channel Mean: ' + pred.priorProb.toFixed(2) + '<br>'
 
   const renderSupport = (ctxMean, ctxGain) => {
     let str = ''
