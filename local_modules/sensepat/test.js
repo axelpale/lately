@@ -179,15 +179,18 @@ test('sliceAround', (t) => {
   }
   t.deepEqual(pat.sliceAround(A, 4, 2), {
     value: [[0, 1, 1, 0], [1, 0, 0, 0]],
-    mass: [[1, 1, 0, 0], [1, 1, 1, 0]]
+    mass: [[1, 1, 0, 0], [1, 1, 1, 0]],
+    time: 0
   })
   t.deepEqual(pat.sliceAround(A, 2, 0), {
     value: [[0, 0], [0, 1]],
-    mass: [[0, 1], [0, 1]]
+    mass: [[0, 1], [0, 1]],
+    time: -1
   })
   t.deepEqual(pat.sliceAround(A, 3, 0), {
     value: [[0, 0, 1], [0, 1, 0]],
-    mass: [[0, 1, 1], [0, 1, 1]]
+    mass: [[0, 1, 1], [0, 1, 1]],
+    time: -1
   })
   t.end()
 })
