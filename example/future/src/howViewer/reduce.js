@@ -12,6 +12,12 @@ module.exports = (model, ev) => {
       })
     }
 
+    case 'HOW_ONOFF': {
+      return Object.assign({}, model, {
+        how: !model.how
+      })
+    }
+
     default:
       return model
   }

@@ -19,6 +19,10 @@ module.exports = (model, dispatch) => {
 
   root.appendChild(howTitle(model, dispatch))
 
+  if (!model.how) {
+    return root
+  }
+
   const timeline = document.createElement('div')
   timeline.classList.add('how-timeline')
 

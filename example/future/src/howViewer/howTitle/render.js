@@ -8,5 +8,16 @@ module.exports = (model, dispatch) => {
   h.innerHTML = 'How this prediction was made'
   root.appendChild(h)
 
+  const b = document.createElement('input')
+  b.type = 'button'
+  b.value = model.how ? 'Hide' : 'Show'
+  root.appendChild(b)
+
+  b.addEventListener('click', ev => {
+    dispatch({
+      type: 'HOW_ONOFF'
+    })
+  })
+
   return root
 };
