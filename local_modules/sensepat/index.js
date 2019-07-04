@@ -16,6 +16,8 @@ exports.infoGain = require('./lib/infoGain')
 
 exports.len = require('./lib/len')
 
+exports.massMatches = require('./lib/massMatches')
+
 exports.mean = require('./lib/mean')
 
 exports.mixedToPattern = require('./lib/mixedToPattern')

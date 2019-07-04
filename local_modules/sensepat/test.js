@@ -131,6 +131,30 @@ test('len', (t) => {
   t.end()
 })
 
+test('massMatches', (t) => {
+  const h = {
+    value: [[0, 1, 1], [1, 0, 1]],
+    mass: [[1, 1, 0], [0, 1, 1]]
+  }
+  const p = {
+    value: [[1], [1]],
+    mass: [[1], [0]]
+  }
+  t.deepEqual(pat.massMatches(h, p), [
+    {
+      value: [[0], [1]],
+      mass: [[1], [0]],
+      time: 0
+    },
+    {
+      value: [[1], [0]],
+      mass: [[1], [1]],
+      time: 1
+    }
+  ])
+  t.end()
+})
+
 test('mean', (t) => {
   t.deepEqual(pat.mean(ONESHALF), {
     value: [[1], [0]],
