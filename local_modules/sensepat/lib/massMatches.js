@@ -22,9 +22,6 @@ module.exports = (history, pattern) => {
   // Collect history slices here
   const matchedSlices = []
 
-  // Mass of the pattern
-  const massTarget = way.sum(P.mass)
-
   for (let t = -plen; t < hlen; t += 1) {
     // Take a slice of history at time t.
     const HS = patSlice(H, t, t + plen)
