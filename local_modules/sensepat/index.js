@@ -18,6 +18,8 @@ exports.len = require('./lib/len')
 
 exports.massMatches = require('./lib/massMatches')
 
+exports.match = require('./lib/match')
+
 exports.mean = require('./lib/mean')
 
 exports.mixedToPattern = require('./lib/mixedToPattern')

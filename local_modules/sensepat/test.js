@@ -155,6 +155,13 @@ test('massMatches', (t) => {
   t.end()
 })
 
+test('match', (t) => {
+  t.true(pat.match(V, V))
+  t.false(pat.match(ONESHALF, V))
+  t.false(pat.match(V, ONESHALF))
+  t.end()
+})
+
 test('mean', (t) => {
   t.deepEqual(pat.mean(ONESHALF), {
     value: [[1], [0]],
