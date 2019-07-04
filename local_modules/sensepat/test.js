@@ -182,6 +182,23 @@ test('mixedToPattern', (t) => {
   t.end()
 })
 
+test('mutualInfo', (t) => {
+  const hist = {
+    value: [[1, 0], [1, 0]],
+    mass: [[1, 1], [1, 1]]
+  }
+  const a = {
+    value: [[1], [1]],
+    mass: [[1], [0]]
+  }
+  const b = {
+    value: [[1], [1]],
+    mass: [[0], [1]]
+  }
+  t.equal(pat.mutualInfo(hist, a, b), 1)
+  t.end()
+})
+
 test('single', (t) => {
   t.deepEqual(pat.single(2, 3, 1, 1), {
     value: [[1, 1, 1], [1, 1, 1]],

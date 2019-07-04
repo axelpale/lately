@@ -24,6 +24,8 @@ exports.mean = require('./lib/mean')
 
 exports.mixedToPattern = require('./lib/mixedToPattern')
 
+exports.mutualInfo = require('./lib/mutualInfo')
+
 exports.pattern = (value, mass) => {
   return {
     value: value,
