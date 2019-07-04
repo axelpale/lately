@@ -247,6 +247,22 @@ test('toArray', (t) => {
   t.end()
 })
 
+test('union', (t) => {
+  const a = {
+    value: [[1, 0, 0]],
+    mass: [[1, 0, 1]]
+  }
+  const b = {
+    value: [[0, 1, 1]],
+    mass: [[0, 1, 1]]
+  }
+  t.deepEqual(pat.union(a, b), {
+    value: [[1, 1, 0]],
+    mass: [[1, 1, 1]]
+  })
+  t.end()
+})
+
 test('width', (t) => {
   t.equal(pat.width(V), 2)
   t.end()

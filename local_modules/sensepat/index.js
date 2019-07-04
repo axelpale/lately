@@ -41,4 +41,6 @@ exports.sum = require('./lib/sum')
 
 exports.toArray = require('./lib/toArray')
 
+exports.union = require('./lib/union')
+
 exports.width = require('./lib/width')
