@@ -71,11 +71,6 @@ h1 {
   opacity: 0.4;
 }
 
-.cell.cell-empty .cell-icon {
-  border: 0;
-  background-color: transparent;
-}
-
 .cell .cell-icon {
   position: absolute;
   top: 0.2rem;
@@ -95,8 +90,6 @@ h1 {
 }
 
 .cell.cell-unknown .cell-icon {
-  background-color: transparent;
-  border: 1px solid black;
   opacity: 0.6;
 }
 .cell.cell-unknown.cell-improbable .cell-icon {

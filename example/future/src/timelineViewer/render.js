@@ -13,6 +13,21 @@ const color = (model, channel) => {
   return hsl
 }
 
+const probToCircleRadius = (prob) => {
+  // Return 0..1 as the radius of a unit circle.
+  //
+  // Area of an unit circle.
+  // unitArea = PI * r1 * r1 = PI * 1 * 1 = PI
+  // probArea = prob * PI
+  //
+  // probArea = PI * r * r
+  // => r = sqrt(probArea / PI)
+  // => r = sqrt(prob * PI / PI)
+  // => r = sqrt(prob)
+
+  return Math.sqrt(prob);
+}
+
 module.exports = (model, dispatch) => {
   const root = document.createElement('div');
 
@@ -56,16 +71,6 @@ module.exports = (model, dispatch) => {
 
       if (val === null) {
         cell.classList.add('cell-unknown');
-      } else {
-        if (val < 0.5) {
-          cell.classList.add('cell-empty');
-        } else {
-          cell.classList.add('cell-full');
-          icon.style.backgroundColor = color(model, c);
-        }
-      }
-
-      if (val === null) {
         const pred = predict(model, c, t);
         if (pred.prob < 0.5) {
           cell.classList.add('cell-improbable');
@@ -73,6 +78,14 @@ module.exports = (model, dispatch) => {
           cell.classList.add('cell-probable');
         }
         text.innerHTML = '<span>' + Math.floor(100 * pred.prob) + '%</span>';
+        icon.style.backgroundColor = color(model, c);
+        let scale = probToCircleRadius(pred.prob);
+        icon.style.transform = 'scale(' + scale + ')';
+      } else {
+        cell.classList.add('cell-known');
+        icon.style.backgroundColor = color(model, c);
+        let scale = probToCircleRadius(val);
+        icon.style.transform = 'scale(' + scale + ')';
       }
 
       cell.addEventListener('click', ev => {
